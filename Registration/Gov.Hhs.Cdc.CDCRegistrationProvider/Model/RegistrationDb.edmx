@@ -1,0 +1,988 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ContentServices_DataAPIModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ContentServices_DataAPIModelStoreContainer">
+          <EntitySet Name="ApiClients" EntityType="ContentServices_DataAPIModel.Store.ApiClients" store:Type="Tables" Schema="Admin" />
+          <EntitySet Name="ApiTypes" EntityType="ContentServices_DataAPIModel.Store.ApiTypes" store:Type="Tables" Schema="Admin" />
+          <EntitySet Name="Domains" EntityType="ContentServices_DataAPIModel.Store.Domains" store:Type="Tables" Schema="Admin" />
+          <EntitySet Name="ServiceUsers" EntityType="ContentServices_DataAPIModel.Store.ServiceUsers" store:Type="Tables" Schema="Admin" />
+          <EntitySet Name="Organization" EntityType="ContentServices_DataAPIModel.Store.Organization" store:Type="Tables" Schema="Registrations" />
+          <EntitySet Name="OrganizationDomains" EntityType="ContentServices_DataAPIModel.Store.OrganizationDomains" store:Type="Tables" Schema="Registrations" />
+          <EntitySet Name="OrganizationType" EntityType="ContentServices_DataAPIModel.Store.OrganizationType" store:Type="Tables" Schema="Registrations" />
+          <EntitySet Name="SyndicationList" EntityType="ContentServices_DataAPIModel.Store.SyndicationList" store:Type="Tables" Schema="Registrations" />
+          <EntitySet Name="UserOrganizations" EntityType="ContentServices_DataAPIModel.Store.UserOrganizations" store:Type="Tables" Schema="Registrations" />
+          <EntitySet Name="Users" EntityType="ContentServices_DataAPIModel.Store.Users" store:Type="Tables" Schema="Registrations" />
+          <EntitySet Name="GeoNamesCombined" EntityType="ContentServices_DataAPIModel.Store.GeoNamesCombined" store:Type="Views" store:Schema="Auxiliary" store:Name="GeoNamesCombined">
+            <DefiningQuery>SELECT 
+      [GeoNamesCombined].[GeoNameID] AS [GeoNameID], 
+      [GeoNamesCombined].[ASCIIName] AS [ASCIIName], 
+      [GeoNamesCombined].[CountryCode] AS [CountryCode], 
+      [GeoNamesCombined].[Admin1Code] AS [Admin1Code], 
+      [GeoNamesCombined].[Admin2Code] AS [Admin2Code], 
+      [GeoNamesCombined].[ParentID] AS [ParentID], 
+      [GeoNamesCombined].[Latitude] AS [Latitude], 
+      [GeoNamesCombined].[Longitude] AS [Longitude], 
+      [GeoNamesCombined].[Timezone] AS [Timezone]
+      FROM [Auxiliary].[GeoNamesCombined] AS [GeoNamesCombined]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_ApiClients_ApiTypes" Association="ContentServices_DataAPIModel.Store.FK_ApiClients_ApiTypes">
+            <End Role="ApiTypes" EntitySet="ApiTypes" />
+            <End Role="ApiClients" EntitySet="ApiClients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApiClients_ServiceUsers" Association="ContentServices_DataAPIModel.Store.FK_ApiClients_ServiceUsers">
+            <End Role="ServiceUsers" EntitySet="ServiceUsers" />
+            <End Role="ApiClients" EntitySet="ApiClients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organization_Organization" Association="ContentServices_DataAPIModel.Store.FK_Organization_Organization">
+            <End Role="Organization" EntitySet="Organization" />
+            <End Role="Organization1" EntitySet="Organization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organization_OrganizationType" Association="ContentServices_DataAPIModel.Store.FK_Organization_OrganizationType">
+            <End Role="OrganizationType" EntitySet="OrganizationType" />
+            <End Role="Organization" EntitySet="Organization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrganizationDomains_Organization" Association="ContentServices_DataAPIModel.Store.FK_OrganizationDomains_Organization">
+            <End Role="Organization" EntitySet="Organization" />
+            <End Role="OrganizationDomains" EntitySet="OrganizationDomains" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceUsers_Organization" Association="ContentServices_DataAPIModel.Store.FK_ServiceUsers_Organization">
+            <End Role="Organization" EntitySet="Organization" />
+            <End Role="ServiceUsers" EntitySet="ServiceUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOrganizations_Organization" Association="ContentServices_DataAPIModel.Store.FK_UserOrganizations_Organization">
+            <End Role="Organization" EntitySet="Organization" />
+            <End Role="UserOrganizations" EntitySet="UserOrganizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOrganizations_Users" Association="ContentServices_DataAPIModel.Store.FK_UserOrganizations_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserOrganizations" EntitySet="UserOrganizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_ApiClients" Association="ContentServices_DataAPIModel.Store.FK_Users_ApiClients">
+            <End Role="ApiClients" EntitySet="ApiClients" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ApiClients">
+          <Key>
+            <PropertyRef Name="ApiClientGuid" />
+          </Key>
+          <Property Name="ApiClientGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ServiceUserGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ApplicationKey" Type="varchar(max)" Nullable="false" />
+          <Property Name="Secret" Type="varchar(max)" />
+          <Property Name="Salt" Type="varchar(max)" />
+          <Property Name="Token" Type="varchar(max)" />
+          <Property Name="TokenExpirationUtcDateTime" Type="datetime" />
+          <Property Name="ApiTypeName" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Active" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" />
+          <Property Name="ConnectionStringName" Type="nvarchar" MaxLength="500" />
+          <Property Name="ApiKey" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="ApiTypes">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="DisplayOrdinal" Type="int" Nullable="false" />
+          <Property Name="Active" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Domains">
+          <Key>
+            <PropertyRef Name="DomainName" />
+          </Key>
+          <Property Name="DomainName" Type="varchar" Nullable="false" MaxLength="1024" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="SourceCode" Type="nvarchar" MaxLength="255" />
+          <Property Name="Active" Type="varchar" Nullable="false" MaxLength="7" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="isPrimary" Type="varchar" MaxLength="3" />
+        </EntityType>
+        <EntityType Name="ServiceUsers">
+          <Key>
+            <PropertyRef Name="ServiceUserGuid" />
+          </Key>
+          <Property Name="ServiceUserGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OrganizationId" Type="int" Nullable="false" />
+          <Property Name="EmailAddress" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="256" />
+          <Property Name="MiddleName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="256" />
+          <Property Name="Password" Type="varchar(max)" Nullable="false" />
+          <Property Name="PasswordSalt" Type="varchar(max)" Nullable="false" />
+          <Property Name="Active" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Organization">
+          <Key>
+            <PropertyRef Name="OrganizationId" />
+          </Key>
+          <Property Name="OrganizationId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ParentOrganizationId" Type="int" />
+          <Property Name="OrganizationTypeCode" Type="nvarchar" MaxLength="100" />
+          <Property Name="OrganizationTypeOther" Type="nvarchar" MaxLength="200" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="Address" Type="nvarchar" MaxLength="200" />
+          <Property Name="AddressContinued" Type="nvarchar" MaxLength="200" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" />
+          <Property Name="StateProvinceId" Type="varchar" MaxLength="100" />
+          <Property Name="CountyId" Type="nvarchar" MaxLength="100" />
+          <Property Name="CountryId" Type="nvarchar" MaxLength="100" />
+          <Property Name="PostalCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="Fax" Type="nvarchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" />
+          <Property Name="Active" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="GeoNameID" Type="int" />
+          <Property Name="AdminDefault" Type="varchar" MaxLength="3" />
+        </EntityType>
+        <EntityType Name="OrganizationDomains">
+          <Key>
+            <PropertyRef Name="OrganizationDomainID" />
+          </Key>
+          <Property Name="OrganizationDomainID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrganizationID" Type="int" Nullable="false" />
+          <Property Name="DomainName" Type="nvarchar" Nullable="false" MaxLength="1024" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="isDefault" Type="varchar" MaxLength="3" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+          <Property Name="HashedKey" Type="varbinary" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="OrganizationType">
+          <Key>
+            <PropertyRef Name="OrganizationTypeCode" />
+          </Key>
+          <Property Name="OrganizationTypeCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="DisplayOrdinal" Type="int" Nullable="false" />
+          <Property Name="Active" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SyndicationList">
+          <Key>
+            <PropertyRef Name="MyListGuid" />
+          </Key>
+          <Property Name="MyListGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DomainName" Type="nvarchar" MaxLength="1024" />
+          <Property Name="UserGuid" Type="uniqueidentifier" />
+          <Property Name="ListName" Type="nvarchar" MaxLength="1024" />
+          <Property Name="MyListStatusCode" Type="varchar" MaxLength="200" />
+          <Property Name="Active" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RowVersion" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="UserOrganizations">
+          <Key>
+            <PropertyRef Name="OrganizationID" />
+            <PropertyRef Name="UserGuid" />
+          </Key>
+          <Property Name="OrganizationID" Type="int" Nullable="false" />
+          <Property Name="UserGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PrimaryOrg" Type="varchar" Nullable="false" MaxLength="7" />
+          <Property Name="CreatedDateTime" Type="datetime" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+          <Property Name="CreatedByGUID" Type="uniqueidentifier" />
+          <Property Name="ModifiedByGUID" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserGuid" />
+          </Key>
+          <Property Name="UserGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ApiClientGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EmailAddress" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="256" />
+          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Password" Type="varchar(max)" />
+          <Property Name="PasswordSalt" Type="varchar(max)" />
+          <Property Name="TempPassword" Type="varchar(max)" />
+          <Property Name="UserToken" Type="varchar(max)" />
+          <Property Name="ExpirationUtcSeconds" Type="bigint" Nullable="false" />
+          <Property Name="Active" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" />
+          <Property Name="UsageGuidelinesAgreementDateTime" Type="datetime" />
+          <Property Name="RegistrationToken" Type="nvarchar" MaxLength="50" />
+          <Property Name="NetworkID" Type="varchar" MaxLength="50" />
+          <Property Name="CSAdmin" Type="varchar" MaxLength="3" />
+          <Property Name="IsMigrated" Type="varchar" MaxLength="3" />
+          <Property Name="PasswordFormat" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'ContentServices_SourceForge.Auxiliary.GeoNamesCombined' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="GeoNamesCombined">
+          <Key>
+            <PropertyRef Name="GeoNameID" />
+          </Key>
+          <Property Name="GeoNameID" Type="int" Nullable="false" />
+          <Property Name="ASCIIName" Type="varchar" MaxLength="200" />
+          <Property Name="CountryCode" Type="varchar" MaxLength="2" />
+          <Property Name="Admin1Code" Type="varchar" MaxLength="20" />
+          <Property Name="Admin2Code" Type="varchar" MaxLength="80" />
+          <Property Name="ParentID" Type="int" />
+          <Property Name="Latitude" Type="float" />
+          <Property Name="Longitude" Type="float" />
+          <Property Name="Timezone" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <Association Name="FK_ApiClients_ApiTypes">
+          <End Role="ApiTypes" Type="ContentServices_DataAPIModel.Store.ApiTypes" Multiplicity="1" />
+          <End Role="ApiClients" Type="ContentServices_DataAPIModel.Store.ApiClients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApiTypes">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="ApiClients">
+              <PropertyRef Name="ApiTypeName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApiClients_ServiceUsers">
+          <End Role="ServiceUsers" Type="ContentServices_DataAPIModel.Store.ServiceUsers" Multiplicity="1" />
+          <End Role="ApiClients" Type="ContentServices_DataAPIModel.Store.ApiClients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceUsers">
+              <PropertyRef Name="ServiceUserGuid" />
+            </Principal>
+            <Dependent Role="ApiClients">
+              <PropertyRef Name="ServiceUserGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organization_Organization">
+          <End Role="Organization" Type="ContentServices_DataAPIModel.Store.Organization" Multiplicity="0..1" />
+          <End Role="Organization1" Type="ContentServices_DataAPIModel.Store.Organization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="OrganizationId" />
+            </Principal>
+            <Dependent Role="Organization1">
+              <PropertyRef Name="ParentOrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organization_OrganizationType">
+          <End Role="OrganizationType" Type="ContentServices_DataAPIModel.Store.OrganizationType" Multiplicity="0..1" />
+          <End Role="Organization" Type="ContentServices_DataAPIModel.Store.Organization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrganizationType">
+              <PropertyRef Name="OrganizationTypeCode" />
+            </Principal>
+            <Dependent Role="Organization">
+              <PropertyRef Name="OrganizationTypeCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrganizationDomains_Organization">
+          <End Role="Organization" Type="ContentServices_DataAPIModel.Store.Organization" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OrganizationDomains" Type="ContentServices_DataAPIModel.Store.OrganizationDomains" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="OrganizationId" />
+            </Principal>
+            <Dependent Role="OrganizationDomains">
+              <PropertyRef Name="OrganizationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceUsers_Organization">
+          <End Role="Organization" Type="ContentServices_DataAPIModel.Store.Organization" Multiplicity="1" />
+          <End Role="ServiceUsers" Type="ContentServices_DataAPIModel.Store.ServiceUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="OrganizationId" />
+            </Principal>
+            <Dependent Role="ServiceUsers">
+              <PropertyRef Name="OrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserOrganizations_Organization">
+          <End Role="Organization" Type="ContentServices_DataAPIModel.Store.Organization" Multiplicity="1" />
+          <End Role="UserOrganizations" Type="ContentServices_DataAPIModel.Store.UserOrganizations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="OrganizationId" />
+            </Principal>
+            <Dependent Role="UserOrganizations">
+              <PropertyRef Name="OrganizationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserOrganizations_Users">
+          <End Role="Users" Type="ContentServices_DataAPIModel.Store.Users" Multiplicity="1" />
+          <End Role="UserOrganizations" Type="ContentServices_DataAPIModel.Store.UserOrganizations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserGuid" />
+            </Principal>
+            <Dependent Role="UserOrganizations">
+              <PropertyRef Name="UserGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_ApiClients">
+          <End Role="ApiClients" Type="ContentServices_DataAPIModel.Store.ApiClients" Multiplicity="1" />
+          <End Role="Users" Type="ContentServices_DataAPIModel.Store.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApiClients">
+              <PropertyRef Name="ApiClientGuid" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="ApiClientGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ContentServices_DataAPIModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="RegistrationDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="OrganizationTypes" EntityType="ContentServices_DataAPIModel.OrganizationType" />
+          <EntitySet Name="GeoNamesCombineds" EntityType="ContentServices_DataAPIModel.GeoNamesCombined" />
+          <EntitySet Name="Domains" EntityType="ContentServices_DataAPIModel.Domain" />
+          <EntitySet Name="UserOrganizations" EntityType="ContentServices_DataAPIModel.UserOrganization" />
+          <EntitySet Name="SyndicationLists" EntityType="ContentServices_DataAPIModel.SyndicationList" />
+          <EntitySet Name="Organizations" EntityType="ContentServices_DataAPIModel.Organization" />
+          <EntitySet Name="OrganizationDomains" EntityType="ContentServices_DataAPIModel.OrganizationDomain" />
+          <AssociationSet Name="FK_Organization_Organization" Association="ContentServices_DataAPIModel.FK_Organization_Organization">
+            <End Role="Organization" EntitySet="Organizations" />
+            <End Role="Organization1" EntitySet="Organizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organization_OrganizationType" Association="ContentServices_DataAPIModel.FK_Organization_OrganizationType">
+            <End Role="OrganizationType" EntitySet="OrganizationTypes" />
+            <End Role="Organization" EntitySet="Organizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrganizationDomains_Organization" Association="ContentServices_DataAPIModel.FK_OrganizationDomains_Organization">
+            <End Role="Organization" EntitySet="Organizations" />
+            <End Role="OrganizationDomain" EntitySet="OrganizationDomains" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOrganizations_Organization" Association="ContentServices_DataAPIModel.FK_UserOrganizations_Organization">
+            <End Role="Organization" EntitySet="Organizations" />
+            <End Role="UserOrganization" EntitySet="UserOrganizations" />
+          </AssociationSet>
+          <EntitySet Name="ApiClients" EntityType="ContentServices_DataAPIModel.ApiClient" />
+          <EntitySet Name="ApiTypes" EntityType="ContentServices_DataAPIModel.ApiType" />
+          <EntitySet Name="ServiceUsers" EntityType="ContentServices_DataAPIModel.ServiceUser" />
+          <AssociationSet Name="FK_ApiClients_ApiTypes" Association="ContentServices_DataAPIModel.FK_ApiClients_ApiTypes">
+            <End Role="ApiType" EntitySet="ApiTypes" />
+            <End Role="ApiClient" EntitySet="ApiClients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApiClients_ServiceUsers" Association="ContentServices_DataAPIModel.FK_ApiClients_ServiceUsers">
+            <End Role="ServiceUser" EntitySet="ServiceUsers" />
+            <End Role="ApiClient" EntitySet="ApiClients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceUsers_Organization" Association="ContentServices_DataAPIModel.FK_ServiceUsers_Organization">
+            <End Role="Organization" EntitySet="Organizations" />
+            <End Role="ServiceUser" EntitySet="ServiceUsers" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="ContentServices_DataAPIModel.User" />
+          <AssociationSet Name="FK_Users_ApiClients" Association="ContentServices_DataAPIModel.FK_Users_ApiClients">
+            <End Role="ApiClient" EntitySet="ApiClients" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOrganizations_Users" Association="ContentServices_DataAPIModel.FK_UserOrganizations_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserOrganization" EntitySet="UserOrganizations" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="OrganizationType">
+          <Key>
+            <PropertyRef Name="OrganizationTypeCode" />
+          </Key>
+          <Property Type="String" Name="OrganizationTypeCode" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="DisplayOrdinal" Nullable="false" />
+          <Property Type="String" Name="Active" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Guid" Name="CreatedByGuid" Nullable="false" />
+          <Property Type="Guid" Name="ModifiedByGuid" Nullable="false" />
+          <NavigationProperty Name="Organizations" Relationship="ContentServices_DataAPIModel.FK_Organization_OrganizationType" FromRole="OrganizationType" ToRole="Organization" />
+        </EntityType>
+        <EntityType Name="GeoNamesCombined">
+          <Key>
+            <PropertyRef Name="GeoNameID" />
+          </Key>
+          <Property Type="Int32" Name="GeoNameID" Nullable="false" />
+          <Property Type="String" Name="ASCIIName" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CountryCode" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Admin1Code" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Admin2Code" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ParentID" />
+          <Property Type="Double" Name="Latitude" />
+          <Property Type="Double" Name="Longitude" />
+          <Property Type="String" Name="Timezone" MaxLength="40" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Domain">
+          <Key>
+            <PropertyRef Name="DomainName" />
+          </Key>
+          <Property Type="String" Name="DomainName" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SourceCode" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Active" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Guid" Name="CreatedByGuid" Nullable="false" />
+          <Property Type="Guid" Name="ModifiedByGuid" Nullable="false" />
+          <Property Type="String" Name="isPrimary" MaxLength="3" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="UserOrganization">
+          <Key>
+            <PropertyRef Name="OrganizationID" />
+            <PropertyRef Name="UserGuid" />
+          </Key>
+          <Property Type="Int32" Name="OrganizationID" Nullable="false" />
+          <Property Type="Guid" Name="UserGuid" Nullable="false" />
+          <Property Type="String" Name="PrimaryOrg" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Precision="3" />
+          <Property Type="Guid" Name="CreatedByGUID" />
+          <Property Type="Guid" Name="ModifiedByGUID" />
+          <NavigationProperty Name="Organization" Relationship="ContentServices_DataAPIModel.FK_UserOrganizations_Organization" FromRole="UserOrganization" ToRole="Organization" />
+          <NavigationProperty Name="User" Relationship="ContentServices_DataAPIModel.FK_UserOrganizations_Users" FromRole="UserOrganization" ToRole="User" />
+        </EntityType>
+        <EntityType Name="SyndicationList">
+          <Key>
+            <PropertyRef Name="MyListGuid" />
+          </Key>
+          <Property Type="Guid" Name="MyListGuid" Nullable="false" />
+          <Property Type="String" Name="DomainName" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Type="Guid" Name="UserGuid" />
+          <Property Type="String" Name="ListName" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MyListStatusCode" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Active" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Guid" Name="CreatedByGuid" Nullable="false" />
+          <Property Type="Guid" Name="ModifiedByGuid" Nullable="false" />
+          <Property Type="Binary" Name="RowVersion" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Organization">
+          <Key>
+            <PropertyRef Name="OrganizationId" />
+          </Key>
+          <Property Type="Int32" Name="OrganizationId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ParentOrganizationId" />
+          <Property Type="String" Name="OrganizationTypeCode" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="OrganizationTypeOther" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Address" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="AddressContinued" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="City" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="StateProvinceId" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CountyId" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CountryId" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PostalCode" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Phone" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Fax" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Email" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Active" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Guid" Name="CreatedByGuid" Nullable="false" />
+          <Property Type="Guid" Name="ModifiedByGuid" Nullable="false" />
+          <Property Type="Int32" Name="GeoNameID" />
+          <Property Type="String" Name="AdminDefault" MaxLength="3" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Organization1" Relationship="ContentServices_DataAPIModel.FK_Organization_Organization" FromRole="Organization" ToRole="Organization1" />
+          <NavigationProperty Name="Organization2" Relationship="ContentServices_DataAPIModel.FK_Organization_Organization" FromRole="Organization1" ToRole="Organization" />
+          <NavigationProperty Name="OrganizationType" Relationship="ContentServices_DataAPIModel.FK_Organization_OrganizationType" FromRole="Organization" ToRole="OrganizationType" />
+          <NavigationProperty Name="OrganizationDomains" Relationship="ContentServices_DataAPIModel.FK_OrganizationDomains_Organization" FromRole="Organization" ToRole="OrganizationDomain" />
+          <NavigationProperty Name="UserOrganizations" Relationship="ContentServices_DataAPIModel.FK_UserOrganizations_Organization" FromRole="Organization" ToRole="UserOrganization" />
+          <NavigationProperty Name="ServiceUsers" Relationship="ContentServices_DataAPIModel.FK_ServiceUsers_Organization" FromRole="Organization" ToRole="ServiceUser" />
+        </EntityType>
+        <EntityType Name="OrganizationDomain">
+          <Key>
+            <PropertyRef Name="OrganizationDomainID" />
+          </Key>
+          <Property Type="Int32" Name="OrganizationDomainID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="OrganizationID" Nullable="false" />
+          <Property Type="String" Name="DomainName" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="String" Name="isDefault" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="Guid" Name="CreatedByGuid" />
+          <Property Type="Guid" Name="ModifiedByGuid" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Precision="3" />
+          <Property Type="Binary" Name="HashedKey" MaxLength="8000" FixedLength="false" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Organization" Relationship="ContentServices_DataAPIModel.FK_OrganizationDomains_Organization" FromRole="OrganizationDomain" ToRole="Organization" />
+        </EntityType>
+        <Association Name="FK_Organization_Organization">
+          <End Type="ContentServices_DataAPIModel.Organization" Role="Organization" Multiplicity="0..1" />
+          <End Type="ContentServices_DataAPIModel.Organization" Role="Organization1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="OrganizationId" />
+            </Principal>
+            <Dependent Role="Organization1">
+              <PropertyRef Name="ParentOrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organization_OrganizationType">
+          <End Type="ContentServices_DataAPIModel.OrganizationType" Role="OrganizationType" Multiplicity="0..1" />
+          <End Type="ContentServices_DataAPIModel.Organization" Role="Organization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrganizationType">
+              <PropertyRef Name="OrganizationTypeCode" />
+            </Principal>
+            <Dependent Role="Organization">
+              <PropertyRef Name="OrganizationTypeCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrganizationDomains_Organization">
+          <End Type="ContentServices_DataAPIModel.Organization" Role="Organization" Multiplicity="1" />
+          <End Type="ContentServices_DataAPIModel.OrganizationDomain" Role="OrganizationDomain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="OrganizationId" />
+            </Principal>
+            <Dependent Role="OrganizationDomain">
+              <PropertyRef Name="OrganizationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserOrganizations_Organization">
+          <End Type="ContentServices_DataAPIModel.Organization" Role="Organization" Multiplicity="1" />
+          <End Type="ContentServices_DataAPIModel.UserOrganization" Role="UserOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="OrganizationId" />
+            </Principal>
+            <Dependent Role="UserOrganization">
+              <PropertyRef Name="OrganizationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ApiClient">
+          <Key>
+            <PropertyRef Name="ApiClientGuid" />
+          </Key>
+          <Property Type="Guid" Name="ApiClientGuid" Nullable="false" />
+          <Property Type="Guid" Name="ServiceUserGuid" Nullable="false" />
+          <Property Type="String" Name="ApplicationKey" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Secret" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Salt" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Token" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="TokenExpirationUtcDateTime" Precision="3" />
+          <Property Type="String" Name="ApiTypeName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Active" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Guid" Name="CreatedByGuid" />
+          <Property Type="Guid" Name="ModifiedByGuid" />
+          <Property Type="String" Name="ConnectionStringName" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ApiKey" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ApiType" Relationship="ContentServices_DataAPIModel.FK_ApiClients_ApiTypes" FromRole="ApiClient" ToRole="ApiType" />
+          <NavigationProperty Name="ServiceUser" Relationship="ContentServices_DataAPIModel.FK_ApiClients_ServiceUsers" FromRole="ApiClient" ToRole="ServiceUser" />
+          <NavigationProperty Name="Users" Relationship="ContentServices_DataAPIModel.FK_Users_ApiClients" FromRole="ApiClient" ToRole="User" />
+        </EntityType>
+        <EntityType Name="ApiType">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="DisplayOrdinal" Nullable="false" />
+          <Property Type="String" Name="Active" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Guid" Name="CreatedByGuid" />
+          <Property Type="Guid" Name="ModifiedByGuid" />
+          <NavigationProperty Name="ApiClients" Relationship="ContentServices_DataAPIModel.FK_ApiClients_ApiTypes" FromRole="ApiType" ToRole="ApiClient" />
+        </EntityType>
+        <EntityType Name="ServiceUser">
+          <Key>
+            <PropertyRef Name="ServiceUserGuid" />
+          </Key>
+          <Property Type="Guid" Name="ServiceUserGuid" Nullable="false" />
+          <Property Type="Int32" Name="OrganizationId" Nullable="false" />
+          <Property Type="String" Name="EmailAddress" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FirstName" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MiddleName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="PasswordSalt" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Active" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Guid" Name="CreatedByGuid" />
+          <Property Type="Guid" Name="ModifiedByGuid" />
+          <NavigationProperty Name="ApiClients" Relationship="ContentServices_DataAPIModel.FK_ApiClients_ServiceUsers" FromRole="ServiceUser" ToRole="ApiClient" />
+          <NavigationProperty Name="Organization" Relationship="ContentServices_DataAPIModel.FK_ServiceUsers_Organization" FromRole="ServiceUser" ToRole="Organization" />
+        </EntityType>
+        <Association Name="FK_ApiClients_ApiTypes">
+          <End Type="ContentServices_DataAPIModel.ApiType" Role="ApiType" Multiplicity="1" />
+          <End Type="ContentServices_DataAPIModel.ApiClient" Role="ApiClient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApiType">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="ApiClient">
+              <PropertyRef Name="ApiTypeName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApiClients_ServiceUsers">
+          <End Type="ContentServices_DataAPIModel.ServiceUser" Role="ServiceUser" Multiplicity="1" />
+          <End Type="ContentServices_DataAPIModel.ApiClient" Role="ApiClient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceUser">
+              <PropertyRef Name="ServiceUserGuid" />
+            </Principal>
+            <Dependent Role="ApiClient">
+              <PropertyRef Name="ServiceUserGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceUsers_Organization">
+          <End Type="ContentServices_DataAPIModel.Organization" Role="Organization" Multiplicity="1" />
+          <End Type="ContentServices_DataAPIModel.ServiceUser" Role="ServiceUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="OrganizationId" />
+            </Principal>
+            <Dependent Role="ServiceUser">
+              <PropertyRef Name="OrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserGuid" />
+          </Key>
+          <Property Type="Guid" Name="UserGuid" Nullable="false" />
+          <Property Type="Guid" Name="ApiClientGuid" Nullable="false" />
+          <Property Type="String" Name="EmailAddress" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MiddleName" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="PasswordSalt" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TempPassword" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="UserToken" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="Int64" Name="ExpirationUtcSeconds" Nullable="false" />
+          <Property Type="String" Name="Active" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Guid" Name="CreatedByGuid" />
+          <Property Type="Guid" Name="ModifiedByGuid" />
+          <Property Type="DateTime" Name="UsageGuidelinesAgreementDateTime" Precision="3" />
+          <Property Type="String" Name="RegistrationToken" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="NetworkID" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CSAdmin" MaxLength="3" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ApiClient" Relationship="ContentServices_DataAPIModel.FK_Users_ApiClients" FromRole="User" ToRole="ApiClient" />
+          <NavigationProperty Name="UserOrganizations" Relationship="ContentServices_DataAPIModel.FK_UserOrganizations_Users" FromRole="User" ToRole="UserOrganization" />
+          <Property Type="String" Name="IsMigrated" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="PasswordFormat" />
+        </EntityType>
+        <Association Name="FK_Users_ApiClients">
+          <End Type="ContentServices_DataAPIModel.ApiClient" Role="ApiClient" Multiplicity="1" />
+          <End Type="ContentServices_DataAPIModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApiClient">
+              <PropertyRef Name="ApiClientGuid" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="ApiClientGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserOrganizations_Users">
+          <End Type="ContentServices_DataAPIModel.User" Role="User" Multiplicity="1" />
+          <End Type="ContentServices_DataAPIModel.UserOrganization" Role="UserOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserGuid" />
+            </Principal>
+            <Dependent Role="UserOrganization">
+              <PropertyRef Name="UserGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ContentServices_DataAPIModelStoreContainer" CdmEntityContainer="RegistrationDbEntities">
+          <EntitySetMapping Name="OrganizationTypes">
+            <EntityTypeMapping TypeName="ContentServices_DataAPIModel.OrganizationType">
+              <MappingFragment StoreEntitySet="OrganizationType">
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="DisplayOrdinal" ColumnName="DisplayOrdinal" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="OrganizationTypeCode" ColumnName="OrganizationTypeCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GeoNamesCombineds">
+            <EntityTypeMapping TypeName="ContentServices_DataAPIModel.GeoNamesCombined">
+              <MappingFragment StoreEntitySet="GeoNamesCombined">
+                <ScalarProperty Name="Timezone" ColumnName="Timezone" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="Admin2Code" ColumnName="Admin2Code" />
+                <ScalarProperty Name="Admin1Code" ColumnName="Admin1Code" />
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="ASCIIName" ColumnName="ASCIIName" />
+                <ScalarProperty Name="GeoNameID" ColumnName="GeoNameID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Domains">
+            <EntityTypeMapping TypeName="ContentServices_DataAPIModel.Domain">
+              <MappingFragment StoreEntitySet="Domains">
+                <ScalarProperty Name="isPrimary" ColumnName="isPrimary" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="SourceCode" ColumnName="SourceCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserOrganizations">
+            <EntityTypeMapping TypeName="ContentServices_DataAPIModel.UserOrganization">
+              <MappingFragment StoreEntitySet="UserOrganizations">
+                <ScalarProperty Name="ModifiedByGUID" ColumnName="ModifiedByGUID" />
+                <ScalarProperty Name="CreatedByGUID" ColumnName="CreatedByGUID" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="PrimaryOrg" ColumnName="PrimaryOrg" />
+                <ScalarProperty Name="UserGuid" ColumnName="UserGuid" />
+                <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SyndicationLists">
+            <EntityTypeMapping TypeName="ContentServices_DataAPIModel.SyndicationList">
+              <MappingFragment StoreEntitySet="SyndicationList">
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="MyListStatusCode" ColumnName="MyListStatusCode" />
+                <ScalarProperty Name="ListName" ColumnName="ListName" />
+                <ScalarProperty Name="UserGuid" ColumnName="UserGuid" />
+                <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+                <ScalarProperty Name="MyListGuid" ColumnName="MyListGuid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Organizations">
+            <EntityTypeMapping TypeName="ContentServices_DataAPIModel.Organization">
+              <MappingFragment StoreEntitySet="Organization">
+                <ScalarProperty Name="AdminDefault" ColumnName="AdminDefault" />
+                <ScalarProperty Name="GeoNameID" ColumnName="GeoNameID" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="CountyId" ColumnName="CountyId" />
+                <ScalarProperty Name="StateProvinceId" ColumnName="StateProvinceId" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="AddressContinued" ColumnName="AddressContinued" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OrganizationTypeOther" ColumnName="OrganizationTypeOther" />
+                <ScalarProperty Name="OrganizationTypeCode" ColumnName="OrganizationTypeCode" />
+                <ScalarProperty Name="ParentOrganizationId" ColumnName="ParentOrganizationId" />
+                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrganizationDomains">
+            <EntityTypeMapping TypeName="ContentServices_DataAPIModel.OrganizationDomain">
+              <MappingFragment StoreEntitySet="OrganizationDomains">
+                <ScalarProperty Name="HashedKey" ColumnName="HashedKey" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="isDefault" ColumnName="isDefault" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+                <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+                <ScalarProperty Name="OrganizationDomainID" ColumnName="OrganizationDomainID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApiClients">
+            <EntityTypeMapping TypeName="ContentServices_DataAPIModel.ApiClient">
+              <MappingFragment StoreEntitySet="ApiClients">
+                <ScalarProperty Name="ApiKey" ColumnName="ApiKey" />
+                <ScalarProperty Name="ConnectionStringName" ColumnName="ConnectionStringName" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ApiTypeName" ColumnName="ApiTypeName" />
+                <ScalarProperty Name="TokenExpirationUtcDateTime" ColumnName="TokenExpirationUtcDateTime" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Secret" ColumnName="Secret" />
+                <ScalarProperty Name="ApplicationKey" ColumnName="ApplicationKey" />
+                <ScalarProperty Name="ServiceUserGuid" ColumnName="ServiceUserGuid" />
+                <ScalarProperty Name="ApiClientGuid" ColumnName="ApiClientGuid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApiTypes">
+            <EntityTypeMapping TypeName="ContentServices_DataAPIModel.ApiType">
+              <MappingFragment StoreEntitySet="ApiTypes">
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="DisplayOrdinal" ColumnName="DisplayOrdinal" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceUsers">
+            <EntityTypeMapping TypeName="ContentServices_DataAPIModel.ServiceUser">
+              <MappingFragment StoreEntitySet="ServiceUsers">
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
+                <ScalarProperty Name="ServiceUserGuid" ColumnName="ServiceUserGuid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ContentServices_DataAPIModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="PasswordFormat" ColumnName="PasswordFormat" />
+                <ScalarProperty Name="IsMigrated" ColumnName="IsMigrated" />
+                <ScalarProperty Name="CSAdmin" ColumnName="CSAdmin" />
+                <ScalarProperty Name="NetworkID" ColumnName="NetworkID" />
+                <ScalarProperty Name="RegistrationToken" ColumnName="RegistrationToken" />
+                <ScalarProperty Name="UsageGuidelinesAgreementDateTime" ColumnName="UsageGuidelinesAgreementDateTime" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ExpirationUtcSeconds" ColumnName="ExpirationUtcSeconds" />
+                <ScalarProperty Name="UserToken" ColumnName="UserToken" />
+                <ScalarProperty Name="TempPassword" ColumnName="TempPassword" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="ApiClientGuid" ColumnName="ApiClientGuid" />
+                <ScalarProperty Name="UserGuid" ColumnName="UserGuid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="UserDb" ZoomLevel="94">
+        <EntityTypeShape EntityType="ContentServices_DataAPIModel.OrganizationType" Width="1.75" PointX="1" PointY="4.5" Height="2.7494921874999996" />
+        <EntityTypeShape EntityType="ContentServices_DataAPIModel.GeoNamesCombined" Width="1.5" PointX="0.75" PointY="0.75" Height="2.7494921875000031" />
+        <EntityTypeShape EntityType="ContentServices_DataAPIModel.Domain" Width="1.5" PointX="8.375" PointY="6.875" Height="2.9417936197916683" />
+        <EntityTypeShape EntityType="ContentServices_DataAPIModel.UserOrganization" Width="1.5" PointX="9.25" PointY="3.875" Height="2.7494921875000102" />
+        <EntityTypeShape EntityType="ContentServices_DataAPIModel.SyndicationList" Width="1.5" PointX="3.9941845890107492" PointY="25.84828428637622" />
+        <EntityTypeShape EntityType="ContentServices_DataAPIModel.Organization" Width="1.5" PointX="10.483785039970551" PointY="24.455415930811043" />
+        <EntityTypeShape EntityType="ContentServices_DataAPIModel.OrganizationDomain" Width="1.5" PointX="4.6352019108064484" PointY="4.5991830847222275" />
+        <AssociationConnector Association="ContentServices_DataAPIModel.FK_Organization_Organization" />
+        <AssociationConnector Association="ContentServices_DataAPIModel.FK_Organization_OrganizationType" />
+        <AssociationConnector Association="ContentServices_DataAPIModel.FK_OrganizationDomains_Organization" />
+        <AssociationConnector Association="ContentServices_DataAPIModel.FK_UserOrganizations_Organization" />
+        <EntityTypeShape EntityType="ContentServices_DataAPIModel.ApiClient" Width="1.5" PointX="2.4901022941293669" PointY="12.374407401482765" />
+        <EntityTypeShape EntityType="ContentServices_DataAPIModel.ApiType" Width="1.5" PointX="5.5783137742328988" PointY="31.642711534929791" />
+        <EntityTypeShape EntityType="ContentServices_DataAPIModel.ServiceUser" Width="1.5" PointX="11.900287041394174" PointY="12.752118086792583" />
+        <AssociationConnector Association="ContentServices_DataAPIModel.FK_ApiClients_ApiTypes" />
+        <AssociationConnector Association="ContentServices_DataAPIModel.FK_ApiClients_ServiceUsers" />
+        <AssociationConnector Association="ContentServices_DataAPIModel.FK_ServiceUsers_Organization" />
+        <EntityTypeShape EntityType="ContentServices_DataAPIModel.User" Width="1.5" PointX="6.5" PointY="10.875" />
+        <AssociationConnector Association="ContentServices_DataAPIModel.FK_Users_ApiClients" />
+        <AssociationConnector Association="ContentServices_DataAPIModel.FK_UserOrganizations_Users" />
+        </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

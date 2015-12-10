@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0B0EDBFE-93A2-4F63-84FE-2BCD069A892C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Gov.Hhs.Cdc.Global</RootNamespace>
+    <AssemblyName>Gov.Hhs.Cdc.Global</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Prototype|AnyCPU'">
+    <OutputPath>bin\Prototype\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Tools|AnyCPU'">
+    <OutputPath>bin\Tools\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugTest|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugTest\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Test\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Development|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Development\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ToolsAdmin|AnyCPU'">
+    <OutputPath>bin\ToolsAdmin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PrototypeD|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\PrototypeD\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWS|AnyCPU'">
+    <OutputPath>bin\AWS\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Unsecure|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Unsecure\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ContentServicesDependencyBuilder.cs" />
+    <Compile Include="IocContainers.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Authorization\Gov.Hhs.Cdc.CdcAuthorizationProvider\Gov.Hhs.Cdc.CdcAuthorizationProvider.csproj">
+      <Project>{36C9BA27-EFAD-4280-945D-FE43DDC2AE29}</Project>
+      <Name>Gov.Hhs.Cdc.CdcAuthorizationProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataServices\Gov.Hhs.Cdc.Caching\Gov.Hhs.Cdc.DataServicesCacheProvider.csproj">
+      <Project>{6769244B-8909-4DC6-B478-8125EB63A3D5}</Project>
+      <Name>Gov.Hhs.Cdc.DataServicesCacheProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataServices\Gov.Hhs.Cdc.DataServices.Bo\Gov.Hhs.Cdc.DataServices.Bo.csproj">
+      <Project>{0B018F22-16C3-4FFE-8320-6DD4E353B324}</Project>
+      <Name>Gov.Hhs.Cdc.DataServices.Bo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataServices\Gov.Hhs.Cdc.DataServices\Gov.Hhs.Cdc.DataServices.csproj">
+      <Project>{FAA069BE-F6AD-4F3C-A3B4-E51A4427332F}</Project>
+      <Name>Gov.Hhs.Cdc.DataServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataServices\Gov.Hhs.Cdc.DataSource\Gov.Hhs.Cdc.DataSource.csproj">
+      <Project>{F841FCB7-7A0B-4C52-BC6B-133D13FD50CF}</Project>
+      <Name>Gov.Hhs.Cdc.DataSource</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataServices\Gov.Hhs.Cdc.Search.Controller\Gov.Hhs.Cdc.Search.Controller.csproj">
+      <Project>{705571B3-E6CD-4538-BACF-C055BF1A05B4}</Project>
+      <Name>Gov.Hhs.Cdc.Search.Controller</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataServices\Gov.Hhs.Cdc.Search.Provider\Gov.Hhs.Cdc.Search.Provider.csproj">
+      <Project>{76FA2D81-01AE-4335-8523-76965D75E719}</Project>
+      <Name>Gov.Hhs.Cdc.Search.Provider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data\Gov.Hhs.Cdc.DataProvider\Gov.Hhs.Cdc.DataProvider.csproj">
+      <Project>{c1ade73f-186f-4075-a613-4ab677edca3e}</Project>
+      <Name>Gov.Hhs.Cdc.DataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECard\Gov.Hhs.Cdc.CdcECardProvider\Gov.Hhs.Cdc.CdcECardProvider.csproj">
+      <Project>{B637F468-60A3-43D8-935D-B94EC7A2F0A7}</Project>
+      <Name>Gov.Hhs.Cdc.CdcECardProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECard\Gov.Hhs.Cdc.ECardProvider\Gov.Hhs.Cdc.ECardProvider.csproj">
+      <Project>{D57C28D0-FC96-4923-9556-A89B6C33A4A6}</Project>
+      <Name>Gov.Hhs.Cdc.ECardProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EMail\Gov.Hhs.Cdc.CDCEmailProvider\Gov.Hhs.Cdc.CdcEmailProvider.csproj">
+      <Project>{C8E6FA5F-AD28-45C4-BD04-CF16ED1B70D1}</Project>
+      <Name>Gov.Hhs.Cdc.CdcEmailProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EMail\Gov.Hhs.Cdc.EmailProvider\Gov.Hhs.Cdc.EmailProvider.csproj">
+      <Project>{EC2482C6-EBFA-4D15-AB7B-10F5B51CB177}</Project>
+      <Name>Gov.Hhs.Cdc.EmailProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gov.Hhs.Cdc.Api\Gov.Hhs.Cdc.Api.csproj">
+      <Project>{F672CF3F-71D5-4AD5-B04F-F21F082F2060}</Project>
+      <Name>Gov.Hhs.Cdc.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gov.Hhs.Cdc.Bo\Gov.Hhs.Cdc.Bo.csproj">
+      <Project>{663C4176-B137-4F7F-8691-57EC1DE7C495}</Project>
+      <Name>Gov.Hhs.Cdc.Bo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MediaValidation\Gov.Hhs.Cdc.CdcMediaValidationProvider\Gov.Hhs.Cdc.CdcMediaValidationProvider.csproj">
+      <Project>{2819982f-3116-4728-98a9-3b1e0c8384fe}</Project>
+      <Name>Gov.Hhs.Cdc.CdcMediaValidationProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MediaValidation\Gov.Hhs.Cdc.MediaValidation.Dal\Gov.Hhs.Cdc.MediaValidation.Dal.csproj">
+      <Project>{407fcb5b-2248-4cc6-824f-a3e8eef0bafc}</Project>
+      <Name>Gov.Hhs.Cdc.MediaValidation.Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MediaValidation\Gov.Hhs.Cdc.MediaValidatonProvider\Gov.Hhs.Cdc.MediaValidatonProvider.csproj">
+      <Project>{fe69d1fa-710e-466f-bf5c-3c9f4d2f4b5a}</Project>
+      <Name>Gov.Hhs.Cdc.MediaValidatonProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Media\Gov.Hhs.Cdc.CdcMediaProvider.Dal\Gov.Hhs.Cdc.CdcMediaProvider.Dal.csproj">
+      <Project>{e918e4f5-f89d-4e1e-806a-d7047a95d653}</Project>
+      <Name>Gov.Hhs.Cdc.CdcMediaProvider.Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Media\Gov.Hhs.Cdc.MediaProvider\Gov.Hhs.Cdc.MediaProvider.csproj">
+      <Project>{B6F57A44-A145-4544-9700-DC44790EE7F7}</Project>
+      <Name>Gov.Hhs.Cdc.MediaProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Thumbnail\Gov.Hhs.Cdc.ThumbnailProvider\Gov.Hhs.Cdc.ThumbnailProvider.csproj">
+      <Project>{00ae28de-5adc-40a9-bcb9-4e5307bdf2ce}</Project>
+      <Name>Gov.Hhs.Cdc.ThumbnailProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Media\Gov.Hhs.Cdc.CdcMediaProvider\Gov.Hhs.Cdc.CdcMediaProvider.csproj">
+      <Project>{36F35BA7-5F45-432C-99C6-5FB1989B59E6}</Project>
+      <Name>Gov.Hhs.Cdc.CdcMediaProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Registration\Gov.Hhs.Cdc.CDCRegistrationProvider\Gov.Hhs.Cdc.CdcRegistrationProvider.csproj">
+      <Project>{E5A6D0FD-BD62-43DB-B1CE-E6D5B62F94EC}</Project>
+      <Name>Gov.Hhs.Cdc.CdcRegistrationProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Registration\Gov.Hhs.Cdc.RegistrationProvider\Gov.Hhs.Cdc.RegistrationProvider.csproj">
+      <Project>{1089AA93-CB76-4EF9-B0A9-DC0075070202}</Project>
+      <Name>Gov.Hhs.Cdc.RegistrationProvider</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

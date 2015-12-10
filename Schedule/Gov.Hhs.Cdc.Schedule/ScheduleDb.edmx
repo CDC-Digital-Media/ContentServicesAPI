@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Schedule_Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="Schedule_ModelStoreContainer">
+          <EntitySet Name="ScheduleEntry" EntityType="Schedule_Model.Store.ScheduleEntry" store:Type="Tables" Schema="Scheduling" />
+          <EntitySet Name="ScheduleIntervalType" EntityType="Schedule_Model.Store.ScheduleIntervalType" store:Type="Tables" Schema="Scheduling" />
+          <EntitySet Name="ScheduleType" EntityType="Schedule_Model.Store.ScheduleType" store:Type="Tables" Schema="Scheduling" />
+          <EntitySet Name="TaskHistory" EntityType="Schedule_Model.Store.TaskHistory" store:Type="Tables" Schema="Scheduling" />
+          <EntitySet Name="TaskSchedule" EntityType="Schedule_Model.Store.TaskSchedule" store:Type="Tables" Schema="Scheduling" />
+          <EntitySet Name="Utility" EntityType="Schedule_Model.Store.Utility" store:Type="Tables" Schema="Scheduling" />
+          <AssociationSet Name="FK_ScheduleEntry_ScheduleIntervalType" Association="Schedule_Model.Store.FK_ScheduleEntry_ScheduleIntervalType">
+            <End Role="ScheduleIntervalType" EntitySet="ScheduleIntervalType" />
+            <End Role="ScheduleEntry" EntitySet="ScheduleEntry" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduleEntry_ScheduleType" Association="Schedule_Model.Store.FK_ScheduleEntry_ScheduleType">
+            <End Role="ScheduleType" EntitySet="ScheduleType" />
+            <End Role="ScheduleEntry" EntitySet="ScheduleEntry" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskHistory_TaskSchedule" Association="Schedule_Model.Store.FK_TaskHistory_TaskSchedule">
+            <End Role="TaskSchedule" EntitySet="TaskSchedule" />
+            <End Role="TaskHistory" EntitySet="TaskHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskSchedule_ScheduleEntry" Association="Schedule_Model.Store.FK_TaskSchedule_ScheduleEntry">
+            <End Role="ScheduleEntry" EntitySet="ScheduleEntry" />
+            <End Role="TaskSchedule" EntitySet="TaskSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskSchedule_Utility" Association="Schedule_Model.Store.FK_TaskSchedule_Utility">
+            <End Role="Utility" EntitySet="Utility" />
+            <End Role="TaskSchedule" EntitySet="TaskSchedule" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ScheduleEntry">
+          <Key>
+            <PropertyRef Name="ScheduleId" />
+          </Key>
+          <Property Name="ScheduleId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StartDateTime" Type="datetime" Nullable="false" />
+          <Property Name="EndDateTime" Type="datetime" />
+          <Property Name="ScheduleType" Type="varchar" Nullable="false" MaxLength="15" />
+          <Property Name="LastDayOfMonth" Type="bit" />
+          <Property Name="ScheduleIntervalType" Type="char" MaxLength="15" />
+          <Property Name="ScheduleInterval" Type="int" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ScheduleIntervalType">
+          <Key>
+            <PropertyRef Name="ScheduleIntervalType" />
+          </Key>
+          <Property Name="ScheduleIntervalType" Type="char" Nullable="false" MaxLength="15" />
+          <Property Name="ScheduleIntervalName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ScheduleType">
+          <Key>
+            <PropertyRef Name="ScheduleType" />
+          </Key>
+          <Property Name="ScheduleType" Type="varchar" Nullable="false" MaxLength="15" />
+          <Property Name="ScheduleTypeName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TaskHistory">
+          <Key>
+            <PropertyRef Name="HistoryId" />
+          </Key>
+          <Property Name="HistoryId" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UtilityId" Type="int" Nullable="false" />
+          <Property Name="ScheduleId" Type="int" Nullable="false" />
+          <Property Name="WasSuccessful" Type="bit" />
+          <Property Name="ResultText" Type="nvarchar" />
+          <Property Name="StartDateTime" Type="datetime" Nullable="false" />
+          <Property Name="EndDateTime" Type="datetime" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TaskSchedule">
+          <Key>
+            <PropertyRef Name="UtilityId" />
+            <PropertyRef Name="ScheduleId" />
+          </Key>
+          <Property Name="UtilityId" Type="int" Nullable="false" />
+          <Property Name="ScheduleId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="250" />
+          <Property Name="ConfigurationData" Type="xml" />
+          <Property Name="Parameter" Type="varchar" MaxLength="500" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Utility">
+          <Key>
+            <PropertyRef Name="UtilityId" />
+          </Key>
+          <Property Name="UtilityId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="AssemblyLocation" Type="varchar" MaxLength="500" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ScheduleEntry_ScheduleIntervalType">
+          <End Role="ScheduleIntervalType" Type="Schedule_Model.Store.ScheduleIntervalType" Multiplicity="0..1" />
+          <End Role="ScheduleEntry" Type="Schedule_Model.Store.ScheduleEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduleIntervalType">
+              <PropertyRef Name="ScheduleIntervalType" />
+            </Principal>
+            <Dependent Role="ScheduleEntry">
+              <PropertyRef Name="ScheduleIntervalType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduleEntry_ScheduleType">
+          <End Role="ScheduleType" Type="Schedule_Model.Store.ScheduleType" Multiplicity="1" />
+          <End Role="ScheduleEntry" Type="Schedule_Model.Store.ScheduleEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduleType">
+              <PropertyRef Name="ScheduleType" />
+            </Principal>
+            <Dependent Role="ScheduleEntry">
+              <PropertyRef Name="ScheduleType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskHistory_TaskSchedule">
+          <End Role="TaskSchedule" Type="Schedule_Model.Store.TaskSchedule" Multiplicity="1" />
+          <End Role="TaskHistory" Type="Schedule_Model.Store.TaskHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskSchedule">
+              <PropertyRef Name="UtilityId" />
+              <PropertyRef Name="ScheduleId" />
+            </Principal>
+            <Dependent Role="TaskHistory">
+              <PropertyRef Name="UtilityId" />
+              <PropertyRef Name="ScheduleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskSchedule_ScheduleEntry">
+          <End Role="ScheduleEntry" Type="Schedule_Model.Store.ScheduleEntry" Multiplicity="1" />
+          <End Role="TaskSchedule" Type="Schedule_Model.Store.TaskSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduleEntry">
+              <PropertyRef Name="ScheduleId" />
+            </Principal>
+            <Dependent Role="TaskSchedule">
+              <PropertyRef Name="ScheduleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskSchedule_Utility">
+          <End Role="Utility" Type="Schedule_Model.Store.Utility" Multiplicity="1" />
+          <End Role="TaskSchedule" Type="Schedule_Model.Store.TaskSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utility">
+              <PropertyRef Name="UtilityId" />
+            </Principal>
+            <Dependent Role="TaskSchedule">
+              <PropertyRef Name="UtilityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Schedule_Model" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="ScheduleDbEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="ScheduleEntries" EntityType="Schedule_Model.ScheduleEntry" />
+          <EntitySet Name="ScheduleIntervalTypes" EntityType="Schedule_Model.ScheduleIntervalType" />
+          <EntitySet Name="ScheduleTypes" EntityType="Schedule_Model.ScheduleType" />
+          <EntitySet Name="TaskHistories" EntityType="Schedule_Model.TaskHistory" />
+          <EntitySet Name="TaskSchedules" EntityType="Schedule_Model.TaskSchedule" />
+          <EntitySet Name="Utilities" EntityType="Schedule_Model.Utility" />
+          <AssociationSet Name="FK_ScheduleEntry_ScheduleIntervalType" Association="Schedule_Model.FK_ScheduleEntry_ScheduleIntervalType">
+            <End Role="ScheduleIntervalType" EntitySet="ScheduleIntervalTypes" />
+            <End Role="ScheduleEntry" EntitySet="ScheduleEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduleEntry_ScheduleType" Association="Schedule_Model.FK_ScheduleEntry_ScheduleType">
+            <End Role="ScheduleType" EntitySet="ScheduleTypes" />
+            <End Role="ScheduleEntry" EntitySet="ScheduleEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskSchedule_ScheduleEntry" Association="Schedule_Model.FK_TaskSchedule_ScheduleEntry">
+            <End Role="ScheduleEntry" EntitySet="ScheduleEntries" />
+            <End Role="TaskSchedule" EntitySet="TaskSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskHistory_TaskSchedule" Association="Schedule_Model.FK_TaskHistory_TaskSchedule">
+            <End Role="TaskSchedule" EntitySet="TaskSchedules" />
+            <End Role="TaskHistory" EntitySet="TaskHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskSchedule_Utility" Association="Schedule_Model.FK_TaskSchedule_Utility">
+            <End Role="Utility" EntitySet="Utilities" />
+            <End Role="TaskSchedule" EntitySet="TaskSchedules" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ScheduleEntry">
+          <Key>
+            <PropertyRef Name="ScheduleId" />
+          </Key>
+          <Property Name="ScheduleId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="StartDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ScheduleType" Type="String" Nullable="false" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="LastDayOfMonth" Type="Boolean" />
+          <Property Name="ScheduleIntervalType" Type="String" MaxLength="15" Unicode="false" FixedLength="true" />
+          <Property Name="ScheduleInterval" Type="Int32" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ScheduleIntervalType1" Relationship="Schedule_Model.FK_ScheduleEntry_ScheduleIntervalType" FromRole="ScheduleEntry" ToRole="ScheduleIntervalType" />
+          <NavigationProperty Name="ScheduleType1" Relationship="Schedule_Model.FK_ScheduleEntry_ScheduleType" FromRole="ScheduleEntry" ToRole="ScheduleType" />
+          <NavigationProperty Name="TaskSchedules" Relationship="Schedule_Model.FK_TaskSchedule_ScheduleEntry" FromRole="ScheduleEntry" ToRole="TaskSchedule" />
+        </EntityType>
+        <EntityType Name="ScheduleIntervalType">
+          <Key>
+            <PropertyRef Name="ScheduleIntervalType1" />
+          </Key>
+          <Property Name="ScheduleIntervalType1" Type="String" Nullable="false" MaxLength="15" Unicode="false" FixedLength="true" />
+          <Property Name="ScheduleIntervalName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="ScheduleEntries" Relationship="Schedule_Model.FK_ScheduleEntry_ScheduleIntervalType" FromRole="ScheduleIntervalType" ToRole="ScheduleEntry" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ScheduleType">
+          <Key>
+            <PropertyRef Name="ScheduleType1" />
+          </Key>
+          <Property Name="ScheduleType1" Type="String" Nullable="false" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="ScheduleTypeName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="ScheduleEntries" Relationship="Schedule_Model.FK_ScheduleEntry_ScheduleType" FromRole="ScheduleType" ToRole="ScheduleEntry" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="TaskHistory">
+          <Key>
+            <PropertyRef Name="HistoryId" />
+          </Key>
+          <Property Name="HistoryId" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="UtilityId" Type="Int32" Nullable="false" />
+          <Property Name="ScheduleId" Type="Int32" Nullable="false" />
+          <Property Name="WasSuccessful" Type="Boolean" />
+          <Property Name="ResultText" Type="String" MaxLength="4000" Unicode="true" FixedLength="false" />
+          <Property Name="StartDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TaskSchedule" Relationship="Schedule_Model.FK_TaskHistory_TaskSchedule" FromRole="TaskHistory" ToRole="TaskSchedule" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="TaskSchedule">
+          <Key>
+            <PropertyRef Name="UtilityId" />
+            <PropertyRef Name="ScheduleId" />
+          </Key>
+          <Property Name="UtilityId" Type="Int32" Nullable="false" />
+          <Property Name="ScheduleId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="ConfigurationData" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Parameter" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ScheduleEntry" Relationship="Schedule_Model.FK_TaskSchedule_ScheduleEntry" FromRole="TaskSchedule" ToRole="ScheduleEntry" />
+          <NavigationProperty Name="TaskHistories" Relationship="Schedule_Model.FK_TaskHistory_TaskSchedule" FromRole="TaskSchedule" ToRole="TaskHistory" />
+          <NavigationProperty Name="Utility" Relationship="Schedule_Model.FK_TaskSchedule_Utility" FromRole="TaskSchedule" ToRole="Utility" />
+        </EntityType>
+        <EntityType Name="Utility">
+          <Key>
+            <PropertyRef Name="UtilityId" />
+          </Key>
+          <Property Name="UtilityId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="AssemblyLocation" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="TaskSchedules" Relationship="Schedule_Model.FK_TaskSchedule_Utility" FromRole="Utility" ToRole="TaskSchedule" />
+        </EntityType>
+        <Association Name="FK_ScheduleEntry_ScheduleIntervalType">
+          <End Role="ScheduleIntervalType" Type="Schedule_Model.ScheduleIntervalType" Multiplicity="0..1" />
+          <End Role="ScheduleEntry" Type="Schedule_Model.ScheduleEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduleIntervalType">
+              <PropertyRef Name="ScheduleIntervalType1" />
+            </Principal>
+            <Dependent Role="ScheduleEntry">
+              <PropertyRef Name="ScheduleIntervalType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduleEntry_ScheduleType">
+          <End Role="ScheduleType" Type="Schedule_Model.ScheduleType" Multiplicity="1" />
+          <End Role="ScheduleEntry" Type="Schedule_Model.ScheduleEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduleType">
+              <PropertyRef Name="ScheduleType1" />
+            </Principal>
+            <Dependent Role="ScheduleEntry">
+              <PropertyRef Name="ScheduleType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskSchedule_ScheduleEntry">
+          <End Role="ScheduleEntry" Type="Schedule_Model.ScheduleEntry" Multiplicity="1" />
+          <End Role="TaskSchedule" Type="Schedule_Model.TaskSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduleEntry">
+              <PropertyRef Name="ScheduleId" />
+            </Principal>
+            <Dependent Role="TaskSchedule">
+              <PropertyRef Name="ScheduleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskHistory_TaskSchedule">
+          <End Role="TaskSchedule" Type="Schedule_Model.TaskSchedule" Multiplicity="1" />
+          <End Role="TaskHistory" Type="Schedule_Model.TaskHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskSchedule">
+              <PropertyRef Name="UtilityId" />
+              <PropertyRef Name="ScheduleId" />
+            </Principal>
+            <Dependent Role="TaskHistory">
+              <PropertyRef Name="UtilityId" />
+              <PropertyRef Name="ScheduleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskSchedule_Utility">
+          <End Role="Utility" Type="Schedule_Model.Utility" Multiplicity="1" />
+          <End Role="TaskSchedule" Type="Schedule_Model.TaskSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utility">
+              <PropertyRef Name="UtilityId" />
+            </Principal>
+            <Dependent Role="TaskSchedule">
+              <PropertyRef Name="UtilityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Schedule_ModelStoreContainer" CdmEntityContainer="ScheduleDbEntities">
+          <EntitySetMapping Name="ScheduleEntries">
+            <EntityTypeMapping TypeName="Schedule_Model.ScheduleEntry">
+              <MappingFragment StoreEntitySet="ScheduleEntry">
+                <ScalarProperty Name="ScheduleId" ColumnName="ScheduleId" />
+                <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
+                <ScalarProperty Name="EndDateTime" ColumnName="EndDateTime" />
+                <ScalarProperty Name="ScheduleType" ColumnName="ScheduleType" />
+                <ScalarProperty Name="LastDayOfMonth" ColumnName="LastDayOfMonth" />
+                <ScalarProperty Name="ScheduleIntervalType" ColumnName="ScheduleIntervalType" />
+                <ScalarProperty Name="ScheduleInterval" ColumnName="ScheduleInterval" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduleIntervalTypes">
+            <EntityTypeMapping TypeName="Schedule_Model.ScheduleIntervalType">
+              <MappingFragment StoreEntitySet="ScheduleIntervalType">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="ScheduleIntervalType1" ColumnName="ScheduleIntervalType" />
+                <ScalarProperty Name="ScheduleIntervalName" ColumnName="ScheduleIntervalName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduleTypes">
+            <EntityTypeMapping TypeName="Schedule_Model.ScheduleType">
+              <MappingFragment StoreEntitySet="ScheduleType">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="ScheduleType1" ColumnName="ScheduleType" />
+                <ScalarProperty Name="ScheduleTypeName" ColumnName="ScheduleTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskHistories">
+            <EntityTypeMapping TypeName="Schedule_Model.TaskHistory">
+              <MappingFragment StoreEntitySet="TaskHistory">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="HistoryId" ColumnName="HistoryId" />
+                <ScalarProperty Name="UtilityId" ColumnName="UtilityId" />
+                <ScalarProperty Name="ScheduleId" ColumnName="ScheduleId" />
+                <ScalarProperty Name="WasSuccessful" ColumnName="WasSuccessful" />
+                <ScalarProperty Name="ResultText" ColumnName="ResultText" />
+                <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
+                <ScalarProperty Name="EndDateTime" ColumnName="EndDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskSchedules">
+            <EntityTypeMapping TypeName="Schedule_Model.TaskSchedule">
+              <MappingFragment StoreEntitySet="TaskSchedule">
+                <ScalarProperty Name="UtilityId" ColumnName="UtilityId" />
+                <ScalarProperty Name="ScheduleId" ColumnName="ScheduleId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ConfigurationData" ColumnName="ConfigurationData" />
+                <ScalarProperty Name="Parameter" ColumnName="Parameter" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Utilities">
+            <EntityTypeMapping TypeName="Schedule_Model.Utility">
+              <MappingFragment StoreEntitySet="Utility">
+                <ScalarProperty Name="UtilityId" ColumnName="UtilityId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="AssemblyLocation" ColumnName="AssemblyLocation" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams />
+  </Designer>
+</edmx:Edmx>

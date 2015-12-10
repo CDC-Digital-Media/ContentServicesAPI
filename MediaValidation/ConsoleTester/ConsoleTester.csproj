@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D06C6318-3250-4166-83DC-FAFCFD41E8C9}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ConsoleTester</RootNamespace>
+    <AssemblyName>ConsoleTester</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DataServices\Gov.Hhs.Cdc.DataServices.Bo\Gov.Hhs.Cdc.DataServices.Bo.csproj">
+      <Project>{0B018F22-16C3-4FFE-8320-6DD4E353B324}</Project>
+      <Name>Gov.Hhs.Cdc.DataServices.Bo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Gov.Hhs.Cdc.Bo\Gov.Hhs.Cdc.Bo.csproj">
+      <Project>{663C4176-B137-4F7F-8691-57EC1DE7C495}</Project>
+      <Name>Gov.Hhs.Cdc.Bo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Media\Gov.Hhs.Cdc.CdcMediaProvider.Dal\Gov.Hhs.Cdc.CdcMediaProvider.Dal.csproj">
+      <Project>{E918E4F5-F89D-4E1E-806A-D7047A95D653}</Project>
+      <Name>Gov.Hhs.Cdc.DataSource.Media</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gov.Hhs.Cdc.MediaValidation.Dal\Gov.Hhs.Cdc.MediaValidation.Dal.csproj">
+      <Project>{407FCB5B-2248-4CC6-824F-A3E8EEF0BAFC}</Project>
+      <Name>Gov.Hhs.Cdc.DataSource.MediaValidation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gov.Hhs.Cdc.CdcMediaValidationProvider\Gov.Hhs.Cdc.CdcMediaValidationProvider.csproj">
+      <Project>{2819982F-3116-4728-98A9-3B1E0C8384FE}</Project>
+      <Name>Gov.Hhs.Cdc.MediaValidator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MediaValidation\MediaValidation.csproj">
+      <Project>{FD995B29-3DD6-447B-858C-0E976B832A9C}</Project>
+      <Name>MediaValidation</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

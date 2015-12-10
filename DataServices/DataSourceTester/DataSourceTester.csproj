@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B94F5B39-80CE-44E3-B3CC-25B34072F2A2}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataSourceTester</RootNamespace>
+    <AssemblyName>DataSourceTester</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ContainerBuilder.cs" />
+    <Compile Include="MediaItemDescriptor.cs" />
+    <Compile Include="MediaSearchCriteria.cs" />
+    <Compile Include="MediaSearchDefinition.cs" />
+    <Compile Include="MediaSearchResponse.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Gov.Hhs.Cdc.Tbd\Gov.Hhs.Cdc.Tbd.csproj">
+      <Project>{23D0C64E-9F1A-4658-8172-70C7376E6361}</Project>
+      <Name>Gov.Hhs.Cdc.Tbd</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gov.Hhs.Cdc.DataServices.Bo\Gov.Hhs.Cdc.DataServices.Bo.csproj">
+      <Project>{0B018F22-16C3-4FFE-8320-6DD4E353B324}</Project>
+      <Name>Gov.Hhs.Cdc.DataServices.Bo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gov.Hhs.Cdc.DataSource\Gov.Hhs.Cdc.DataSource.csproj">
+      <Project>{F841FCB7-7A0B-4C52-BC6B-133D13FD50CF}</Project>
+      <Name>Gov.Hhs.Cdc.DataSource</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gov.Hhs.Cdc.Search.Controller\Gov.Hhs.Cdc.Search.Controller.csproj">
+      <Project>{63C912AD-AA35-4D58-A2ED-DC936BA73010}</Project>
+      <Name>Gov.Hhs.Cdc.Search.Controller</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gov.Hhs.Cdc.Search.Provider\Gov.Hhs.Cdc.Search.Provider.csproj">
+      <Project>{8BE2394E-01EE-4B25-AD53-9B7CF58A68AC}</Project>
+      <Name>Gov.Hhs.Cdc.Search.Provider</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

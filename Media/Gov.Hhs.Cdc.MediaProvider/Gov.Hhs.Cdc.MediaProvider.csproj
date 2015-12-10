@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B6F57A44-A145-4544-9700-DC44790EE7F7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Gov.Hhs.Cdc.MediaProvider</RootNamespace>
+    <AssemblyName>Gov.Hhs.Cdc.MediaProvider</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Prototype|AnyCPU'">
+    <OutputPath>bin\Prototype\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Tools|AnyCPU'">
+    <OutputPath>bin\Tools\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugTest|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugTest\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Test\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Development|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Development\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ToolsAdmin|AnyCPU'">
+    <OutputPath>bin\ToolsAdmin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PrototypeD|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\PrototypeD\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWS|AnyCPU'">
+    <OutputPath>bin\AWS\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Unsecure|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Unsecure\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BusinessObjects\AggregateObject.cs" />
+    <Compile Include="BusinessObjects\AttributeObject.cs" />
+    <Compile Include="BusinessObjects\AttributeValueObject.cs" />
+    <Compile Include="BusinessObjects\AttributeValueObject2.cs" />
+    <Compile Include="BusinessObjects\ECardDetail.cs" />
+    <Compile Include="BusinessObjects\EnclosureObject.cs" />
+    <Compile Include="BusinessObjects\FeedDetailObject.cs" />
+    <Compile Include="BusinessObjects\FeedExportObject.cs" />
+    <Compile Include="BusinessObjects\FeedFormatObject.cs" />
+    <Compile Include="BusinessObjects\MediaGeoDataObject.cs" />
+    <Compile Include="BusinessObjects\IMediaSpecificDetail.cs" />
+    <Compile Include="BusinessObjects\MediaImage.cs" />
+    <Compile Include="BusinessObjects\MediaProviderSearchBusinessObjectPlaceHolder.cs" />
+    <Compile Include="BusinessObjects\MyList\SyndicationListObject.cs" />
+    <Compile Include="BusinessObjects\MyList\SyndicationListMediaObject.cs" />
+    <Compile Include="BusinessObjects\OldSearch\BusinessUnitItem.cs" />
+    <Compile Include="BusinessObjects\OldSearch\BusinessUnitTypeItem.cs" />
+    <Compile Include="BusinessObjects\CdcMediaProviderSearchBusinessObjectPlaceHolder.cs" />
+    <Compile Include="BusinessObjects\OldSearch\ECardItem.cs" />
+    <Compile Include="BusinessObjects\OldSearch\LanguageItem.cs" />
+    <Compile Include="BusinessObjects\OldSearch\LocationItem.cs" />
+    <Compile Include="BusinessObjects\OldSearch\MediaRelationshipObject.cs" />
+    <Compile Include="BusinessObjects\OldSearch\MediaStatusItem.cs" />
+    <Compile Include="BusinessObjects\OldSearch\MediaTypeItem.cs" />
+    <Compile Include="BusinessObjects\PersistentUrlObject.cs" />
+    <Compile Include="BusinessObjects\StorageObject.cs" />
+    <Compile Include="BusinessObjects\Vocabulary\AToZFilterCriteria.cs" />
+    <Compile Include="BusinessObjects\Vocabulary\AToZObject.cs" />
+    <Compile Include="BusinessObjects\Vocabulary\TagTypeFilterCriteria.cs" />
+    <Compile Include="BusinessObjects\Vocabulary\FlatVocabValueItem.cs" />
+    <Compile Include="BusinessObjects\Vocabulary\HierVocabValueItem.cs" />
+    <Compile Include="BusinessObjects\Vocabulary\PotentialRelationshipItem.cs" />
+    <Compile Include="BusinessObjects\Vocabulary\TagObject.cs" />
+    <Compile Include="BusinessObjects\Vocabulary\TagTypeObject.cs" />
+    <Compile Include="BusinessObjects\Vocabulary\ValueSetKey.cs" />
+    <Compile Include="BusinessObjects\Vocabulary\ValueSetRelationItem.cs" />
+    <Compile Include="BusinessObjects\RelationshipTypeItem.cs" />
+    <Compile Include="BusinessObjects\Vocabulary\ValueObject.cs" />
+    <Compile Include="BusinessObjects\Vocabulary\ValueRelationshipObject.cs" />
+    <Compile Include="BusinessObjects\Vocabulary\ValueSetObject.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BusinessObjects\Vocabulary\ValueToValueSetObject.cs" />
+    <Compile Include="BusinessObjects\Vocabulary\VocabularyItemDtoBase.cs" />
+    <Compile Include="BusinessObjects\Vocabulary\VocabularyItemHierarchicalDto.cs" />
+    <Compile Include="IMediaProviderIocContainer.cs" />
+    <Compile Include="IRelatedMediaItemContainer.cs" />
+    <Compile Include="IVocabularyProvider.cs" />
+    <Compile Include="Preferences\PreferencesSetExtensions.cs" />
+    <Compile Include="Preferences\Version1\ExtractionCriteria.cs" />
+    <Compile Include="Preferences\Version1\HtmlExtractionCriteria.cs" />
+    <Compile Include="Preferences\Version1\MediaPreferences.cs" />
+    <Compile Include="SearchBusinessObjects\CompositeMediaItem.cs" />
+    <Compile Include="BusinessObjects\HtmlMediaAddress.cs" />
+    <Compile Include="BusinessObjects\MediaAddress.cs" />
+    <Compile Include="BusinessObjects\RelatedMediaObject.cs" />
+    <Compile Include="IMediaProvider.cs" />
+    <Compile Include="Preferences\EffectiveHtmlExtractionCriteria.cs" />
+    <Compile Include="Preferences\MediaPreferenceSet.cs" />
+    <Compile Include="Preferences\ExtractionPath.cs" />
+    <Compile Include="Preferences\HtmlPreferences.cs" />
+    <Compile Include="Preferences\MediaPreferenceCollection.cs" />
+    <Compile Include="Preferences\PreferencesSet.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BusinessObjects\Vocabulary\ValueKey.cs" />
+    <Compile Include="BusinessObjects\MediaObject.cs" />
+    <Compile Include="SearchBusinessObjects\DomainItem.cs" />
+    <Compile Include="SearchBusinessObjects\SourceItem.cs" />
+    <Compile Include="BusinessObjects\Vocabulary\TagFilterCriteria.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DataServices\Gov.Hhs.Cdc.DataServices.Bo\Gov.Hhs.Cdc.DataServices.Bo.csproj">
+      <Project>{0b018f22-16c3-4ffe-8320-6dd4e353b324}</Project>
+      <Name>Gov.Hhs.Cdc.DataServices.Bo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Gov.Hhs.Cdc.Bo\Gov.Hhs.Cdc.Bo.csproj">
+      <Project>{663c4176-b137-4f7f-8691-57ec1de7c495}</Project>
+      <Name>Gov.Hhs.Cdc.Bo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Gov.Hhs.Cdc.CsBusinessObjects\Gov.Hhs.Cdc.CsBusinessObjects.csproj">
+      <Project>{9a4b09f6-8200-4599-af49-95422529dac4}</Project>
+      <Name>Gov.Hhs.Cdc.CsBusinessObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Gov.Hhs.Cdc.Logging\Gov.Hhs.Cdc.Logging.csproj">
+      <Project>{098355ff-e5de-47cf-bc59-7117b78cb25d}</Project>
+      <Name>Gov.Hhs.Cdc.Logging</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

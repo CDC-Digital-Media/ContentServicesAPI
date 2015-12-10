@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ContentServices_DataAPIModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ContentServices_DataAPIModelStoreContainer">
+          <EntitySet Name="EmailTemplate" EntityType="ContentServices_DataAPIModel.Store.EmailTemplate" store:Type="Tables" Schema="Auxiliary" />
+        </EntityContainer>
+        <EntityType Name="EmailTemplate">
+          <Key>
+            <PropertyRef Name="EmailTypeCode" />
+            <PropertyRef Name="EmailFormatCode" />
+            <PropertyRef Name="EmailPriorityCode" />
+          </Key>
+          <Property Name="EmailTypeCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="EmailFormatCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="EmailPriorityCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="255" />
+          <Property Name="Header" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Body" Type="nvarchar(max)" />
+          <Property Name="Footer" Type="nvarchar" MaxLength="1000" />
+          <Property Name="From" Type="nvarchar" MaxLength="255" />
+          <Property Name="Provider" Type="nvarchar" MaxLength="100" />
+          <Property Name="Active" Type="varchar" MaxLength="10" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" />
+          <Property Name="CreatedDateTime" Type="datetime" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+        </EntityType>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ContentServices_DataAPIModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="EmailDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EmailTemplates" EntityType="ContentServices_DataAPIModel.EmailTemplate" />
+        </EntityContainer>
+        <EntityType Name="EmailTemplate">
+          <Key>
+            <PropertyRef Name="EmailTypeCode" />
+            <PropertyRef Name="EmailFormatCode" />
+            <PropertyRef Name="EmailPriorityCode" />
+          </Key>
+          <Property Name="EmailTypeCode" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="EmailFormatCode" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="EmailPriorityCode" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="Subject" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Header" Type="String" MaxLength="1000" Unicode="true" FixedLength="false" />
+          <Property Name="Body" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Footer" Type="String" MaxLength="1000" Unicode="true" FixedLength="false" />
+          <Property Name="From" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Provider" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="Active" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="CreatedByGuid" Type="Guid" />
+          <Property Name="CreatedDateTime" Type="DateTime" />
+          <Property Name="ModifiedByGuid" Type="Guid" />
+          <Property Name="ModifiedDateTime" Type="DateTime" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ContentServices_DataAPIModelStoreContainer" CdmEntityContainer="EmailDbEntities">
+          <EntitySetMapping Name="EmailTemplates">
+            <EntityTypeMapping TypeName="ContentServices_DataAPIModel.EmailTemplate">
+              <MappingFragment StoreEntitySet="EmailTemplate">
+                <ScalarProperty Name="EmailTypeCode" ColumnName="EmailTypeCode" />
+                <ScalarProperty Name="EmailFormatCode" ColumnName="EmailFormatCode" />
+                <ScalarProperty Name="EmailPriorityCode" ColumnName="EmailPriorityCode" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Header" ColumnName="Header" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Footer" ColumnName="Footer" />
+                <ScalarProperty Name="From" ColumnName="From" />
+                <ScalarProperty Name="Provider" ColumnName="Provider" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="EmailDb">
+        <EntityTypeShape EntityType="ContentServices_DataAPIModel.EmailTemplate" Width="1.5" PointX="0.75" PointY="0.75" Height="3.7109993489583326" IsExpanded="true" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

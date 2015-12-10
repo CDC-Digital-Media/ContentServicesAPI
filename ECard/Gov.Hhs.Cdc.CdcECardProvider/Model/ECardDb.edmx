@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ContentServices_ECardsDbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ContentServices_ECardsDbModelStoreContainer">
+          <EntitySet Name="CardInstances" EntityType="ContentServices_ECardsDbModel.Store.CardInstances" store:Type="Tables" Schema="Media" />
+          <EntitySet Name="CardMessages" EntityType="ContentServices_ECardsDbModel.Store.CardMessages" store:Type="Tables" Schema="Media" />
+          <AssociationSet Name="FK_CardInstances_CardMessages" Association="ContentServices_ECardsDbModel.Store.FK_CardInstances_CardMessages">
+            <End Role="CardMessages" EntitySet="CardMessages" />
+            <End Role="CardInstances" EntitySet="CardInstances" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CardInstances">
+          <Key>
+            <PropertyRef Name="CardInstanceId" />
+          </Key>
+          <Property Name="CardInstanceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MediaId" Type="int" Nullable="false" />
+          <Property Name="CardMessageId" Type="int" Nullable="false" />
+          <Property Name="IsSender" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="ViewCount" Type="int" Nullable="false" />
+          <Property Name="LastViewedDateTime" Type="datetime" />
+          <Property Name="Active" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CardMessages">
+          <Key>
+            <PropertyRef Name="CardMessageId" />
+          </Key>
+          <Property Name="CardMessageId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PersonalMessage" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StyleSheet" Type="varchar" MaxLength="200" />
+          <Property Name="SenderUserAgent" Type="nvarchar(max)" />
+          <Property Name="FromMobile" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CardInstances_CardMessages">
+          <End Role="CardMessages" Type="ContentServices_ECardsDbModel.Store.CardMessages" Multiplicity="1" />
+          <End Role="CardInstances" Type="ContentServices_ECardsDbModel.Store.CardInstances" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CardMessages">
+              <PropertyRef Name="CardMessageId" />
+            </Principal>
+            <Dependent Role="CardInstances">
+              <PropertyRef Name="CardMessageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="UpdateCardViewedCount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_CardInstanceId" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="p_ModifiedByGuid" Type="uniqueidentifier" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ContentServices_ECardsDbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="ECardDbEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="UpdateCardViewedCount">
+            <Parameter Name="p_CardInstanceId" Mode="In" Type="Guid" />
+            <Parameter Name="p_ModifiedByGuid" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <EntitySet Name="CardInstances" EntityType="ContentServices_ECardsDbModel.CardInstance" />
+          <EntitySet Name="CardMessages" EntityType="ContentServices_ECardsDbModel.CardMessage" />
+          <AssociationSet Name="FK_CardInstances_CardMessages" Association="ContentServices_ECardsDbModel.FK_CardInstances_CardMessages">
+            <End Role="CardMessage" EntitySet="CardMessages" />
+            <End Role="CardInstance" EntitySet="CardInstances" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CardInstance">
+          <Key>
+            <PropertyRef Name="CardInstanceId" />
+          </Key>
+          <Property Type="Guid" Name="CardInstanceId" Nullable="false" />
+          <Property Type="Int32" Name="MediaId" Nullable="false" />
+          <Property Type="Int32" Name="CardMessageId" Nullable="false" />
+          <Property Type="String" Name="IsSender" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ViewCount" Nullable="false" />
+          <Property Type="DateTime" Name="LastViewedDateTime" Precision="3" />
+          <Property Type="String" Name="Active" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="Guid" Name="CreatedByGuid" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Guid" Name="ModifiedByGuid" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="CardMessage" Relationship="ContentServices_ECardsDbModel.FK_CardInstances_CardMessages" FromRole="CardInstance" ToRole="CardMessage" />
+        </EntityType>
+        <EntityType Name="CardMessage">
+          <Key>
+            <PropertyRef Name="CardMessageId" />
+          </Key>
+          <Property Type="Int32" Name="CardMessageId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="PersonalMessage" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="StyleSheet" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SenderUserAgent" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FromMobile" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="Guid" Name="CreatedByGuid" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Guid" Name="ModifiedByGuid" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="CardInstances" Relationship="ContentServices_ECardsDbModel.FK_CardInstances_CardMessages" FromRole="CardMessage" ToRole="CardInstance" />
+        </EntityType>
+        <Association Name="FK_CardInstances_CardMessages">
+          <End Type="ContentServices_ECardsDbModel.CardMessage" Role="CardMessage" Multiplicity="1" />
+          <End Type="ContentServices_ECardsDbModel.CardInstance" Role="CardInstance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CardMessage">
+              <PropertyRef Name="CardMessageId" />
+            </Principal>
+            <Dependent Role="CardInstance">
+              <PropertyRef Name="CardMessageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ContentServices_ECardsDbModelStoreContainer" CdmEntityContainer="ECardDbEntities">
+          <FunctionImportMapping FunctionImportName="UpdateCardViewedCount" FunctionName="ContentServices_ECardsDbModel.Store.UpdateCardViewedCount" />
+          <EntitySetMapping Name="CardInstances">
+            <EntityTypeMapping TypeName="ContentServices_ECardsDbModel.CardInstance">
+              <MappingFragment StoreEntitySet="CardInstances">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="LastViewedDateTime" ColumnName="LastViewedDateTime" />
+                <ScalarProperty Name="ViewCount" ColumnName="ViewCount" />
+                <ScalarProperty Name="IsSender" ColumnName="IsSender" />
+                <ScalarProperty Name="CardMessageId" ColumnName="CardMessageId" />
+                <ScalarProperty Name="MediaId" ColumnName="MediaId" />
+                <ScalarProperty Name="CardInstanceId" ColumnName="CardInstanceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CardMessages">
+            <EntityTypeMapping TypeName="ContentServices_ECardsDbModel.CardMessage">
+              <MappingFragment StoreEntitySet="CardMessages">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="FromMobile" ColumnName="FromMobile" />
+                <ScalarProperty Name="SenderUserAgent" ColumnName="SenderUserAgent" />
+                <ScalarProperty Name="StyleSheet" ColumnName="StyleSheet" />
+                <ScalarProperty Name="PersonalMessage" ColumnName="PersonalMessage" />
+                <ScalarProperty Name="CardMessageId" ColumnName="CardMessageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="ECardDb" ZoomLevel="133">
+        <EntityTypeShape EntityType="ContentServices_ECardsDbModel.CardInstance" Width="1.5" PointX="0.72144939970292588" PointY="3.9460676032798681" />
+        <EntityTypeShape EntityType="ContentServices_ECardsDbModel.CardMessage" Width="1.5" PointX="4.625" PointY="4.25" />
+        <AssociationConnector Association="ContentServices_ECardsDbModel.FK_CardInstances_CardMessages" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

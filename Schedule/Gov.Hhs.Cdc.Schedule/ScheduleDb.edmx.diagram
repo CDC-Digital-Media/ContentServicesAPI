@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="39b26e6c0dfe43df9065da18e242b70c" Name="ScheduleEdm">
+        <EntityTypeShape EntityType="Schedule_Model.ScheduleEntry" Width="2.375" PointX="3" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Schedule_Model.ScheduleIntervalType" Width="2.25" PointX="1.5" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Schedule_Model.ScheduleType" Width="2.125" PointX="4.625" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Schedule_Model.TaskHistory" Width="1.75" PointX="10.375" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Schedule_Model.TaskSchedule" Width="1.875" PointX="7.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Schedule_Model.Utility" Width="2.25" PointX="7.5" PointY="4.875" IsExpanded="true" />
+        <AssociationConnector Association="Schedule_Model.FK_ScheduleEntry_ScheduleIntervalType" ManuallyRouted="false" />
+        <AssociationConnector Association="Schedule_Model.FK_ScheduleEntry_ScheduleType" ManuallyRouted="false" />
+        <AssociationConnector Association="Schedule_Model.FK_TaskSchedule_ScheduleEntry" ManuallyRouted="false" />
+        <AssociationConnector Association="Schedule_Model.FK_TaskHistory_TaskSchedule" ManuallyRouted="false" />
+        <AssociationConnector Association="Schedule_Model.FK_TaskSchedule_Utility" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

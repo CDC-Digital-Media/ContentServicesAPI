@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfSyndicationFilter xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SyndicationFilter Name="fda1" FilterRegex="&lt;linktitle&gt;"/>
+  <SyndicationFilter Name="fda2" FilterRegex="&lt;/linktitle&gt;"/>
+  <SyndicationFilter Name="fda3" FilterRegex="&lt;addthis&gt;" Replacement="&lt;pleaseaddthis&gt;"/>
+</ArrayOfSyndicationFilter>

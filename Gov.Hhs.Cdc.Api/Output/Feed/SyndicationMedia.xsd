@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="SyndicationMedia"
+    targetNamespace="http://www......[domain]...../socialmedia/syndication/SyndicationMedia.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://www......[domain]...../socialmedia/syndication/SyndicationMedia.xsd"
+    xmlns:mstns="http://www......[domain]...../socialmedia/syndication/SyndicationMedia.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:complexType name="MediaItem">
+    <xs:sequence>
+
+      <xs:element name="SelectionCriteria" minOccurs="0" maxOccurs="1" nillable="true">
+        <xs:complexType>
+          <xs:attribute name="ClassList" type="xs:string" use="optional" default="syndicate"></xs:attribute>
+          <xs:attribute name="ElementList" type="xs:string" use="optional"></xs:attribute>
+          <xs:attribute name="XPath" type="xs:string" use="optional"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="Categorization">
+        <xs:complexType>
+          <xs:sequence  minOccurs="0" maxOccurs="unbounded">
+
+            <xs:element name="Category">
+              <xs:complexType>
+
+                <xs:sequence>
+                  <xs:element name="Value">
+                    <xs:complexType>
+                      <xs:attribute name="Id" type="xs:string" use="required"></xs:attribute>
+                      <xs:attribute name="Value" type="xs:string" use="required"></xs:attribute>
+                      <xs:attribute name="Language" type="xs:string" use="required"></xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+
+                <xs:attribute name="Name"  type="xs:string" use="required"></xs:attribute>
+                <xs:attribute name="Source"  type="xs:string" use="required"></xs:attribute>
+              </xs:complexType>
+            </xs:element>
+
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+
+    <xs:attribute name="MediaId" type="xs:string" use="required"/>
+    <xs:attribute name="SourceUrl" type="xs:string" use="optional"/>
+    <xs:attribute name="AddedDateTime" type="xs:dateTime" use="optional"/>
+    <xs:attribute name="ModifiedDateTime" type="xs:dateTime" use="optional"/>
+    <xs:attribute name="Visible" type="xs:boolean" use="optional" default="true"/>
+  </xs:complexType>
+
+
+</xs:schema>

@@ -1,0 +1,484 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F672CF3F-71D5-4AD5-B04F-F21F082F2060}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Gov.Hhs.Cdc.Api</RootNamespace>
+    <AssemblyName>Gov.Hhs.Cdc.Api</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'demo|AnyCPU'">
+    <OutputPath>bin\demo\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Prototype|AnyCPU'">
+    <OutputPath>bin\Prototype\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Prod|AnyCPU' ">
+    <OutputPath>bin\Tools\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Test\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Dev|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Development\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ToolsAdmin|AnyCPU'">
+    <OutputPath>bin\ToolsAdmin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PrototypeD|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\PrototypeD\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWS|AnyCPU'">
+    <OutputPath>bin\AWS\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Unsecure|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Unsecure\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.7.4114.6375, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\_binRef\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Gov.Hhs.Cdc.Commons.Api.Key.Utils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\_binRef\Gov.Hhs.Cdc.Commons.Api.Key.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\_binRef\3rdParty\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiIocContainer.cs" />
+    <Compile Include="Author.cs" />
+    <Compile Include="CodeEmbedder.cs" />
+    <Compile Include="CodeEmbedderPlus.cs" />
+    <Compile Include="ColumnMapping\AToZColumnMapFactory.cs" />
+    <Compile Include="ColumnMapping\ColumnMapFactory.cs" />
+    <Compile Include="ColumnMapping\ColumnMapper.cs" />
+    <Compile Include="ColumnMapping\TagColumnMapFactory.cs" />
+    <Compile Include="ColumnMapping\TagTypeColumnMapFactory.cs" />
+    <Compile Include="Handlers\Admin\AuthorizationHandler.cs" />
+    <Compile Include="Handlers\Admin\ExportHandler.cs" />
+    <Compile Include="Handlers\LogHandler.cs" />
+    <Compile Include="Handlers\MediaDataManagers\FeedImportMgrHandler.cs" />
+    <Compile Include="Handlers\Admin\ScheduleHandler.cs" />
+    <Compile Include="Handlers\Admin\StatsHandler.cs" />
+    <Compile Include="Handlers\DataHandler.cs" />
+    <Compile Include="Handlers\ECardDataManagers\ECardHandler.cs" />
+    <Compile Include="Handlers\MediaDataManagers\MediaHandlerBase.cs" />
+    <Compile Include="Handlers\MediaDataManagers\MetricModule.cs" />
+    <Compile Include="Handlers\MediaDataManagers\SyndicationListHandler.cs" />
+    <Compile Include="Handlers\Search\FeedFormatSearchHandler.cs" />
+    <Compile Include="Handlers\Search\NoScriptSearchHandler.cs" />
+    <Compile Include="Handlers\Search\PersistentUrlSearchHandler.cs" />
+    <Compile Include="Handlers\Search\ProxyCacheAppKeySearchHandler.cs" />
+    <Compile Include="Handlers\Search\ProxyCacheSearchHandler.cs" />
+    <Compile Include="Handlers\Search\Vocabulary\AToZSearchHandler.cs" />
+    <Compile Include="Handlers\Search\Vocabulary\TagSearchHandler.cs" />
+    <Compile Include="Handlers\Search\Vocabulary\TagTypeSearchHandler.cs" />
+    <Compile Include="Handlers\Search\Vocabulary\ValueSearchHandler.cs" />
+    <Compile Include="Handlers\Search\BusinessOrgHandler.cs" />
+    <Compile Include="Handlers\Search\BusinessOrgTypeHandler.cs" />
+    <Compile Include="Handlers\Search\ISearchHandler.cs" />
+    <Compile Include="Handlers\Search\MediaGetHandler.cs" />
+    <Compile Include="Handlers\Search\MediaStatusHandler.cs" />
+    <Compile Include="Handlers\Search\SourceHandler.cs" />
+    <Compile Include="Handlers\StorageHandler.cs" />
+    <Compile Include="Handlers\StorageMgrHandler.cs" />
+    <Compile Include="Handlers\SyndicationContentResults.cs" />
+    <Compile Include="Handlers\SyndicationHandler.cs" />
+    <Compile Include="Handlers\ThumbnailHandler.cs" />
+    <Compile Include="Output\CustomSerialize\MediaV2CustomJsonSerializer.cs" />
+    <Compile Include="Output\CustomSerialize\DictionaryJsonDotNetConverter.cs" />
+    <Compile Include="Output\Feed\FeedBase.cs" />
+    <Compile Include="Output\Feed\FeedFactory.cs" />
+    <Compile Include="Output\Feed\FeedImport.cs" />
+    <Compile Include="Output\Feed\IFeedBase.cs" />
+    <Compile Include="Output\Feed\FeedManaged.cs" />
+    <Compile Include="Output\Feed\old_FeedFormatter.cs" />
+    <Compile Include="Output\Feed\old_FeedLink.cs" />
+    <Compile Include="Output\Feed\old_FeedPerson.cs" />
+    <Compile Include="Output\Feed\old_ParseMediaList.cs" />
+    <Compile Include="Output\Feed\old_RootElement.cs" />
+    <Compile Include="Output\Feed\FeedProxy.cs" />
+    <Compile Include="Output\IOutputWriter.cs" />
+    <Compile Include="Output\CustomSerialize\KeyValuePairJsonConverter.cs" />
+    <Compile Include="Output\TestOutputWriter.cs" />
+    <Compile Include="Parameter\EmbedParam.cs" />
+    <Compile Include="Parameter\Types\FormatParam.cs" />
+    <Compile Include="Parameter\Types\IParam.cs" />
+    <Compile Include="Parameter\Types\PaginationParams.cs" />
+    <Compile Include="Parameter\Types\SortParams.cs" />
+    <Compile Include="Parameter\Types\SyndicationParams.cs" />
+    <Compile Include="Parameter\Types\TagsParams.cs" />
+    <Compile Include="SerialBusinessObjects\Admin\SerialAdminLog.cs" />
+    <Compile Include="SerialBusinessObjects\Admin\SerialAdminUser.cs" />
+    <Compile Include="SerialBusinessObjects\Admin\SerialSchedulerEntry.cs" />
+    <Compile Include="SerialBusinessObjects\Admin\SerialSchedulerIntervalType.cs" />
+    <Compile Include="SerialBusinessObjects\Admin\SerialSchedulerRunHistory.cs" />
+    <Compile Include="SerialBusinessObjects\Admin\SerialSchedulerTask.cs" />
+    <Compile Include="SerialBusinessObjects\Admin\SerialSchedulerTaskHistory.cs" />
+    <Compile Include="SerialBusinessObjects\Admin\SerialSchedulerType.cs" />
+    <Compile Include="SerialBusinessObjects\Admin\SerialSchedulerUtility.cs" />
+    <Compile Include="SerialBusinessObjects\Admin\SerialStorageAdmin.cs" />
+    <Compile Include="SerialBusinessObjects\Media\SerialAggregate.cs" />
+    <Compile Include="SerialBusinessObjects\Media\SerialEnclosure.cs" />
+    <Compile Include="SerialBusinessObjects\Media\SerialFeedDetail.cs" />
+    <Compile Include="SerialBusinessObjects\Media\SerialFeedExport.cs" />
+    <Compile Include="SerialBusinessObjects\Registration\SerialValidUsers.cs" />
+    <Compile Include="SerialBusinessObjects\SerialProxyData.cs" />
+    <Compile Include="SerialBusinessObjects\ECard\SerialECardOld.cs" />
+    <Compile Include="SerialBusinessObjects\ECard\SerialECardDetail.cs" />
+    <Compile Include="SerialBusinessObjects\ECard\SerialCardInstance.cs" />
+    <Compile Include="SerialBusinessObjects\ECard\SerialCardRecipient.cs" />
+    <Compile Include="SerialBusinessObjects\ECard\SerialCardSubmission.cs" />
+    <Compile Include="SerialBusinessObjects\ECard\SerialCardView.cs" />
+    <Compile Include="SerialBusinessObjects\ISerialLocation.cs" />
+    <Compile Include="SerialBusinessObjects\MediaPreferences\OldSerialPreference.cs" />
+    <Compile Include="SerialBusinessObjects\MediaPreferences\SerialExtractionPath.cs" />
+    <Compile Include="SerialBusinessObjects\MediaPreferences\SerialHtmlPreferences.cs" />
+    <Compile Include="SerialBusinessObjects\MediaPreferences\SerialPreferenceSet.cs" />
+    <Compile Include="SerialBusinessObjects\Media\SerialAlternateImage.cs" />
+    <Compile Include="SerialBusinessObjects\Media\SerialAToZ.cs" />
+    <Compile Include="SerialBusinessObjects\Media\SerialMediaRelationship.cs" />
+    <Compile Include="SerialBusinessObjects\Media\SerialTag.cs" />
+    <Compile Include="SerialBusinessObjects\Media\SerialTagType.cs" />
+    <Compile Include="SerialBusinessObjects\Media\Version\ISerialRelatedMediaAdmin.cs" />
+    <Compile Include="SerialBusinessObjects\Media\Version\SerialMediaChildren.cs" />
+    <Compile Include="SerialBusinessObjects\Media\Version\SerialMediaParent.cs" />
+    <Compile Include="SerialBusinessObjects\Registration\SerialApiClient.cs" />
+    <Compile Include="SerialBusinessObjects\Registration\SerialApiClientCredential.cs" />
+    <Compile Include="SerialBusinessObjects\SerialCampaign.cs" />
+    <Compile Include="SerialBusinessObjects\Media\SerialCriterion.cs" />
+    <Compile Include="SerialBusinessObjects\Media\Version\SerialMediaV1.cs" />
+    <Compile Include="SerialBusinessObjects\Media\Version\SerialMediaAdmin.cs" />
+    <Compile Include="SerialBusinessObjects\Media\ISerialMediaTypeSpecificObject.cs" />
+    <Compile Include="SerialBusinessObjects\MyList\SerialSyndicationList.cs" />
+    <Compile Include="SerialBusinessObjects\MyList\SerialSyndicationListMedia.cs" />
+    <Compile Include="SerialBusinessObjects\MyList\SerialShortMyList.cs" />
+    <Compile Include="SerialBusinessObjects\Registration\SerialLoginResults.cs" />
+    <Compile Include="SerialBusinessObjects\Registration\SerialPasswordReset.cs" />
+    <Compile Include="SerialBusinessObjects\Registration\SerialUserAgreement.cs" />
+    <Compile Include="SerialBusinessObjects\Registration\ISerialUserObject.cs" />
+    <Compile Include="Parameter\ParserBase.cs" />
+    <Compile Include="Parameter\ParamComparer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SerialBusinessObjects\SerialGeoTag.cs" />
+    <Compile Include="SerialBusinessObjects\SerialProxyCache.cs" />
+    <Compile Include="SerialBusinessObjects\SerialProxyCacheAppKey.cs" />
+    <Compile Include="SerialBusinessObjects\SerialResource.cs" />
+    <Compile Include="SerialBusinessObjects\Media\Version\ISerialRelatedMediaV1.cs" />
+    <Compile Include="SerialBusinessObjects\Value\SerialValueItemTag.cs" />
+    <Compile Include="SerialBusinessObjects\Versions\ISerialSyndication.cs" />
+    <Compile Include="SerialBusinessObjects\Versions\SerialFeedFormat.cs" />
+    <Compile Include="SerialBusinessObjects\Versions\SerialLanguageV2.cs" />
+    <Compile Include="SerialBusinessObjects\SerialThumbnail.cs" />
+    <Compile Include="SerialBusinessObjects\Value\SerialValueObj.cs" />
+    <Compile Include="SerialBusinessObjects\Admin\SerialValueRelationshipObj.cs" />
+    <Compile Include="SerialBusinessObjects\Admin\SerialValueSetObj.cs" />
+    <Compile Include="SerialBusinessObjects\Media\Version\ISerialRelatedMediaV2.cs" />
+    <Compile Include="SerialBusinessObjects\Registration\SerialUserOrgDomain.cs" />
+    <Compile Include="SerialBusinessObjects\Registration\TestSerialUser.cs" />
+    <Compile Include="SerialBusinessObjects\SerialBusinessOrgItem.cs" />
+    <Compile Include="SerialBusinessObjects\SerialBusinessOrgTypeItem.cs" />
+    <Compile Include="SerialBusinessObjects\Media\SerialHtmlValidation.cs" />
+    <Compile Include="SerialBusinessObjects\Versions\SerialLanguageV1.cs" />
+    <Compile Include="SerialBusinessObjects\SerialLocation.cs" />
+    <Compile Include="SerialBusinessObjects\SerialMediaStatus.cs" />
+    <Compile Include="SerialBusinessObjects\Registration\SerialUserOrg.cs" />
+    <Compile Include="SerialBusinessObjects\Registration\SerialUserOrgItem.cs" />
+    <Compile Include="SerialBusinessObjects\Registration\SerialUserOrgTypeItem.cs" />
+    <Compile Include="SerialBusinessObjects\SerialMediaType.cs" />
+    <Compile Include="SerialBusinessObjects\SerialPagination.cs" />
+    <Compile Include="SerialBusinessObjects\SerialResultSet.cs" />
+    <Compile Include="SerialBusinessObjects\SerialTags.cs" />
+    <Compile Include="SerialBusinessObjects\Media\Version\SerialMediaV2.cs" />
+    <Compile Include="SerialBusinessObjects\SerialMeta.cs" />
+    <Compile Include="SerialBusinessObjects\SerialResponse.cs" />
+    <Compile Include="SerialBusinessObjects\Registration\SerialServiceUser.cs" />
+    <Compile Include="SerialBusinessObjects\SerialSortColumn.cs" />
+    <Compile Include="SerialBusinessObjects\Versions\SerialSource.cs" />
+    <Compile Include="SerialBusinessObjects\Versions\SerialSyndicationV1.cs" />
+    <Compile Include="SerialBusinessObjects\SerialSyndicationValidation.cs" />
+    <Compile Include="SerialBusinessObjects\Registration\SerialUser.cs" />
+    <Compile Include="SerialBusinessObjects\SerialValidationMessage.cs" />
+    <Compile Include="SerialBusinessObjects\SerialValidationMessages.cs" />
+    <Compile Include="SerialBusinessObjects\Value\SerialValueItem.cs" />
+    <Compile Include="SerialBusinessObjects\Value\SerialValueItemAdmin.cs" />
+    <Compile Include="SerialBusinessObjects\Value\SerialValueList.cs" />
+    <Compile Include="SerialBusinessObjects\SerialVocab.cs" />
+    <Compile Include="SerialBusinessObjects\SerialValueSetItem.cs" />
+    <Compile Include="SerialBusinessObjects\SerialVocabularyRelation.cs" />
+    <Compile Include="SerialBusinessObjects\SerialWidgetItem.cs" />
+    <Compile Include="Handlers\MediaDataManagers\MediaMgrHandler.cs" />
+    <Compile Include="Handlers\Search\HandlerSearchBase.cs" />
+    <Compile Include="Handlers\Admin\HtmlValidationHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Handlers\Search\LanguageSearchHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Handlers\Search\LocationSearchHandler.cs" />
+    <Compile Include="Handlers\Search\MediaEmbedSearchHandler.cs" />
+    <Compile Include="Handlers\Search\MediaSearchHandler.cs" />
+    <Compile Include="Handlers\Search\MediaTypeSearchHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Handlers\Search\UserOrgHandler.cs" />
+    <Compile Include="Handlers\Search\UserOrgTypeHandler.cs" />
+    <Compile Include="Handlers\RegistrationDataManagers\RegistrationHandler.cs" />
+    <Compile Include="Handlers\Search\Vocabulary\HierarchicalValueSearchHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Handlers\Search\Vocabulary\ValueSetHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SerialBusinessObjects\Versions\SerialSyndicationV2.cs" />
+    <Compile Include="Service\InvalidResourceIdException.cs" />
+    <Compile Include="Service\RestServiceBase.cs" />
+    <Compile Include="SerialBusinessObjects\ActionResults.cs" />
+    <Compile Include="Service\IApi.cs" />
+    <Compile Include="Service\ServiceUtility.cs" />
+    <Compile Include="TestUtilities\IApiServiceFactory.cs" />
+    <Compile Include="SerialBusinessObjects\Admin\SerialAdminStats.cs" />
+    <Compile Include="TestUtilities\TestApiUtility.cs" />
+    <Compile Include="TestUtilities\TestUrl.cs" />
+    <Compile Include="Transformations\AToZTransformation.cs" />
+    <Compile Include="Transformations\Media\IMediaDynamicUrl.cs" />
+    <Compile Include="Transformations\Media\IMediaTransformation.cs" />
+    <Compile Include="Transformations\ProxyCacheAppKeyTransformation.cs" />
+    <Compile Include="Transformations\ProxyCacheTransformation.cs" />
+    <Compile Include="Transformations\ECardDetailTransformation.cs" />
+    <Compile Include="Transformations\GeoTagTransformation.cs" />
+    <Compile Include="Transformations\Registration\ApiClientTransformation.cs" />
+    <Compile Include="Transformations\StorageAdminTransformation.cs" />
+    <Compile Include="Transformations\MediaValidationTransformation.cs" />
+    <Compile Include="Transformations\Media\MediaTransformationHelper.cs" />
+    <Compile Include="Transformations\RelatedMedia\IRelatedMediaTransformation.cs" />
+    <Compile Include="Transformations\RelatedMedia\RelatedMediaTransformationAdmin.cs" />
+    <Compile Include="Transformations\TagTransformation.cs" />
+    <Compile Include="Transformations\TagTypeTransformationV2.cs" />
+    <Compile Include="Transformations\TransformationAdminFactory.cs" />
+    <Compile Include="Transformations\Registration\OrganizationTransformation.cs" />
+    <Compile Include="Transformations\Registration\ServiceUserTransformation.cs" />
+    <Compile Include="Transformations\TransformationFactory.cs" />
+    <Compile Include="Transformations\Versions\FeedFormatAdminTransformationV1.cs" />
+    <Compile Include="Transformations\Versions\LanguageAdminTransformationV1.cs" />
+    <Compile Include="Transformations\Registration\UserOrganizationTransformation.cs" />
+    <Compile Include="Transformations\Registration\UserTransformation.cs" />
+    <Compile Include="Transformations\Versions\LanguageTransformationV1.cs" />
+    <Compile Include="Transformations\Media\MediaAdminTransformation.cs" />
+    <Compile Include="Transformations\Media\MediaTransformationV1.cs" />
+    <Compile Include="Transformations\Media\MediaTransformationV2.cs" />
+    <Compile Include="Transformations\Media\MediaTransformationBase.cs" />
+    <Compile Include="Transformations\PreferenceTransformation.cs" />
+    <Compile Include="Transformations\TransformationBase.cs" />
+    <Compile Include="Transformations\Versions\LanguageTransformationV2.cs" />
+    <Compile Include="Transformations\RelatedMedia\RelatedMediaTransformationV1.cs" />
+    <Compile Include="Transformations\RelatedMedia\RelatedMediaTransformationV2.cs" />
+    <Compile Include="Transformations\Versions\SourceAdminTransformationV1.cs" />
+    <Compile Include="Transformations\Versions\SourceTransformationV2.cs" />
+    <Compile Include="Transformations\Versions\SyndicationTransformationV1.cs" />
+    <Compile Include="Utility\SerializeDictionary.cs" />
+    <Compile Include="Utility\ApiColumnMap.cs" />
+    <Compile Include="Utility\Util.cs" />
+    <Compile Include="Output\OutputWriter.cs" />
+    <Compile Include="Handlers\ValueMgrHandler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Authorization\Gov.Hhs.Cdc.CdcAuthorizationProvider\Gov.Hhs.Cdc.CdcAuthorizationProvider.csproj">
+      <Project>{36C9BA27-EFAD-4280-945D-FE43DDC2AE29}</Project>
+      <Name>Gov.Hhs.Cdc.CdcAuthorizationProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataServices\Gov.Hhs.Cdc.DataServices.Bo\Gov.Hhs.Cdc.DataServices.Bo.csproj">
+      <Project>{0b018f22-16c3-4ffe-8320-6dd4e353b324}</Project>
+      <Name>Gov.Hhs.Cdc.DataServices.Bo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataServices\Gov.Hhs.Cdc.DataServices\Gov.Hhs.Cdc.DataServices.csproj">
+      <Project>{faa069be-f6ad-4f3c-a3b4-e51a4427332f}</Project>
+      <Name>Gov.Hhs.Cdc.DataServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataServices\Gov.Hhs.Cdc.DataSource\Gov.Hhs.Cdc.DataSource.csproj">
+      <Project>{F841FCB7-7A0B-4C52-BC6B-133D13FD50CF}</Project>
+      <Name>Gov.Hhs.Cdc.DataSource</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataServices\Gov.Hhs.Cdc.Search.Controller\Gov.Hhs.Cdc.Search.Controller.csproj">
+      <Project>{705571B3-E6CD-4538-BACF-C055BF1A05B4}</Project>
+      <Name>Gov.Hhs.Cdc.Search.Controller</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data\Gov.Hhs.Cdc.DataProvider\Gov.Hhs.Cdc.DataProvider.csproj">
+      <Project>{c1ade73f-186f-4075-a613-4ab677edca3e}</Project>
+      <Name>Gov.Hhs.Cdc.DataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECard\Gov.Hhs.Cdc.ECardProvider\Gov.Hhs.Cdc.ECardProvider.csproj">
+      <Project>{D57C28D0-FC96-4923-9556-A89B6C33A4A6}</Project>
+      <Name>Gov.Hhs.Cdc.ECardProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gov.Hhs.Cdc.Bo\Gov.Hhs.Cdc.Bo.csproj">
+      <Project>{663C4176-B137-4F7F-8691-57EC1DE7C495}</Project>
+      <Name>Gov.Hhs.Cdc.Bo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gov.Hhs.Cdc.Connection\Gov.Hhs.Cdc.Connection.csproj">
+      <Project>{2325c11c-e4f6-45d2-a4c1-83487ed5aa1e}</Project>
+      <Name>Gov.Hhs.Cdc.Connection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gov.Hhs.Cdc.CsBusinessObjects\Gov.Hhs.Cdc.CsBusinessObjects.csproj">
+      <Project>{9A4B09F6-8200-4599-AF49-95422529DAC4}</Project>
+      <Name>Gov.Hhs.Cdc.CsBusinessObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gov.Hhs.Cdc.CsCaching\Gov.Hhs.Cdc.CsCaching.csproj">
+      <Project>{38f3622f-f343-41b3-a6fb-925af73f7c5c}</Project>
+      <Name>Gov.Hhs.Cdc.CsCaching</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gov.Hhs.Cdc.Logging\Gov.Hhs.Cdc.Logging.csproj">
+      <Project>{098355ff-e5de-47cf-bc59-7117b78cb25d}</Project>
+      <Name>Gov.Hhs.Cdc.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gov.Hhs.Cdc.TransactionLogger\Gov.Hhs.Cdc.TransactionLogProvider.csproj">
+      <Project>{3f4ac6f1-1922-4588-999b-62109148e7fa}</Project>
+      <Name>Gov.Hhs.Cdc.TransactionLogProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MediaValidation\Gov.Hhs.Cdc.CdcMediaValidationProvider\Gov.Hhs.Cdc.CdcMediaValidationProvider.csproj">
+      <Project>{2819982f-3116-4728-98a9-3b1e0c8384fe}</Project>
+      <Name>Gov.Hhs.Cdc.CdcMediaValidationProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Media\Gov.Hhs.Cdc.CdcMediaProvider.Dal\Gov.Hhs.Cdc.CdcMediaProvider.Dal.csproj">
+      <Project>{e918e4f5-f89d-4e1e-806a-d7047a95d653}</Project>
+      <Name>Gov.Hhs.Cdc.CdcMediaProvider.Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Media\Gov.Hhs.Cdc.MediaProvider\Gov.Hhs.Cdc.MediaProvider.csproj">
+      <Project>{B6F57A44-A145-4544-9700-DC44790EE7F7}</Project>
+      <Name>Gov.Hhs.Cdc.MediaProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Registration\Gov.Hhs.Cdc.CDCRegistrationProvider\Gov.Hhs.Cdc.CdcRegistrationProvider.csproj">
+      <Project>{e5a6d0fd-bd62-43db-b1ce-e6d5b62f94ec}</Project>
+      <Name>Gov.Hhs.Cdc.CdcRegistrationProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Schedule\Gov.Hhs.Cdc.Schedule\Gov.Hhs.Cdc.Schedule.csproj">
+      <Project>{e4ee2112-f428-47c0-8030-a7360c2eff86}</Project>
+      <Name>Gov.Hhs.Cdc.Schedule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Thumbnail\Gov.Hhs.Cdc.ThumbnailProvider\Gov.Hhs.Cdc.ThumbnailProvider.csproj">
+      <Project>{00ae28de-5adc-40a9-bcb9-4e5307bdf2ce}</Project>
+      <Name>Gov.Hhs.Cdc.ThumbnailProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MediaValidation\Gov.Hhs.Cdc.MediaValidatonProvider\Gov.Hhs.Cdc.MediaValidatonProvider.csproj">
+      <Project>{FE69D1FA-710E-466F-BF5C-3C9F4D2F4B5A}</Project>
+      <Name>Gov.Hhs.Cdc.MediaValidatonProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Media\Gov.Hhs.Cdc.CdcMediaProvider\Gov.Hhs.Cdc.CdcMediaProvider.csproj">
+      <Project>{36F35BA7-5F45-432C-99C6-5FB1989B59E6}</Project>
+      <Name>Gov.Hhs.Cdc.CdcMediaProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Registration\Gov.Hhs.Cdc.RegistrationProvider\Gov.Hhs.Cdc.RegistrationProvider.csproj">
+      <Project>{1089AA93-CB76-4EF9-B0A9-DC0075070202}</Project>
+      <Name>Gov.Hhs.Cdc.RegistrationProvider</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Output\Feed\SyndicationMedia.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

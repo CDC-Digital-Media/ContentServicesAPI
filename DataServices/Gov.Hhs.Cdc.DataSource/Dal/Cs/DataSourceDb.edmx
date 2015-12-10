@@ -1,0 +1,508 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ContentServices_IntegrationModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ContentServices_IntegrationModelStoreContainer">
+          <EntitySet Name="ApplicationEnvironments" EntityType="ContentServices_IntegrationModel.Store.ApplicationEnvironments" store:Type="Tables" Schema="DataSources" />
+          <EntitySet Name="EnvironmentDatabases" EntityType="ContentServices_IntegrationModel.Store.EnvironmentDatabases" store:Type="Tables" Schema="DataSources" />
+          <EntitySet Name="Environments" EntityType="ContentServices_IntegrationModel.Store.Environments" store:Type="Tables" Schema="DataSources" />
+          <EntitySet Name="Applications" EntityType="ContentServices_IntegrationModel.Store.Applications" store:Type="Tables" Schema="Filters" />
+          <EntitySet Name="FilterCriterion" EntityType="ContentServices_IntegrationModel.Store.FilterCriterion" store:Type="Tables" Schema="Filters" />
+          <EntitySet Name="FilterCriterionDate" EntityType="ContentServices_IntegrationModel.Store.FilterCriterionDate" store:Type="Tables" Schema="Filters" />
+          <EntitySet Name="ReportPlan" EntityType="ContentServices_IntegrationModel.Store.ReportPlan" store:Type="Tables" Schema="Filters" />
+          <AssociationSet Name="FK_ApplicationEnvironments_Applications" Association="ContentServices_IntegrationModel.Store.FK_ApplicationEnvironments_Applications">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="ApplicationEnvironments" EntitySet="ApplicationEnvironments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApplicationEnvironments_EnvironmentDatabases" Association="ContentServices_IntegrationModel.Store.FK_ApplicationEnvironments_EnvironmentDatabases">
+            <End Role="EnvironmentDatabases" EntitySet="EnvironmentDatabases" />
+            <End Role="ApplicationEnvironments" EntitySet="ApplicationEnvironments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EnvironmentDatabases_Environments" Association="ContentServices_IntegrationModel.Store.FK_EnvironmentDatabases_Environments">
+            <End Role="Environments" EntitySet="Environments" />
+            <End Role="EnvironmentDatabases" EntitySet="EnvironmentDatabases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FilterCriterionDate_FilterCriterion" Association="ContentServices_IntegrationModel.Store.FK_FilterCriterionDate_FilterCriterion">
+            <End Role="FilterCriterion" EntitySet="FilterCriterion" />
+            <End Role="FilterCriterionDate" EntitySet="FilterCriterionDate" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="ApplicationEnvironments">
+          <Key>
+            <PropertyRef Name="ApplicationCode" />
+            <PropertyRef Name="EnvironmentCode" />
+            <PropertyRef Name="DatabaseCode" />
+          </Key>
+          <Property Name="ApplicationCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="EnvironmentCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="DatabaseCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="IsDefault" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EnvironmentDatabases">
+          <Key>
+            <PropertyRef Name="EnvironmentCode" />
+            <PropertyRef Name="DatabaseCode" />
+          </Key>
+          <Property Name="EnvironmentCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="DatabaseCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ConnectionString" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Environments">
+          <Key>
+            <PropertyRef Name="EnvironmentCode" />
+          </Key>
+          <Property Name="EnvironmentCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="EnvironmentName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Applications">
+          <Key>
+            <PropertyRef Name="ApplicationCode" />
+          </Key>
+          <Property Name="ApplicationCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ApplicationName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DataSourceManagerDll" Type="varchar" MaxLength="250" />
+          <Property Name="DataSourceManagerClass" Type="varchar" MaxLength="250" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FilterCriterion">
+          <Key>
+            <PropertyRef Name="ApplicationCode" />
+            <PropertyRef Name="FilterCode" />
+            <PropertyRef Name="CriterionCode" />
+          </Key>
+          <Property Name="ApplicationCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="FilterCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="CriterionCode" Type="varchar" Nullable="false" MaxLength="30" />
+          <Property Name="CriterionOrder" Type="int" Nullable="false" />
+          <Property Name="CriterionName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CriterionType" Type="varchar" Nullable="false" MaxLength="15" />
+          <Property Name="FilterGroupCode" Type="varchar" MaxLength="15" />
+          <Property Name="IsRequired" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="ListKeyType" Type="varchar" MaxLength="15" />
+          <Property Name="DbColumnName" Type="varchar" MaxLength="250" />
+          <Property Name="DisplayNote" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsIncludedByDefault" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FilterCriterionDate">
+          <Key>
+            <PropertyRef Name="ApplicationCode" />
+            <PropertyRef Name="FilterCode" />
+            <PropertyRef Name="CriterionCode" />
+          </Key>
+          <Property Name="ApplicationCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="FilterCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="CriterionCode" Type="varchar" Nullable="false" MaxLength="30" />
+          <Property Name="AllowDateInPast" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="AllowDateInFuture" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportPlan">
+          <Key>
+            <PropertyRef Name="PlanId" />
+          </Key>
+          <Property Name="PlanId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicationCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ReportCode" Type="varchar" MaxLength="15" />
+          <Property Name="FilterCode" Type="varchar" Nullable="false" MaxLength="15" />
+          <Property Name="EnvironmentCode" Type="varchar" MaxLength="25" />
+          <Property Name="Criteria" Type="xml" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ApplicationEnvironments_Applications">
+          <End Role="Applications" Type="ContentServices_IntegrationModel.Store.Applications" Multiplicity="1" />
+          <End Role="ApplicationEnvironments" Type="ContentServices_IntegrationModel.Store.ApplicationEnvironments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="ApplicationCode" />
+            </Principal>
+            <Dependent Role="ApplicationEnvironments">
+              <PropertyRef Name="ApplicationCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApplicationEnvironments_EnvironmentDatabases">
+          <End Role="EnvironmentDatabases" Type="ContentServices_IntegrationModel.Store.EnvironmentDatabases" Multiplicity="1" />
+          <End Role="ApplicationEnvironments" Type="ContentServices_IntegrationModel.Store.ApplicationEnvironments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EnvironmentDatabases">
+              <PropertyRef Name="EnvironmentCode" />
+              <PropertyRef Name="DatabaseCode" />
+            </Principal>
+            <Dependent Role="ApplicationEnvironments">
+              <PropertyRef Name="EnvironmentCode" />
+              <PropertyRef Name="DatabaseCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EnvironmentDatabases_Environments">
+          <End Role="Environments" Type="ContentServices_IntegrationModel.Store.Environments" Multiplicity="1" />
+          <End Role="EnvironmentDatabases" Type="ContentServices_IntegrationModel.Store.EnvironmentDatabases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Environments">
+              <PropertyRef Name="EnvironmentCode" />
+            </Principal>
+            <Dependent Role="EnvironmentDatabases">
+              <PropertyRef Name="EnvironmentCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FilterCriterionDate_FilterCriterion">
+          <End Role="FilterCriterion" Type="ContentServices_IntegrationModel.Store.FilterCriterion" Multiplicity="1" />
+          <End Role="FilterCriterionDate" Type="ContentServices_IntegrationModel.Store.FilterCriterionDate" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="FilterCriterion">
+              <PropertyRef Name="ApplicationCode" />
+              <PropertyRef Name="FilterCode" />
+              <PropertyRef Name="CriterionCode" />
+            </Principal>
+            <Dependent Role="FilterCriterionDate">
+              <PropertyRef Name="ApplicationCode" />
+              <PropertyRef Name="FilterCode" />
+              <PropertyRef Name="CriterionCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ContentServicesModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="ContentServicesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ApplicationEnvironments" EntityType="ContentServicesModel.ApplicationEnvironment" />
+          <EntitySet Name="EnvironmentDatabases" EntityType="ContentServicesModel.EnvironmentDatabas" />
+          <EntitySet Name="Environments" EntityType="ContentServicesModel.Environment" />
+          <EntitySet Name="Applications" EntityType="ContentServicesModel.Application" />
+          <EntitySet Name="FilterCriterions" EntityType="ContentServicesModel.FilterCriterion" />
+          <EntitySet Name="FilterCriterionDates" EntityType="ContentServicesModel.FilterCriterionDate" />
+          <EntitySet Name="ReportPlans" EntityType="ContentServicesModel.ReportPlan" />
+          <AssociationSet Name="FK_ApplicationEnvironments_Applications" Association="ContentServicesModel.FK_ApplicationEnvironments_Applications">
+            <End Role="Application" EntitySet="Applications" />
+            <End Role="ApplicationEnvironment" EntitySet="ApplicationEnvironments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApplicationEnvironments_EnvironmentDatabases" Association="ContentServicesModel.FK_ApplicationEnvironments_EnvironmentDatabases">
+            <End Role="EnvironmentDatabas" EntitySet="EnvironmentDatabases" />
+            <End Role="ApplicationEnvironment" EntitySet="ApplicationEnvironments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EnvironmentDatabases_Environments" Association="ContentServicesModel.FK_EnvironmentDatabases_Environments">
+            <End Role="Environment" EntitySet="Environments" />
+            <End Role="EnvironmentDatabas" EntitySet="EnvironmentDatabases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FilterCriterionDate_FilterCriterion" Association="ContentServicesModel.FK_FilterCriterionDate_FilterCriterion">
+            <End Role="FilterCriterion" EntitySet="FilterCriterions" />
+            <End Role="FilterCriterionDate" EntitySet="FilterCriterionDates" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="ApplicationEnvironment">
+          <Key>
+            <PropertyRef Name="ApplicationCode" />
+            <PropertyRef Name="EnvironmentCode" />
+            <PropertyRef Name="DatabaseCode" />
+          </Key>
+          <Property Type="String" Name="ApplicationCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EnvironmentCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DatabaseCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="IsDefault" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Application" Relationship="ContentServicesModel.FK_ApplicationEnvironments_Applications" FromRole="ApplicationEnvironment" ToRole="Application" />
+          <NavigationProperty Name="EnvironmentDatabas" Relationship="ContentServicesModel.FK_ApplicationEnvironments_EnvironmentDatabases" FromRole="ApplicationEnvironment" ToRole="EnvironmentDatabas" />
+        </EntityType>
+        <EntityType Name="EnvironmentDatabas">
+          <Key>
+            <PropertyRef Name="EnvironmentCode" />
+            <PropertyRef Name="DatabaseCode" />
+          </Key>
+          <Property Type="String" Name="EnvironmentCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DatabaseCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ConnectionString" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ApplicationEnvironments" Relationship="ContentServicesModel.FK_ApplicationEnvironments_EnvironmentDatabases" FromRole="EnvironmentDatabas" ToRole="ApplicationEnvironment" />
+          <NavigationProperty Name="Environment" Relationship="ContentServicesModel.FK_EnvironmentDatabases_Environments" FromRole="EnvironmentDatabas" ToRole="Environment" />
+        </EntityType>
+        <EntityType Name="Environment">
+          <Key>
+            <PropertyRef Name="EnvironmentCode" />
+          </Key>
+          <Property Type="String" Name="EnvironmentCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EnvironmentName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="EnvironmentDatabases" Relationship="ContentServicesModel.FK_EnvironmentDatabases_Environments" FromRole="Environment" ToRole="EnvironmentDatabas" />
+        </EntityType>
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="ApplicationCode" />
+          </Key>
+          <Property Type="String" Name="ApplicationCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ApplicationName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DataSourceManagerDll" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DataSourceManagerClass" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ApplicationEnvironments" Relationship="ContentServicesModel.FK_ApplicationEnvironments_Applications" FromRole="Application" ToRole="ApplicationEnvironment" />
+        </EntityType>
+        <EntityType Name="FilterCriterion">
+          <Key>
+            <PropertyRef Name="ApplicationCode" />
+            <PropertyRef Name="FilterCode" />
+            <PropertyRef Name="CriterionCode" />
+          </Key>
+          <Property Type="String" Name="ApplicationCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FilterCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CriterionCode" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="CriterionOrder" Nullable="false" />
+          <Property Type="String" Name="CriterionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CriterionType" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FilterGroupCode" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="IsRequired" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ListKeyType" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DbColumnName" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DisplayNote" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="IsIncludedByDefault" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="FilterCriterionDate" Relationship="ContentServicesModel.FK_FilterCriterionDate_FilterCriterion" FromRole="FilterCriterion" ToRole="FilterCriterionDate" />
+        </EntityType>
+        <EntityType Name="FilterCriterionDate">
+          <Key>
+            <PropertyRef Name="ApplicationCode" />
+            <PropertyRef Name="FilterCode" />
+            <PropertyRef Name="CriterionCode" />
+          </Key>
+          <Property Type="String" Name="ApplicationCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FilterCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CriterionCode" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="AllowDateInPast" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="AllowDateInFuture" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="FilterCriterion" Relationship="ContentServicesModel.FK_FilterCriterionDate_FilterCriterion" FromRole="FilterCriterionDate" ToRole="FilterCriterion" />
+        </EntityType>
+        <EntityType Name="ReportPlan">
+          <Key>
+            <PropertyRef Name="PlanId" />
+          </Key>
+          <Property Type="Int32" Name="PlanId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ApplicationCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ReportCode" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FilterCode" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EnvironmentCode" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Criteria" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Guid" Name="CreatedByGuid" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ApplicationEnvironments_Applications">
+          <End Type="ContentServicesModel.Application" Role="Application" Multiplicity="1" />
+          <End Type="ContentServicesModel.ApplicationEnvironment" Role="ApplicationEnvironment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationCode" />
+            </Principal>
+            <Dependent Role="ApplicationEnvironment">
+              <PropertyRef Name="ApplicationCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApplicationEnvironments_EnvironmentDatabases">
+          <End Type="ContentServicesModel.EnvironmentDatabas" Role="EnvironmentDatabas" Multiplicity="1" />
+          <End Type="ContentServicesModel.ApplicationEnvironment" Role="ApplicationEnvironment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EnvironmentDatabas">
+              <PropertyRef Name="EnvironmentCode" />
+              <PropertyRef Name="DatabaseCode" />
+            </Principal>
+            <Dependent Role="ApplicationEnvironment">
+              <PropertyRef Name="EnvironmentCode" />
+              <PropertyRef Name="DatabaseCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EnvironmentDatabases_Environments">
+          <End Type="ContentServicesModel.Environment" Role="Environment" Multiplicity="1" />
+          <End Type="ContentServicesModel.EnvironmentDatabas" Role="EnvironmentDatabas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Environment">
+              <PropertyRef Name="EnvironmentCode" />
+            </Principal>
+            <Dependent Role="EnvironmentDatabas">
+              <PropertyRef Name="EnvironmentCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FilterCriterionDate_FilterCriterion">
+          <End Type="ContentServicesModel.FilterCriterion" Role="FilterCriterion" Multiplicity="1" />
+          <End Type="ContentServicesModel.FilterCriterionDate" Role="FilterCriterionDate" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="FilterCriterion">
+              <PropertyRef Name="ApplicationCode" />
+              <PropertyRef Name="FilterCode" />
+              <PropertyRef Name="CriterionCode" />
+            </Principal>
+            <Dependent Role="FilterCriterionDate">
+              <PropertyRef Name="ApplicationCode" />
+              <PropertyRef Name="FilterCode" />
+              <PropertyRef Name="CriterionCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ContentServices_IntegrationModelStoreContainer" CdmEntityContainer="ContentServicesEntities">
+          <EntitySetMapping Name="ApplicationEnvironments">
+            <EntityTypeMapping TypeName="ContentServicesModel.ApplicationEnvironment">
+              <MappingFragment StoreEntitySet="ApplicationEnvironments">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="DatabaseCode" ColumnName="DatabaseCode" />
+                <ScalarProperty Name="EnvironmentCode" ColumnName="EnvironmentCode" />
+                <ScalarProperty Name="ApplicationCode" ColumnName="ApplicationCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EnvironmentDatabases">
+            <EntityTypeMapping TypeName="ContentServicesModel.EnvironmentDatabas">
+              <MappingFragment StoreEntitySet="EnvironmentDatabases">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="ConnectionString" ColumnName="ConnectionString" />
+                <ScalarProperty Name="DatabaseCode" ColumnName="DatabaseCode" />
+                <ScalarProperty Name="EnvironmentCode" ColumnName="EnvironmentCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Environments">
+            <EntityTypeMapping TypeName="ContentServicesModel.Environment">
+              <MappingFragment StoreEntitySet="Environments">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="EnvironmentName" ColumnName="EnvironmentName" />
+                <ScalarProperty Name="EnvironmentCode" ColumnName="EnvironmentCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Applications">
+            <EntityTypeMapping TypeName="ContentServicesModel.Application">
+              <MappingFragment StoreEntitySet="Applications">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="DataSourceManagerClass" ColumnName="DataSourceManagerClass" />
+                <ScalarProperty Name="DataSourceManagerDll" ColumnName="DataSourceManagerDll" />
+                <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
+                <ScalarProperty Name="ApplicationCode" ColumnName="ApplicationCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FilterCriterions">
+            <EntityTypeMapping TypeName="ContentServicesModel.FilterCriterion">
+              <MappingFragment StoreEntitySet="FilterCriterion">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="IsIncludedByDefault" ColumnName="IsIncludedByDefault" />
+                <ScalarProperty Name="DisplayNote" ColumnName="DisplayNote" />
+                <ScalarProperty Name="DbColumnName" ColumnName="DbColumnName" />
+                <ScalarProperty Name="ListKeyType" ColumnName="ListKeyType" />
+                <ScalarProperty Name="IsRequired" ColumnName="IsRequired" />
+                <ScalarProperty Name="FilterGroupCode" ColumnName="FilterGroupCode" />
+                <ScalarProperty Name="CriterionType" ColumnName="CriterionType" />
+                <ScalarProperty Name="CriterionName" ColumnName="CriterionName" />
+                <ScalarProperty Name="CriterionOrder" ColumnName="CriterionOrder" />
+                <ScalarProperty Name="CriterionCode" ColumnName="CriterionCode" />
+                <ScalarProperty Name="FilterCode" ColumnName="FilterCode" />
+                <ScalarProperty Name="ApplicationCode" ColumnName="ApplicationCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FilterCriterionDates">
+            <EntityTypeMapping TypeName="ContentServicesModel.FilterCriterionDate">
+              <MappingFragment StoreEntitySet="FilterCriterionDate">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="AllowDateInFuture" ColumnName="AllowDateInFuture" />
+                <ScalarProperty Name="AllowDateInPast" ColumnName="AllowDateInPast" />
+                <ScalarProperty Name="CriterionCode" ColumnName="CriterionCode" />
+                <ScalarProperty Name="FilterCode" ColumnName="FilterCode" />
+                <ScalarProperty Name="ApplicationCode" ColumnName="ApplicationCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportPlans">
+            <EntityTypeMapping TypeName="ContentServicesModel.ReportPlan">
+              <MappingFragment StoreEntitySet="ReportPlan">
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="Criteria" ColumnName="Criteria" />
+                <ScalarProperty Name="EnvironmentCode" ColumnName="EnvironmentCode" />
+                <ScalarProperty Name="FilterCode" ColumnName="FilterCode" />
+                <ScalarProperty Name="ReportCode" ColumnName="ReportCode" />
+                <ScalarProperty Name="ApplicationCode" ColumnName="ApplicationCode" />
+                <ScalarProperty Name="PlanId" ColumnName="PlanId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="DataSourceDb" ZoomLevel="82">
+        <EntityTypeShape EntityType="ContentServicesModel.ApplicationEnvironment" Width="1.5" PointX="3.875" PointY="6.375" Height="2.2496956380208335" />
+        <EntityTypeShape EntityType="ContentServicesModel.EnvironmentDatabas" Width="1.5" PointX="1.625" PointY="3.5" Height="2.0853483072916674" />
+        <EntityTypeShape EntityType="ContentServicesModel.Environment" Width="1.5" PointX="2.375" PointY="0.625" Height="1.7566536458333335" />
+        <EntityTypeShape EntityType="ContentServicesModel.Application" Width="1.5" PointX="1.625" PointY="7.375" Height="2.0853483072916656" />
+        <EntityTypeShape EntityType="ContentServicesModel.FilterCriterion" Width="1.5" PointX="6.75" PointY="5.75" Height="3.4001269531250031" />
+        <EntityTypeShape EntityType="ContentServicesModel.FilterCriterionDate" Width="1.5" PointX="9" PointY="6.875" Height="2.2496956380208353" />
+        <EntityTypeShape EntityType="ContentServicesModel.ReportPlan" Width="1.5" PointX="12.625" PointY="4" Height="2.4140429687500031" />
+        <AssociationConnector Association="ContentServicesModel.FK_ApplicationEnvironments_Applications" >
+          <ConnectorPoint PointX="3.125" PointY="7.9998478190104176" />
+          <ConnectorPoint PointX="3.875" PointY="7.9998478190104176" />
+        </AssociationConnector>
+        <AssociationConnector Association="ContentServicesModel.FK_ApplicationEnvironments_EnvironmentDatabases" >
+          <ConnectorPoint PointX="3.125" PointY="5.4256193033854165" />
+          <ConnectorPoint PointX="4.53125" PointY="5.4256193033854165" />
+          <ConnectorPoint PointX="4.53125" PointY="6.375" />
+        </AssociationConnector>
+        <AssociationConnector Association="ContentServicesModel.FK_EnvironmentDatabases_Environments" >
+          <ConnectorPoint PointX="2.75" PointY="2.3816536458333335" />
+          <ConnectorPoint PointX="2.75" PointY="3.5" />
+        </AssociationConnector>
+        <AssociationConnector Association="ContentServicesModel.FK_FilterCriterionDate_FilterCriterion" >
+          <ConnectorPoint PointX="8.25" PointY="7.9998478190104176" />
+          <ConnectorPoint PointX="9" PointY="7.9998478190104176" />
+        </AssociationConnector>
+        </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

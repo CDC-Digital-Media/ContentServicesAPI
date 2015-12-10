@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0219FC33-BE26-4B80-8E37-B7397D805384}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Gov.Hhs.Cdc.Storage</RootNamespace>
+    <AssemblyName>Gov.Hhs.Cdc.Storage</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BusinessObjects\StorageObject.cs" />
+    <Compile Include="BusinessObjects\StorageSearchBusinessObjectPlaceHolder.cs" />
+    <Compile Include="DataAccess\StorageCtl.cs" />
+    <Compile Include="Model\StorageDb.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StorageDb.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\StorageObjectContext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Provider\IStorageProvider.cs" />
+    <Compile Include="Provider\IStorageProviderIocContainer.cs" />
+    <Compile Include="Provider\StorageProvider.cs" />
+    <Compile Include="Provider\StorageSearchProvider.cs" />
+    <Compile Include="SearchDataManagers\StorageSearchMgr.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Api\Gov.Hhs.Cdc.Api\Gov.Hhs.Cdc.Api.csproj">
+      <Project>{F672CF3F-71D5-4AD5-B04F-F21F082F2060}</Project>
+      <Name>Gov.Hhs.Cdc.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataServices\Gov.Hhs.Cdc.DataServices.Bo\Gov.Hhs.Cdc.DataServices.Bo.csproj">
+      <Project>{0B018F22-16C3-4FFE-8320-6DD4E353B324}</Project>
+      <Name>Gov.Hhs.Cdc.DataServices.Bo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataServices\Gov.Hhs.Cdc.DataServices\Gov.Hhs.Cdc.DataServices.csproj">
+      <Project>{FAA069BE-F6AD-4F3C-A3B4-E51A4427332F}</Project>
+      <Name>Gov.Hhs.Cdc.DataServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gov.Hhs.Cdc.Bo\Gov.Hhs.Cdc.Bo.csproj">
+      <Project>{663C4176-B137-4F7F-8691-57EC1DE7C495}</Project>
+      <Name>Gov.Hhs.Cdc.Bo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Media\Gov.Hhs.Cdc.CdcMediaProvider.Dal\Gov.Hhs.Cdc.CdcMediaProvider.Dal.csproj">
+      <Project>{E918E4F5-F89D-4E1E-806A-D7047A95D653}</Project>
+      <Name>Gov.Hhs.Cdc.CdcMediaProvider.Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Media\Gov.Hhs.Cdc.CdcMediaProvider\Gov.Hhs.Cdc.CdcMediaProvider.csproj">
+      <Project>{36F35BA7-5F45-432C-99C6-5FB1989B59E6}</Project>
+      <Name>Gov.Hhs.Cdc.CdcMediaProvider</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.Config" />
+    <EntityDeploy Include="Model\StorageDb.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>StorageDb.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

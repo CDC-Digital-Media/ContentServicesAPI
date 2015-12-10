@@ -1,0 +1,372 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ContentServices_SourceForgeModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ContentServices_SourceForgeModelStoreContainer">
+          <EntitySet Name="Storage" EntityType="ContentServices_SourceForgeModel.Store.Storage" store:Type="Tables" Schema="Auxiliary" />
+          <EntitySet Name="Media" EntityType="ContentServices_SourceForgeModel.Store.Media" store:Type="Tables" Schema="Media" />
+          <EntitySet Name="MediaStorage" EntityType="ContentServices_SourceForgeModel.Store.MediaStorage" store:Type="Tables" Schema="Media" />
+          <AssociationSet Name="FK_MediaStorage_Media" Association="ContentServices_SourceForgeModel.Store.FK_MediaStorage_Media">
+            <End Role="Media" EntitySet="Media" />
+            <End Role="MediaStorage" EntitySet="MediaStorage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MediaStorage_Storage" Association="ContentServices_SourceForgeModel.Store.FK_MediaStorage_Storage">
+            <End Role="Storage" EntitySet="Storage" />
+            <End Role="MediaStorage" EntitySet="MediaStorage" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Storage">
+          <Key>
+            <PropertyRef Name="StorageID" />
+          </Key>
+          <Property Name="StorageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+          <Property Name="ByteStream" Type="varbinary(max)" />
+          <Property Name="FileExtension" Type="varchar" MaxLength="15" />
+          <Property Name="Height" Type="int" />
+          <Property Name="Width" Type="int" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Media">
+          <Key>
+            <PropertyRef Name="MediaId" />
+          </Key>
+          <Property Name="MediaId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="MediaGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ExternalIdentifier" Type="nvarchar(max)" />
+          <Property Name="SourceCode" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="OwningBusinessUnitId" Type="int" />
+          <Property Name="MaintainingBusinessUnitId" Type="int" />
+          <Property Name="LanguageCode" Type="varchar" Nullable="false" MaxLength="80" />
+          <Property Name="MediaTypeCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="MimeTypeCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="CharacterEncodingCode" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="1024" />
+          <Property Name="SubTitle" Type="nvarchar" MaxLength="1024" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="SourceUrl" Type="nvarchar" MaxLength="2048" />
+          <Property Name="TargetUrl" Type="nvarchar" MaxLength="2048" />
+          <Property Name="AlternateText" Type="nvarchar" MaxLength="200" />
+          <Property Name="NoScriptText" Type="nvarchar(max)" />
+          <Property Name="FeaturedText" Type="nvarchar(max)" />
+          <Property Name="Author" Type="nvarchar" MaxLength="2048" />
+          <Property Name="Length" Type="int" />
+          <Property Name="Size" Type="int" />
+          <Property Name="Height" Type="int" />
+          <Property Name="Width" Type="int" />
+          <Property Name="RatingOverride" Type="int" />
+          <Property Name="RatingMinimum" Type="int" Nullable="false" />
+          <Property Name="RatingMaximum" Type="int" Nullable="false" />
+          <Property Name="Comments" Type="nvarchar(max)" />
+          <Property Name="RowVersion" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="EmbedParameters" Type="varchar(max)" />
+          <Property Name="LastReviewedDateTime" Type="datetime" />
+          <Property Name="PublishedDateTime" Type="datetime" />
+          <Property Name="PersistentURLToken" Type="varchar" MaxLength="15" />
+          <Property Name="MediaStatusCode" Type="varchar" MaxLength="200" />
+          <Property Name="DomainName" Type="varchar" MaxLength="1024" />
+          <Property Name="DateContentAuthored" Type="datetime" />
+          <Property Name="DateContentUpdated" Type="datetime" />
+          <Property Name="DateContentPublished" Type="datetime" />
+          <Property Name="DateContentReviewed" Type="datetime" />
+          <Property Name="DateSyndicationCaptured" Type="datetime" />
+          <Property Name="DateSyndicationUpdated" Type="datetime" />
+          <Property Name="DateSyndicationVisible" Type="datetime" />
+          <Property Name="Active" Type="char" MaxLength="3" />
+          <Property Name="EmbedCode" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="MediaStorage">
+          <Key>
+            <PropertyRef Name="MediaID" />
+            <PropertyRef Name="StorageID" />
+          </Key>
+          <Property Name="MediaID" Type="int" Nullable="false" />
+          <Property Name="StorageID" Type="int" Nullable="false" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_MediaStorage_Media">
+          <End Role="Media" Type="ContentServices_SourceForgeModel.Store.Media" Multiplicity="1" />
+          <End Role="MediaStorage" Type="ContentServices_SourceForgeModel.Store.MediaStorage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Media">
+              <PropertyRef Name="MediaId" />
+            </Principal>
+            <Dependent Role="MediaStorage">
+              <PropertyRef Name="MediaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MediaStorage_Storage">
+          <End Role="Storage" Type="ContentServices_SourceForgeModel.Store.Storage" Multiplicity="1" />
+          <End Role="MediaStorage" Type="ContentServices_SourceForgeModel.Store.MediaStorage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Storage">
+              <PropertyRef Name="StorageID" />
+            </Principal>
+            <Dependent Role="MediaStorage">
+              <PropertyRef Name="StorageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ContentServices_SourceForgeModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="ContentServices_SourceForgeEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Storages" EntityType="ContentServices_SourceForgeModel.Storage" />
+          <EntitySet Name="Medias" EntityType="ContentServices_SourceForgeModel.Medias" />
+          <EntitySet Name="MediaStorages" EntityType="ContentServices_SourceForgeModel.MediaStorage" />
+          <AssociationSet Name="FK_MediaStorage_Storage" Association="ContentServices_SourceForgeModel.FK_MediaStorage_Storage">
+            <End Role="Storage" EntitySet="Storages" />
+            <End Role="MediaStorage" EntitySet="MediaStorages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MediaStorage_Media" Association="ContentServices_SourceForgeModel.FK_MediaStorage_Media">
+            <End Role="Media" EntitySet="Medias" />
+            <End Role="MediaStorage" EntitySet="MediaStorages" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Storage">
+          <Key>
+            <PropertyRef Name="StorageID" />
+          </Key>
+          <Property Name="StorageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="ByteStream" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="FileExtension" Type="String" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="Height" Type="Int32" />
+          <Property Name="Width" Type="Int32" />
+          <Property Name="CreatedByGuid" Type="Guid" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="ModifiedByGuid" Type="Guid" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="MediaStorages" Relationship="ContentServices_SourceForgeModel.FK_MediaStorage_Storage" FromRole="Storage" ToRole="MediaStorage" />
+        </EntityType>
+        <EntityType Name="Medias">
+          <Key>
+            <PropertyRef Name="MediaId" />
+          </Key>
+          <Property Name="MediaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MediaGuid" Type="Guid" Nullable="false" />
+          <Property Name="ExternalIdentifier" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="SourceCode" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="OwningBusinessUnitId" Type="Int32" />
+          <Property Name="MaintainingBusinessUnitId" Type="Int32" />
+          <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="80" Unicode="false" FixedLength="false" />
+          <Property Name="MediaTypeCode" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="MimeTypeCode" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="CharacterEncodingCode" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="SubTitle" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="SourceUrl" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="TargetUrl" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="AlternateText" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+          <Property Name="NoScriptText" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="FeaturedText" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Author" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="Length" Type="Int32" />
+          <Property Name="Size" Type="Int32" />
+          <Property Name="Height" Type="Int32" />
+          <Property Name="Width" Type="Int32" />
+          <Property Name="RatingOverride" Type="Int32" />
+          <Property Name="RatingMinimum" Type="Int32" Nullable="false" />
+          <Property Name="RatingMaximum" Type="Int32" Nullable="false" />
+          <Property Name="Comments" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="RowVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedByGuid" Type="Guid" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="ModifiedByGuid" Type="Guid" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="EmbedParameters" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="LastReviewedDateTime" Type="DateTime" />
+          <Property Name="PublishedDateTime" Type="DateTime" />
+          <Property Name="PersistentURLToken" Type="String" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="MediaStatusCode" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="DomainName" Type="String" MaxLength="1024" Unicode="false" FixedLength="false" />
+          <Property Name="DateContentAuthored" Type="DateTime" />
+          <Property Name="DateContentUpdated" Type="DateTime" />
+          <Property Name="DateContentPublished" Type="DateTime" />
+          <Property Name="DateContentReviewed" Type="DateTime" />
+          <Property Name="DateSyndicationCaptured" Type="DateTime" />
+          <Property Name="DateSyndicationUpdated" Type="DateTime" />
+          <Property Name="DateSyndicationVisible" Type="DateTime" />
+          <Property Name="Active" Type="String" MaxLength="3" Unicode="false" FixedLength="true" />
+          <Property Name="EmbedCode" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="MediaStorages" Relationship="ContentServices_SourceForgeModel.FK_MediaStorage_Media" FromRole="Media" ToRole="MediaStorage" />
+        </EntityType>
+        <EntityType Name="MediaStorage">
+          <Key>
+            <PropertyRef Name="MediaID" />
+            <PropertyRef Name="StorageID" />
+          </Key>
+          <Property Name="MediaID" Type="Int32" Nullable="false" />
+          <Property Name="StorageID" Type="Int32" Nullable="false" />
+          <Property Name="CreatedByGuid" Type="Guid" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="ModifiedByGuid" Type="Guid" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Storage" Relationship="ContentServices_SourceForgeModel.FK_MediaStorage_Storage" FromRole="MediaStorage" ToRole="Storage" />
+          <NavigationProperty Name="Medium" Relationship="ContentServices_SourceForgeModel.FK_MediaStorage_Media" FromRole="MediaStorage" ToRole="Media" />
+        </EntityType>
+        <Association Name="FK_MediaStorage_Storage">
+          <End Role="Storage" Type="ContentServices_SourceForgeModel.Storage" Multiplicity="1" />
+          <End Role="MediaStorage" Type="ContentServices_SourceForgeModel.MediaStorage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Storage">
+              <PropertyRef Name="StorageID" />
+            </Principal>
+            <Dependent Role="MediaStorage">
+              <PropertyRef Name="StorageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MediaStorage_Media">
+          <End Role="Media" Type="ContentServices_SourceForgeModel.Medias" Multiplicity="1" />
+          <End Role="MediaStorage" Type="ContentServices_SourceForgeModel.MediaStorage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Media">
+              <PropertyRef Name="MediaId" />
+            </Principal>
+            <Dependent Role="MediaStorage">
+              <PropertyRef Name="MediaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ContentServices_SourceForgeModelStoreContainer" CdmEntityContainer="ContentServices_SourceForgeEntities">
+          <EntitySetMapping Name="Storages">
+            <EntityTypeMapping TypeName="ContentServices_SourceForgeModel.Storage">
+              <MappingFragment StoreEntitySet="Storage">
+                <ScalarProperty Name="StorageID" ColumnName="StorageID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ByteStream" ColumnName="ByteStream" />
+                <ScalarProperty Name="FileExtension" ColumnName="FileExtension" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Medias">
+            <EntityTypeMapping TypeName="ContentServices_SourceForgeModel.Medias">
+              <MappingFragment StoreEntitySet="Media">
+                <ScalarProperty Name="MediaId" ColumnName="MediaId" />
+                <ScalarProperty Name="MediaGuid" ColumnName="MediaGuid" />
+                <ScalarProperty Name="ExternalIdentifier" ColumnName="ExternalIdentifier" />
+                <ScalarProperty Name="SourceCode" ColumnName="SourceCode" />
+                <ScalarProperty Name="OwningBusinessUnitId" ColumnName="OwningBusinessUnitId" />
+                <ScalarProperty Name="MaintainingBusinessUnitId" ColumnName="MaintainingBusinessUnitId" />
+                <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+                <ScalarProperty Name="MediaTypeCode" ColumnName="MediaTypeCode" />
+                <ScalarProperty Name="MimeTypeCode" ColumnName="MimeTypeCode" />
+                <ScalarProperty Name="CharacterEncodingCode" ColumnName="CharacterEncodingCode" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="SubTitle" ColumnName="SubTitle" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SourceUrl" ColumnName="SourceUrl" />
+                <ScalarProperty Name="TargetUrl" ColumnName="TargetUrl" />
+                <ScalarProperty Name="AlternateText" ColumnName="AlternateText" />
+                <ScalarProperty Name="NoScriptText" ColumnName="NoScriptText" />
+                <ScalarProperty Name="FeaturedText" ColumnName="FeaturedText" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="RatingOverride" ColumnName="RatingOverride" />
+                <ScalarProperty Name="RatingMinimum" ColumnName="RatingMinimum" />
+                <ScalarProperty Name="RatingMaximum" ColumnName="RatingMaximum" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="EmbedParameters" ColumnName="EmbedParameters" />
+                <ScalarProperty Name="LastReviewedDateTime" ColumnName="LastReviewedDateTime" />
+                <ScalarProperty Name="PublishedDateTime" ColumnName="PublishedDateTime" />
+                <ScalarProperty Name="PersistentURLToken" ColumnName="PersistentURLToken" />
+                <ScalarProperty Name="MediaStatusCode" ColumnName="MediaStatusCode" />
+                <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+                <ScalarProperty Name="DateContentAuthored" ColumnName="DateContentAuthored" />
+                <ScalarProperty Name="DateContentUpdated" ColumnName="DateContentUpdated" />
+                <ScalarProperty Name="DateContentPublished" ColumnName="DateContentPublished" />
+                <ScalarProperty Name="DateContentReviewed" ColumnName="DateContentReviewed" />
+                <ScalarProperty Name="DateSyndicationCaptured" ColumnName="DateSyndicationCaptured" />
+                <ScalarProperty Name="DateSyndicationUpdated" ColumnName="DateSyndicationUpdated" />
+                <ScalarProperty Name="DateSyndicationVisible" ColumnName="DateSyndicationVisible" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="EmbedCode" ColumnName="EmbedCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MediaStorages">
+            <EntityTypeMapping TypeName="ContentServices_SourceForgeModel.MediaStorage">
+              <MappingFragment StoreEntitySet="MediaStorage">
+                <ScalarProperty Name="MediaID" ColumnName="MediaID" />
+                <ScalarProperty Name="StorageID" ColumnName="StorageID" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="StorageDb">
+        <EntityTypeShape EntityType="ContentServices_SourceForgeModel.Storage" Width="1.5" PointX="0.75" PointY="1" Height="3.1340950520833331" IsExpanded="true" />
+        <EntityTypeShape EntityType="ContentServices_SourceForgeModel.Medias" Width="1.5" PointX="0.75" PointY="4.5" Height="10.249248046874996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ContentServices_SourceForgeModel.MediaStorage" Width="1.5" PointX="3" PointY="1.25" Height="2.5571907552083335" IsExpanded="true" />
+        <AssociationConnector Association="ContentServices_SourceForgeModel.FK_MediaStorage_Storage" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="2.5285953776041667" />
+          <ConnectorPoint PointX="3" PointY="2.5285953776041667" />
+        </AssociationConnector>
+        <AssociationConnector Association="ContentServices_SourceForgeModel.FK_MediaStorage_Media" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="9.624624023437498" />
+          <ConnectorPoint PointX="3.75" PointY="9.624624023437498" />
+          <ConnectorPoint PointX="3.75" PointY="3.8071907552083335" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

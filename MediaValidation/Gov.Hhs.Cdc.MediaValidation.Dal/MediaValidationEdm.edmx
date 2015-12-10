@@ -1,0 +1,458 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MediaValidationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityType Name="MediaMimeTypes">
+          <Key>
+            <PropertyRef Name="MediaTypeCode" />
+            <PropertyRef Name="MimeTypeCode" />
+          </Key>
+          <Property Name="MediaTypeCode" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="MimeTypeCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="MediaTypeFilters">
+          <Key>
+            <PropertyRef Name="MediaFilterId" />
+          </Key>
+          <Property Name="MediaFilterId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MediaTypeCode" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FilterRegEx" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Replacement" Type="nvarchar(max)" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="MediaTypeValidation">
+          <Key>
+            <PropertyRef Name="MediaTypeCode" />
+          </Key>
+          <Property Name="MediaTypeCode" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ValidateMedia" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="MediaSourceCode" Type="varchar" MaxLength="50" />
+          <Property Name="MediaCollectorCode" Type="varchar" MaxLength="50" />
+          <Property Name="MediaValidatorCode" Type="varchar" MaxLength="50" />
+          <Property Name="SourceConnectionString" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="FailOnElementsPercentChange" Type="int" Nullable="false" />
+          <Property Name="FailOnElemSizePercentChange" Type="int" Nullable="false" />
+          <Property Name="FailOnNumErrors" Type="int" Nullable="false" />
+          <Property Name="FailOnNumWarnings" Type="int" Nullable="false" />
+          <Property Name="LogErrorMessages" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="LogWarningMessages" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="LogInfoMessages" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MediaValidation">
+          <Key>
+            <PropertyRef Name="MediaValidationId" />
+          </Key>
+          <Property Name="MediaValidationId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MediaTypeCode" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ParentSource" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ParentId" Type="int" Nullable="false" />
+          <Property Name="IsValid" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="IsAvailable" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="IsLoadable" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="NumberOfStandardsErrors" Type="int" Nullable="false" />
+          <Property Name="NumberOfStandardsWarnings" Type="int" Nullable="false" />
+          <Property Name="SizeOfElements" Type="int" />
+          <Property Name="NumberOfElements" Type="int" />
+          <Property Name="NumberOfInlineStyles" Type="int" />
+          <Property Name="NumberOfForms" Type="int" />
+          <Property Name="NumberOfOtherForms" Type="int" />
+          <Property Name="NumberOfEmbeddedVideos" Type="int" />
+          <Property Name="NumberOfOtherEmbeddedVideos" Type="int" />
+          <Property Name="Title" Type="nvarchar" MaxLength="250" />
+          <Property Name="UnavailableCount" Type="int" Nullable="false" />
+          <Property Name="IsLatest" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="MediaValidationReview">
+          <Key>
+            <PropertyRef Name="MediaValidationId" />
+          </Key>
+          <Property Name="MediaValidationId" Type="bigint" Nullable="false" />
+          <Property Name="PreviousMediaValidationId" Type="bigint" Nullable="false" />
+          <Property Name="SizeOfElementsChgPct" Type="int" Nullable="false" />
+          <Property Name="ElementsChgPct" Type="int" Nullable="false" />
+          <Property Name="InlineStylesChgPct" Type="int" Nullable="false" />
+          <Property Name="FormsChgPct" Type="int" Nullable="false" />
+          <Property Name="OtherFormsChgPct" Type="int" Nullable="false" />
+          <Property Name="EmbeddedVideosChgPct" Type="int" Nullable="false" />
+          <Property Name="OtherEmbeddedVideosChgPct" Type="int" Nullable="false" />
+          <Property Name="RequiresAttention" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="FailureReason" Type="varchar" MaxLength="8000" />
+          <Property Name="IsResolved" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="ResolutionDateTime" Type="datetime" />
+          <Property Name="ResolutionGuid" Type="uniqueidentifier" />
+          <Property Name="ResolutionNotes" Type="nvarchar(max)" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ContentServices_SourceForge.Media.ResourceMimeTypes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ResourceMimeTypes">
+          <Key>
+            <PropertyRef Name="ResourceTypeCode" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="ResourceTypeCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_media_MediaValidationReview_ref_media_MediaValidation">
+          <End Role="MediaValidation" Type="Self.MediaValidation" Multiplicity="1" />
+          <End Role="MediaValidationReview" Type="Self.MediaValidationReview" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MediaValidation">
+              <PropertyRef Name="MediaValidationId" />
+            </Principal>
+            <Dependent Role="MediaValidationReview">
+              <PropertyRef Name="MediaValidationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_media_MediaValidationReview_ref_media_MediaValidation2">
+          <End Role="MediaValidation" Type="Self.MediaValidation" Multiplicity="1" />
+          <End Role="MediaValidationReview" Type="Self.MediaValidationReview" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MediaValidation">
+              <PropertyRef Name="MediaValidationId" />
+            </Principal>
+            <Dependent Role="MediaValidationReview">
+              <PropertyRef Name="MediaValidationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MediaValidationModelStoreContainer">
+          <EntitySet Name="MediaMimeTypes" EntityType="Self.MediaMimeTypes" Schema="Media" store:Type="Tables" />
+          <EntitySet Name="MediaTypeFilters" EntityType="Self.MediaTypeFilters" Schema="Media" store:Type="Tables" />
+          <EntitySet Name="MediaTypeValidation" EntityType="Self.MediaTypeValidation" Schema="Media" store:Type="Tables" />
+          <EntitySet Name="MediaValidation" EntityType="Self.MediaValidation" Schema="Media" store:Type="Tables" />
+          <EntitySet Name="MediaValidationReview" EntityType="Self.MediaValidationReview" Schema="Media" store:Type="Tables" />
+          <EntitySet Name="ResourceMimeTypes" EntityType="Self.ResourceMimeTypes" store:Type="Views" store:Schema="Media">
+            <DefiningQuery>SELECT 
+[ResourceMimeTypes].[ResourceTypeCode] AS [ResourceTypeCode], 
+[ResourceMimeTypes].[Name] AS [Name]
+FROM [Media].[ResourceMimeTypes] AS [ResourceMimeTypes]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_media_MediaValidationReview_ref_media_MediaValidation" Association="Self.FK_media_MediaValidationReview_ref_media_MediaValidation">
+            <End Role="MediaValidation" EntitySet="MediaValidation" />
+            <End Role="MediaValidationReview" EntitySet="MediaValidationReview" />
+          </AssociationSet>
+          <AssociationSet Name="FK_media_MediaValidationReview_ref_media_MediaValidation2" Association="Self.FK_media_MediaValidationReview_ref_media_MediaValidation2">
+            <End Role="MediaValidation" EntitySet="MediaValidation" />
+            <End Role="MediaValidationReview" EntitySet="MediaValidationReview" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MediaValidationModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="MediaValidationDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="MediaMimeTypes" EntityType="MediaValidationModel.MediaMimeType" />
+          <EntitySet Name="MediaTypeFilters" EntityType="MediaValidationModel.MediaTypeFilter" />
+          <EntitySet Name="MediaTypeValidations" EntityType="MediaValidationModel.MediaTypeValidation" />
+          <EntitySet Name="MediaValidations" EntityType="MediaValidationModel.MediaValidation" />
+          <EntitySet Name="MediaValidationReviews" EntityType="MediaValidationModel.MediaValidationReview" />
+          <AssociationSet Name="FK_MediaValidation_PreviousMediaValidationId" Association="MediaValidationModel.FK_MediaValidation_PreviousMediaValidationId">
+            <End Role="MediaValidation" EntitySet="MediaValidations" />
+            <End Role="MediaValidationReview" EntitySet="MediaValidationReviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MediaValidationReview_MediaValidation" Association="MediaValidationModel.FK_MediaValidationReview_MediaValidation">
+            <End Role="MediaValidation" EntitySet="MediaValidations" />
+            <End Role="MediaValidationReview" EntitySet="MediaValidationReviews" />
+          </AssociationSet>
+          <EntitySet Name="ResourceMimeTypes" EntityType="MediaValidationModel.ResourceMimeType" />
+        </EntityContainer>
+        <EntityType Name="MediaMimeType">
+          <Key>
+            <PropertyRef Name="MediaTypeCode" />
+            <PropertyRef Name="MimeTypeCode" />
+          </Key>
+          <Property Type="String" Name="MediaTypeCode" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MimeTypeCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Guid" Name="ModifiedByGuid" />
+          <Property Type="Guid" Name="CreatedByGuid" />
+        </EntityType>
+        <EntityType Name="MediaTypeFilter">
+          <Key>
+            <PropertyRef Name="MediaFilterId" />
+          </Key>
+          <Property Type="Int32" Name="MediaFilterId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="MediaTypeCode" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FilterRegEx" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Replacement" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="MediaTypeValidation">
+          <Key>
+            <PropertyRef Name="MediaTypeCode" />
+          </Key>
+          <Property Type="String" Name="MediaTypeCode" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ValidateMedia" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="MediaSourceCode" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="MediaCollectorCode" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="MediaValidatorCode" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SourceConnectionString" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="FailOnElementsPercentChange" Nullable="false" />
+          <Property Type="Int32" Name="FailOnElemSizePercentChange" Nullable="false" />
+          <Property Type="Int32" Name="FailOnNumErrors" Nullable="false" />
+          <Property Type="Int32" Name="FailOnNumWarnings" Nullable="false" />
+          <Property Type="String" Name="LogErrorMessages" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LogWarningMessages" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LogInfoMessages" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Guid" Name="ModifiedByGuid" />
+          <Property Type="Guid" Name="CreatedByGuid" />
+          <Property Type="Binary" Name="RowVersion" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="MediaValidation">
+          <Key>
+            <PropertyRef Name="MediaValidationId" />
+          </Key>
+          <Property Type="Int64" Name="MediaValidationId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="MediaTypeCode" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ParentSource" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ParentId" Nullable="false" />
+          <Property Type="String" Name="IsValid" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="IsAvailable" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="IsLoadable" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="NumberOfStandardsErrors" Nullable="false" />
+          <Property Type="Int32" Name="NumberOfStandardsWarnings" Nullable="false" />
+          <Property Type="Int32" Name="SizeOfElements" />
+          <Property Type="Int32" Name="NumberOfElements" />
+          <Property Type="Int32" Name="NumberOfInlineStyles" />
+          <Property Type="Int32" Name="NumberOfForms" />
+          <Property Type="Int32" Name="NumberOfOtherForms" />
+          <Property Type="Int32" Name="NumberOfEmbeddedVideos" />
+          <Property Type="Int32" Name="NumberOfOtherEmbeddedVideos" />
+          <Property Type="String" Name="Title" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="UnavailableCount" Nullable="false" />
+          <Property Type="String" Name="IsLatest" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Binary" Name="RowVersion" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="MediaValidationReview" Relationship="MediaValidationModel.FK_MediaValidation_PreviousMediaValidationId" FromRole="MediaValidation" ToRole="MediaValidationReview" />
+          <NavigationProperty Name="MediaValidationReview1" Relationship="MediaValidationModel.FK_MediaValidationReview_MediaValidation" FromRole="MediaValidation" ToRole="MediaValidationReview" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="MediaValidationReview">
+          <Key>
+            <PropertyRef Name="MediaValidationId" />
+          </Key>
+          <Property Type="Int64" Name="MediaValidationId" Nullable="false" />
+          <Property Type="Int64" Name="PreviousMediaValidationId" Nullable="false" />
+          <Property Type="Int32" Name="SizeOfElementsChgPct" Nullable="false" />
+          <Property Type="Int32" Name="ElementsChgPct" Nullable="false" />
+          <Property Type="Int32" Name="InlineStylesChgPct" Nullable="false" />
+          <Property Type="Int32" Name="FormsChgPct" Nullable="false" />
+          <Property Type="Int32" Name="OtherFormsChgPct" Nullable="false" />
+          <Property Type="Int32" Name="EmbeddedVideosChgPct" Nullable="false" />
+          <Property Type="Int32" Name="OtherEmbeddedVideosChgPct" Nullable="false" />
+          <Property Type="String" Name="RequiresAttention" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FailureReason" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="IsResolved" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ResolutionDateTime" Precision="3" />
+          <Property Type="Guid" Name="ResolutionGuid" />
+          <Property Type="String" Name="ResolutionNotes" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Binary" Name="RowVersion" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="MediaValidation" Relationship="MediaValidationModel.FK_MediaValidation_PreviousMediaValidationId" FromRole="MediaValidationReview" ToRole="MediaValidation" />
+          <NavigationProperty Name="MediaValidation1" Relationship="MediaValidationModel.FK_MediaValidationReview_MediaValidation" FromRole="MediaValidationReview" ToRole="MediaValidation" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="FK_MediaValidation_PreviousMediaValidationId">
+          <End Type="MediaValidationModel.MediaValidation" Role="MediaValidation" Multiplicity="1" />
+          <End Type="MediaValidationModel.MediaValidationReview" Role="MediaValidationReview" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MediaValidation">
+              <PropertyRef Name="MediaValidationId" />
+            </Principal>
+            <Dependent Role="MediaValidationReview">
+              <PropertyRef Name="MediaValidationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MediaValidationReview_MediaValidation">
+          <End Type="MediaValidationModel.MediaValidation" Role="MediaValidation" Multiplicity="1" />
+          <End Type="MediaValidationModel.MediaValidationReview" Role="MediaValidationReview" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MediaValidation">
+              <PropertyRef Name="MediaValidationId" />
+            </Principal>
+            <Dependent Role="MediaValidationReview">
+              <PropertyRef Name="MediaValidationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ResourceMimeType">
+          <Key>
+            <PropertyRef Name="ResourceTypeCode" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Type="String" Name="ResourceTypeCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MediaValidationModelStoreContainer" CdmEntityContainer="MediaValidationDbEntities">
+          <EntitySetMapping Name="MediaMimeTypes">
+            <EntityTypeMapping TypeName="MediaValidationModel.MediaMimeType">
+              <MappingFragment StoreEntitySet="MediaMimeTypes">
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="MimeTypeCode" ColumnName="MimeTypeCode" />
+                <ScalarProperty Name="MediaTypeCode" ColumnName="MediaTypeCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MediaTypeFilters">
+            <EntityTypeMapping TypeName="MediaValidationModel.MediaTypeFilter">
+              <MappingFragment StoreEntitySet="MediaTypeFilters">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="Replacement" ColumnName="Replacement" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FilterRegEx" ColumnName="FilterRegEx" />
+                <ScalarProperty Name="MediaTypeCode" ColumnName="MediaTypeCode" />
+                <ScalarProperty Name="MediaFilterId" ColumnName="MediaFilterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MediaTypeValidations">
+            <EntityTypeMapping TypeName="MediaValidationModel.MediaTypeValidation">
+              <MappingFragment StoreEntitySet="MediaTypeValidation">
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="LogInfoMessages" ColumnName="LogInfoMessages" />
+                <ScalarProperty Name="LogWarningMessages" ColumnName="LogWarningMessages" />
+                <ScalarProperty Name="LogErrorMessages" ColumnName="LogErrorMessages" />
+                <ScalarProperty Name="FailOnNumWarnings" ColumnName="FailOnNumWarnings" />
+                <ScalarProperty Name="FailOnNumErrors" ColumnName="FailOnNumErrors" />
+                <ScalarProperty Name="FailOnElemSizePercentChange" ColumnName="FailOnElemSizePercentChange" />
+                <ScalarProperty Name="FailOnElementsPercentChange" ColumnName="FailOnElementsPercentChange" />
+                <ScalarProperty Name="SourceConnectionString" ColumnName="SourceConnectionString" />
+                <ScalarProperty Name="MediaValidatorCode" ColumnName="MediaValidatorCode" />
+                <ScalarProperty Name="MediaCollectorCode" ColumnName="MediaCollectorCode" />
+                <ScalarProperty Name="MediaSourceCode" ColumnName="MediaSourceCode" />
+                <ScalarProperty Name="ValidateMedia" ColumnName="ValidateMedia" />
+                <ScalarProperty Name="MediaTypeCode" ColumnName="MediaTypeCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MediaValidations">
+            <EntityTypeMapping TypeName="MediaValidationModel.MediaValidation">
+              <MappingFragment StoreEntitySet="MediaValidation">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="IsLatest" ColumnName="IsLatest" />
+                <ScalarProperty Name="UnavailableCount" ColumnName="UnavailableCount" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="NumberOfOtherEmbeddedVideos" ColumnName="NumberOfOtherEmbeddedVideos" />
+                <ScalarProperty Name="NumberOfEmbeddedVideos" ColumnName="NumberOfEmbeddedVideos" />
+                <ScalarProperty Name="NumberOfOtherForms" ColumnName="NumberOfOtherForms" />
+                <ScalarProperty Name="NumberOfForms" ColumnName="NumberOfForms" />
+                <ScalarProperty Name="NumberOfInlineStyles" ColumnName="NumberOfInlineStyles" />
+                <ScalarProperty Name="NumberOfElements" ColumnName="NumberOfElements" />
+                <ScalarProperty Name="SizeOfElements" ColumnName="SizeOfElements" />
+                <ScalarProperty Name="NumberOfStandardsWarnings" ColumnName="NumberOfStandardsWarnings" />
+                <ScalarProperty Name="NumberOfStandardsErrors" ColumnName="NumberOfStandardsErrors" />
+                <ScalarProperty Name="IsLoadable" ColumnName="IsLoadable" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="ParentSource" ColumnName="ParentSource" />
+                <ScalarProperty Name="MediaTypeCode" ColumnName="MediaTypeCode" />
+                <ScalarProperty Name="MediaValidationId" ColumnName="MediaValidationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MediaValidationReviews">
+            <EntityTypeMapping TypeName="MediaValidationModel.MediaValidationReview">
+              <MappingFragment StoreEntitySet="MediaValidationReview">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="ResolutionNotes" ColumnName="ResolutionNotes" />
+                <ScalarProperty Name="ResolutionGuid" ColumnName="ResolutionGuid" />
+                <ScalarProperty Name="ResolutionDateTime" ColumnName="ResolutionDateTime" />
+                <ScalarProperty Name="IsResolved" ColumnName="IsResolved" />
+                <ScalarProperty Name="FailureReason" ColumnName="FailureReason" />
+                <ScalarProperty Name="RequiresAttention" ColumnName="RequiresAttention" />
+                <ScalarProperty Name="OtherEmbeddedVideosChgPct" ColumnName="OtherEmbeddedVideosChgPct" />
+                <ScalarProperty Name="EmbeddedVideosChgPct" ColumnName="EmbeddedVideosChgPct" />
+                <ScalarProperty Name="OtherFormsChgPct" ColumnName="OtherFormsChgPct" />
+                <ScalarProperty Name="FormsChgPct" ColumnName="FormsChgPct" />
+                <ScalarProperty Name="InlineStylesChgPct" ColumnName="InlineStylesChgPct" />
+                <ScalarProperty Name="ElementsChgPct" ColumnName="ElementsChgPct" />
+                <ScalarProperty Name="SizeOfElementsChgPct" ColumnName="SizeOfElementsChgPct" />
+                <ScalarProperty Name="PreviousMediaValidationId" ColumnName="PreviousMediaValidationId" />
+                <ScalarProperty Name="MediaValidationId" ColumnName="MediaValidationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResourceMimeTypes">
+            <EntityTypeMapping TypeName="MediaValidationModel.ResourceMimeType">
+              <MappingFragment StoreEntitySet="ResourceMimeTypes">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ResourceTypeCode" ColumnName="ResourceTypeCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="MediaValidationEdm" ZoomLevel="78">
+        <EntityTypeShape EntityType="MediaValidationModel.MediaMimeType" Width="1.5" PointX="15.625" PointY="0.5" />
+        <EntityTypeShape EntityType="MediaValidationModel.MediaTypeFilter" Width="1.5" PointX="18.625" PointY="2" />
+        <EntityTypeShape EntityType="MediaValidationModel.MediaTypeValidation" Width="1.5" PointX="1.125" PointY="3.5" />
+        <EntityTypeShape EntityType="MediaValidationModel.MediaValidation" Width="1.5" PointX="3.625" PointY="5" />
+        <EntityTypeShape EntityType="MediaValidationModel.MediaValidationReview" Width="1.5" PointX="6.625" PointY="6.5" />
+        <AssociationConnector Association="MediaValidationModel.FK_MediaValidation_PreviousMediaValidationId" />
+        <AssociationConnector Association="MediaValidationModel.FK_MediaValidationReview_MediaValidation" />
+        <EntityTypeShape EntityType="MediaValidationModel.ResourceMimeType" Width="1.5" PointX="1.3105613111101842" PointY="30.442490323652741" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

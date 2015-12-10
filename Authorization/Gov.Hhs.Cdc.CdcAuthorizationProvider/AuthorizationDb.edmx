@@ -1,0 +1,659 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ContentServices_SourceForgeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityType Name="MediaSet">
+          <Key>
+            <PropertyRef Name="MediaSetName" />
+          </Key>
+          <Property Name="MediaSetName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="MediaSetDynamic">
+          <Key>
+            <PropertyRef Name="MediaSetName" />
+          </Key>
+          <Property Name="MediaSetName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SearchCriteria" Type="xml" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MediaSetRoles">
+          <Key>
+            <PropertyRef Name="UserGUID" />
+            <PropertyRef Name="RoleCode" />
+            <PropertyRef Name="MediaSetName" />
+          </Key>
+          <Property Name="UserGUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RoleCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MediaSetName" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MediaSetStatic">
+          <Key>
+            <PropertyRef Name="MediaSetName" />
+            <PropertyRef Name="MediaID" />
+          </Key>
+          <Property Name="MediaSetName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="MediaID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleCode" />
+          </Key>
+          <Property Name="RoleCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Active" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="UserRoles">
+          <Key>
+            <PropertyRef Name="UserGUID" />
+            <PropertyRef Name="RoleCode" />
+          </Key>
+          <Property Name="UserGUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RoleCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Active" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="IsDefault" Type="nvarchar" MaxLength="5" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="UserOrganizations">
+          <Key>
+            <PropertyRef Name="OrganizationID" />
+            <PropertyRef Name="UserGuid" />
+          </Key>
+          <Property Name="OrganizationID" Type="int" Nullable="false" />
+          <Property Name="UserGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PrimaryOrg" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+          <Property Name="CreatedByGUID" Type="uniqueidentifier" />
+          <Property Name="ModifiedByGUID" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserGuid" />
+          </Key>
+          <Property Name="UserGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ApiClientGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="256" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Password" Type="varchar(max)" />
+          <Property Name="TempPassword" Type="varchar(max)" />
+          <Property Name="UserToken" Type="varchar(max)" />
+          <Property Name="ExpirationUtcSeconds" Type="bigint" Nullable="false" />
+          <Property Name="Active" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CreatedByGuid" Type="uniqueidentifier" />
+          <Property Name="ModifiedByGuid" Type="uniqueidentifier" />
+          <Property Name="UsageGuidelinesAgreementDateTime" Type="datetime" />
+          <Property Name="RegistrationToken" Type="nvarchar" MaxLength="50" />
+          <Property Name="NetworkID" Type="varchar" MaxLength="50" />
+          <Property Name="CSAdmin" Type="varchar" MaxLength="3" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ContentServices_SourceForge.Admin.AdministrativeUsers' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="AdministrativeUsers">
+          <Key>
+            <PropertyRef Name="UserGuid" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="EmailAddress" />
+          </Key>
+          <Property Name="UserGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="NetworkID" Type="varchar" MaxLength="50" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_MediaSetDynamic_MediaSet">
+          <End Role="MediaSet" Type="Self.MediaSet" Multiplicity="1" />
+          <End Role="MediaSetDynamic" Type="Self.MediaSetDynamic" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MediaSet">
+              <PropertyRef Name="MediaSetName" />
+            </Principal>
+            <Dependent Role="MediaSetDynamic">
+              <PropertyRef Name="MediaSetName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MediaSetRoles_MediaSet">
+          <End Role="MediaSet" Type="Self.MediaSet" Multiplicity="1" />
+          <End Role="MediaSetRoles" Type="Self.MediaSetRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MediaSet">
+              <PropertyRef Name="MediaSetName" />
+            </Principal>
+            <Dependent Role="MediaSetRoles">
+              <PropertyRef Name="MediaSetName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MediaSetRoles_UserRoles">
+          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="1" />
+          <End Role="MediaSetRoles" Type="Self.MediaSetRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRoles">
+              <PropertyRef Name="UserGUID" />
+              <PropertyRef Name="RoleCode" />
+            </Principal>
+            <Dependent Role="MediaSetRoles">
+              <PropertyRef Name="UserGUID" />
+              <PropertyRef Name="RoleCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MediaSetStatic_MediaSet">
+          <End Role="MediaSet" Type="Self.MediaSet" Multiplicity="1" />
+          <End Role="MediaSetStatic" Type="Self.MediaSetStatic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MediaSet">
+              <PropertyRef Name="MediaSetName" />
+            </Principal>
+            <Dependent Role="MediaSetStatic">
+              <PropertyRef Name="MediaSetName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserOrganizations_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserOrganizations" Type="Self.UserOrganizations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserGuid" />
+            </Principal>
+            <Dependent Role="UserOrganizations">
+              <PropertyRef Name="UserGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleCode" />
+            </Principal>
+            <Dependent Role="UserRoles">
+              <PropertyRef Name="RoleCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserGuid" />
+            </Principal>
+            <Dependent Role="UserRoles">
+              <PropertyRef Name="UserGUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="EvaluateUserMediaSets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Admin">
+          <Parameter Name="UserGUID" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="SearchMediaSet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Admin">
+          <Parameter Name="MediaSetName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="CreateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Registrations">
+          <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
+          <Parameter Name="MiddleName" Type="nvarchar" Mode="In" />
+          <Parameter Name="LastName" Type="nvarchar" Mode="In" />
+          <Parameter Name="NetworkID" Type="nvarchar" Mode="In" />
+          <Parameter Name="EmailAddress" Type="nvarchar" Mode="In" />
+          <Parameter Name="OrganizationID" Type="int" Mode="In" />
+          <Parameter Name="Password" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="UserGuid" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <EntityContainer Name="ContentServices_SourceForgeModelStoreContainer">
+          <EntitySet Name="MediaSet" EntityType="Self.MediaSet" Schema="Admin" store:Type="Tables" />
+          <EntitySet Name="MediaSetDynamic" EntityType="Self.MediaSetDynamic" Schema="Admin" store:Type="Tables" />
+          <EntitySet Name="MediaSetRoles" EntityType="Self.MediaSetRoles" Schema="Admin" store:Type="Tables" />
+          <EntitySet Name="MediaSetStatic" EntityType="Self.MediaSetStatic" Schema="Admin" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="Admin" store:Type="Tables" />
+          <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="Admin" store:Type="Tables" />
+          <EntitySet Name="UserOrganizations" EntityType="Self.UserOrganizations" Schema="Registrations" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="Registrations" store:Type="Tables" />
+          <EntitySet Name="AdministrativeUsers" EntityType="Self.AdministrativeUsers" store:Type="Views" store:Schema="Admin">
+            <DefiningQuery>SELECT 
+[AdministrativeUsers].[UserGuid] AS [UserGuid], 
+[AdministrativeUsers].[NetworkID] AS [NetworkID], 
+[AdministrativeUsers].[FirstName] AS [FirstName], 
+[AdministrativeUsers].[LastName] AS [LastName], 
+[AdministrativeUsers].[EmailAddress] AS [EmailAddress]
+FROM [Admin].[AdministrativeUsers] AS [AdministrativeUsers]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_MediaSetDynamic_MediaSet" Association="Self.FK_MediaSetDynamic_MediaSet">
+            <End Role="MediaSet" EntitySet="MediaSet" />
+            <End Role="MediaSetDynamic" EntitySet="MediaSetDynamic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MediaSetRoles_MediaSet" Association="Self.FK_MediaSetRoles_MediaSet">
+            <End Role="MediaSet" EntitySet="MediaSet" />
+            <End Role="MediaSetRoles" EntitySet="MediaSetRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MediaSetRoles_UserRoles" Association="Self.FK_MediaSetRoles_UserRoles">
+            <End Role="UserRoles" EntitySet="UserRoles" />
+            <End Role="MediaSetRoles" EntitySet="MediaSetRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MediaSetStatic_MediaSet" Association="Self.FK_MediaSetStatic_MediaSet">
+            <End Role="MediaSet" EntitySet="MediaSet" />
+            <End Role="MediaSetStatic" EntitySet="MediaSetStatic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOrganizations_Users" Association="Self.FK_UserOrganizations_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserOrganizations" EntitySet="UserOrganizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_Roles" Association="Self.FK_UserRoles_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_Users" Association="Self.FK_UserRoles_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ContentServices_SourceForgeModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="AuthorizationDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Roles" EntityType="ContentServices_SourceForgeModel.Role" />
+          <EntitySet Name="UserRoles" EntityType="ContentServices_SourceForgeModel.UserRole" />
+          <AssociationSet Name="FK_UserRoles_Roles" Association="ContentServices_SourceForgeModel.FK_UserRoles_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
+          <EntitySet Name="AdministrativeUsers" EntityType="ContentServices_SourceForgeModel.AdministrativeUser" />
+          <EntitySet Name="Users" EntityType="ContentServices_SourceForgeModel.User" />
+          <AssociationSet Name="FK_UserRoles_Users" Association="ContentServices_SourceForgeModel.FK_UserRoles_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserRole" EntitySet="UserRoles" />
+          </AssociationSet>
+          <FunctionImport Name="CreateUser">
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="MiddleName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="NetworkID" Mode="In" Type="String" />
+            <Parameter Name="EmailAddress" Mode="In" Type="String" />
+            <Parameter Name="OrganizationID" Mode="In" Type="Int32" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="UserGuid" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <EntitySet Name="UserOrganizations" EntityType="ContentServices_SourceForgeModel.UserOrganization" />
+          <AssociationSet Name="FK_UserOrganizations_Users" Association="ContentServices_SourceForgeModel.FK_UserOrganizations_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserOrganization" EntitySet="UserOrganizations" />
+          </AssociationSet>
+          <EntitySet Name="MediaSets" EntityType="ContentServices_SourceForgeModel.MediaSet" />
+          <EntitySet Name="MediaSetDynamics" EntityType="ContentServices_SourceForgeModel.MediaSetDynamic" />
+          <EntitySet Name="MediaSetStatics" EntityType="ContentServices_SourceForgeModel.MediaSetStatic" />
+          <AssociationSet Name="FK_MediaSetStatic_MediaSet" Association="ContentServices_SourceForgeModel.FK_MediaSetStatic_MediaSet">
+            <End Role="MediaSet" EntitySet="MediaSets" />
+            <End Role="MediaSetStatic" EntitySet="MediaSetStatics" />
+          </AssociationSet>
+          <AssociationSet Name="MediaSetRoles" Association="ContentServices_SourceForgeModel.MediaSetRoles">
+            <End Role="MediaSet" EntitySet="MediaSets" />
+            <End Role="UserRole" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MediaSetDynamic_MediaSet" Association="ContentServices_SourceForgeModel.FK_MediaSetDynamic_MediaSet">
+            <End Role="MediaSet" EntitySet="MediaSets" />
+            <End Role="MediaSetDynamic" EntitySet="MediaSetDynamics" />
+          </AssociationSet>
+          <FunctionImport Name="EvaluateUserMediaSets">
+            <Parameter Name="UserGUID" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="SearchMediaSet">
+            <Parameter Name="MediaSetName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="EvaluateUserMediaSets1" ReturnType="Collection(Int32)">
+            <Parameter Name="UserGUID" Mode="In" Type="Guid" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleCode" />
+          </Key>
+          <Property Name="RoleCode" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Active" Type="String" Nullable="false" MaxLength="3" Unicode="false" FixedLength="false" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedByGuid" Type="Guid" />
+          <Property Name="ModifiedByGuid" Type="Guid" />
+          <NavigationProperty Name="UserRoles" Relationship="ContentServices_SourceForgeModel.FK_UserRoles_Roles" FromRole="Roles" ToRole="UserRoles" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="UserGUID" />
+            <PropertyRef Name="RoleCode" />
+          </Key>
+          <Property Name="UserGUID" Type="Guid" Nullable="false" />
+          <Property Name="RoleCode" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Active" Type="String" Nullable="false" MaxLength="3" Unicode="false" FixedLength="false" />
+          <Property Name="IsDefault" Type="String" MaxLength="5" Unicode="true" FixedLength="false" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedByGuid" Type="Guid" />
+          <Property Name="ModifiedByGuid" Type="Guid" />
+          <NavigationProperty Name="Role" Relationship="ContentServices_SourceForgeModel.FK_UserRoles_Roles" FromRole="UserRoles" ToRole="Roles" />
+          <NavigationProperty Name="User" Relationship="ContentServices_SourceForgeModel.FK_UserRoles_Users" FromRole="UserRole" ToRole="User" />
+          <NavigationProperty Name="MediaSets" Relationship="ContentServices_SourceForgeModel.MediaSetRoles" FromRole="UserRole" ToRole="MediaSet" />
+        </EntityType>
+        <Association Name="FK_UserRoles_Roles">
+          <End Role="Roles" Type="ContentServices_SourceForgeModel.Role" Multiplicity="1" />
+          <End Role="UserRoles" Type="ContentServices_SourceForgeModel.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleCode" />
+            </Principal>
+            <Dependent Role="UserRoles">
+              <PropertyRef Name="RoleCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AdministrativeUser">
+          <Key>
+            <PropertyRef Name="UserGuid" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="EmailAddress" />
+          </Key>
+          <Property Type="Guid" Name="UserGuid" Nullable="false" />
+          <Property Type="String" Name="NetworkID" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EmailAddress" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserGuid" />
+          </Key>
+          <Property Type="Guid" Name="UserGuid" Nullable="false" />
+          <Property Type="Guid" Name="ApiClientGuid" Nullable="false" />
+          <Property Type="String" Name="EmailAddress" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MiddleName" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TempPassword" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="UserToken" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="Int64" Name="ExpirationUtcSeconds" Nullable="false" />
+          <Property Type="String" Name="Active" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Guid" Name="CreatedByGuid" />
+          <Property Type="Guid" Name="ModifiedByGuid" />
+          <Property Type="DateTime" Name="UsageGuidelinesAgreementDateTime" Precision="3" />
+          <Property Type="String" Name="RegistrationToken" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="NetworkID" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CSAdmin" MaxLength="3" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserRoles" Relationship="ContentServices_SourceForgeModel.FK_UserRoles_Users" FromRole="User" ToRole="UserRole" />
+          <NavigationProperty Name="UserOrganizations" Relationship="ContentServices_SourceForgeModel.FK_UserOrganizations_Users" FromRole="User" ToRole="UserOrganization" />
+        </EntityType>
+        <Association Name="FK_UserRoles_Users">
+          <End Type="ContentServices_SourceForgeModel.User" Role="User" Multiplicity="1" />
+          <End Type="ContentServices_SourceForgeModel.UserRole" Role="UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserGuid" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="UserGUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserOrganization">
+          <Key>
+            <PropertyRef Name="OrganizationID" />
+            <PropertyRef Name="UserGuid" />
+          </Key>
+          <Property Name="OrganizationID" Type="Int32" Nullable="false" />
+          <Property Name="UserGuid" Type="Guid" Nullable="false" />
+          <Property Name="PrimaryOrg" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="CreatedByGUID" Type="Guid" />
+          <Property Name="ModifiedByGUID" Type="Guid" />
+          <NavigationProperty Name="User" Relationship="ContentServices_SourceForgeModel.FK_UserOrganizations_Users" FromRole="UserOrganization" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UserOrganizations_Users">
+          <End Type="ContentServices_SourceForgeModel.User" Role="User" Multiplicity="1" />
+          <End Type="ContentServices_SourceForgeModel.UserOrganization" Role="UserOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserGuid" />
+            </Principal>
+            <Dependent Role="UserOrganization">
+              <PropertyRef Name="UserGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MediaSet">
+          <Key>
+            <PropertyRef Name="MediaSetName" />
+          </Key>
+          <Property Name="MediaSetName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MediaSetStatics" Relationship="ContentServices_SourceForgeModel.FK_MediaSetStatic_MediaSet" FromRole="MediaSet" ToRole="MediaSetStatic" />
+          <NavigationProperty Name="UserRoles" Relationship="ContentServices_SourceForgeModel.MediaSetRoles" FromRole="MediaSet" ToRole="UserRole" />
+          <NavigationProperty Name="MediaSetDynamic" Relationship="ContentServices_SourceForgeModel.FK_MediaSetDynamic_MediaSet" FromRole="MediaSet" ToRole="MediaSetDynamic" />
+        </EntityType>
+        <EntityType Name="MediaSetDynamic">
+          <Key>
+            <PropertyRef Name="MediaSetName" />
+          </Key>
+          <Property Name="MediaSetName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SearchCriteria" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MediaSet" Relationship="ContentServices_SourceForgeModel.FK_MediaSetDynamic_MediaSet" FromRole="MediaSetDynamic" ToRole="MediaSet" />
+        </EntityType>
+        <EntityType Name="MediaSetStatic">
+          <Key>
+            <PropertyRef Name="MediaSetName" />
+            <PropertyRef Name="MediaID" />
+          </Key>
+          <Property Name="MediaSetName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MediaID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MediaSet" Relationship="ContentServices_SourceForgeModel.FK_MediaSetStatic_MediaSet" FromRole="MediaSetStatic" ToRole="MediaSet" />
+        </EntityType>
+        <Association Name="FK_MediaSetStatic_MediaSet">
+          <End Type="ContentServices_SourceForgeModel.MediaSet" Role="MediaSet" Multiplicity="1" />
+          <End Type="ContentServices_SourceForgeModel.MediaSetStatic" Role="MediaSetStatic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MediaSet">
+              <PropertyRef Name="MediaSetName" />
+            </Principal>
+            <Dependent Role="MediaSetStatic">
+              <PropertyRef Name="MediaSetName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MediaSetRoles">
+          <End Type="ContentServices_SourceForgeModel.MediaSet" Role="MediaSet" Multiplicity="*" />
+          <End Type="ContentServices_SourceForgeModel.UserRole" Role="UserRole" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_MediaSetDynamic_MediaSet">
+          <End Type="ContentServices_SourceForgeModel.MediaSet" Role="MediaSet" Multiplicity="1" />
+          <End Type="ContentServices_SourceForgeModel.MediaSetDynamic" Role="MediaSetDynamic" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MediaSet">
+              <PropertyRef Name="MediaSetName" />
+            </Principal>
+            <Dependent Role="MediaSetDynamic">
+              <PropertyRef Name="MediaSetName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ContentServices_SourceForgeModelStoreContainer" CdmEntityContainer="AuthorizationDbEntities">
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="ContentServices_SourceForgeModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="RoleCode" ColumnName="RoleCode" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoles">
+            <EntityTypeMapping TypeName="ContentServices_SourceForgeModel.UserRole">
+              <MappingFragment StoreEntitySet="UserRoles">
+                <ScalarProperty Name="UserGUID" ColumnName="UserGUID" />
+                <ScalarProperty Name="RoleCode" ColumnName="RoleCode" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdministrativeUsers">
+            <EntityTypeMapping TypeName="ContentServices_SourceForgeModel.AdministrativeUser">
+              <MappingFragment StoreEntitySet="AdministrativeUsers">
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="NetworkID" ColumnName="NetworkID" />
+                <ScalarProperty Name="UserGuid" ColumnName="UserGuid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ContentServices_SourceForgeModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="CSAdmin" ColumnName="CSAdmin" />
+                <ScalarProperty Name="NetworkID" ColumnName="NetworkID" />
+                <ScalarProperty Name="RegistrationToken" ColumnName="RegistrationToken" />
+                <ScalarProperty Name="UsageGuidelinesAgreementDateTime" ColumnName="UsageGuidelinesAgreementDateTime" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ExpirationUtcSeconds" ColumnName="ExpirationUtcSeconds" />
+                <ScalarProperty Name="UserToken" ColumnName="UserToken" />
+                <ScalarProperty Name="TempPassword" ColumnName="TempPassword" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="ApiClientGuid" ColumnName="ApiClientGuid" />
+                <ScalarProperty Name="UserGuid" ColumnName="UserGuid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CreateUser" FunctionName="ContentServices_SourceForgeModel.Store.CreateUser" />
+          <EntitySetMapping Name="UserOrganizations">
+            <EntityTypeMapping TypeName="ContentServices_SourceForgeModel.UserOrganization">
+              <MappingFragment StoreEntitySet="UserOrganizations">
+                <ScalarProperty Name="ModifiedByGUID" ColumnName="ModifiedByGUID" />
+                <ScalarProperty Name="CreatedByGUID" ColumnName="CreatedByGUID" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="PrimaryOrg" ColumnName="PrimaryOrg" />
+                <ScalarProperty Name="UserGuid" ColumnName="UserGuid" />
+                <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MediaSets">
+            <EntityTypeMapping TypeName="ContentServices_SourceForgeModel.MediaSet">
+              <MappingFragment StoreEntitySet="MediaSet">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MediaSetName" ColumnName="MediaSetName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MediaSetDynamics">
+            <EntityTypeMapping TypeName="ContentServices_SourceForgeModel.MediaSetDynamic">
+              <MappingFragment StoreEntitySet="MediaSetDynamic">
+                <ScalarProperty Name="SearchCriteria" ColumnName="SearchCriteria" />
+                <ScalarProperty Name="MediaSetName" ColumnName="MediaSetName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MediaSetStatics">
+            <EntityTypeMapping TypeName="ContentServices_SourceForgeModel.MediaSetStatic">
+              <MappingFragment StoreEntitySet="MediaSetStatic">
+                <ScalarProperty Name="MediaID" ColumnName="MediaID" />
+                <ScalarProperty Name="MediaSetName" ColumnName="MediaSetName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="MediaSetRoles" TypeName="ContentServices_SourceForgeModel.MediaSetRoles" StoreEntitySet="MediaSetRoles">
+            <EndProperty Name="UserRole">
+              <ScalarProperty Name="RoleCode" ColumnName="RoleCode" />
+              <ScalarProperty Name="UserGUID" ColumnName="UserGUID" />
+            </EndProperty>
+            <EndProperty Name="MediaSet">
+              <ScalarProperty Name="MediaSetName" ColumnName="MediaSetName" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="EvaluateUserMediaSets" FunctionName="ContentServices_SourceForgeModel.Store.EvaluateUserMediaSets" />
+          <FunctionImportMapping FunctionImportName="SearchMediaSet" FunctionName="ContentServices_SourceForgeModel.Store.SearchMediaSet" />
+          <FunctionImportMapping FunctionImportName="EvaluateUserMediaSets1" FunctionName="ContentServices_SourceForgeModel.Store.EvaluateUserMediaSets" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="AuthorizationDb" ZoomLevel="93">
+        <EntityTypeShape EntityType="ContentServices_SourceForgeModel.Role" Width="1.5" PointX="7.125" PointY="1.375" Height="2.3648893229166674" IsExpanded="true" />
+        <EntityTypeShape EntityType="ContentServices_SourceForgeModel.UserRole" Width="1.5" PointX="3.875" PointY="1.125" Height="2.9417936197916656" IsExpanded="true" />
+        <AssociationConnector Association="ContentServices_SourceForgeModel.FK_UserRoles_Roles" ManuallyRouted="false">
+          <ConnectorPoint PointX="7.125" PointY="2.5574446614583337" />
+          <ConnectorPoint PointX="5.375" PointY="2.5574446614583337" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="ContentServices_SourceForgeModel.AdministrativeUser" Width="3.25" PointX="3.75" PointY="4.625" Height="1.4033821614583335" />
+        <EntityTypeShape EntityType="ContentServices_SourceForgeModel.User" Width="1.5" PointX="0.75" PointY="1.125" Height="4.8648079427083246" />
+        <AssociationConnector Association="ContentServices_SourceForgeModel.FK_UserRoles_Users" >
+          <ConnectorPoint PointX="2.25" PointY="2.5958968098958328" />
+          <ConnectorPoint PointX="3.875" PointY="2.5958968098958328" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="ContentServices_SourceForgeModel.UserOrganization" Width="1.5" PointX="3" PointY="7.25" />
+        <AssociationConnector Association="ContentServices_SourceForgeModel.FK_UserOrganizations_Users" />
+        <EntityTypeShape EntityType="ContentServices_SourceForgeModel.MediaSet" Width="1.5" PointX="5.375" PointY="7.875" />
+        <EntityTypeShape EntityType="ContentServices_SourceForgeModel.MediaSetDynamic" Width="1.5" PointX="8.375" PointY="4.75" />
+        <EntityTypeShape EntityType="ContentServices_SourceForgeModel.MediaSetStatic" Width="1.5" PointX="7.625" PointY="8" />
+        <AssociationConnector Association="ContentServices_SourceForgeModel.FK_MediaSetStatic_MediaSet" />
+        <AssociationConnector Association="ContentServices_SourceForgeModel.MediaSetRoles" />
+        <AssociationConnector Association="ContentServices_SourceForgeModel.FK_MediaSetDynamic_MediaSet" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

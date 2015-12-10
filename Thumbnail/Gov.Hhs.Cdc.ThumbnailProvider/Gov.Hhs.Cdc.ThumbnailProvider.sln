@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gov.Hhs.Cdc.ThumbnailProvider", "Gov.Hhs.Cdc.ThumbnailProvider.csproj", "{00AE28DE-5ADC-40A9-BCB9-4E5307BDF2CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00AE28DE-5ADC-40A9-BCB9-4E5307BDF2CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00AE28DE-5ADC-40A9-BCB9-4E5307BDF2CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00AE28DE-5ADC-40A9-BCB9-4E5307BDF2CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00AE28DE-5ADC-40A9-BCB9-4E5307BDF2CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		VisualSVNWorkingCopyRoot = .
+	EndGlobalSection
+EndGlobal

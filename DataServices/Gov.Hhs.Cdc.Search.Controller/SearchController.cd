@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Gov.Hhs.Cdc.Search.Controller.CachedSearchController">
+    <Position X="4.25" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAJAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\CachedSearchController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.523" />
+  </Class>
+  <Class Name="Gov.Hhs.Cdc.Search.Controller.DynamicCachedController">
+    <Position X="6.5" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAJAAAAAAAAAAABAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\DynamicCachedController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Gov.Hhs.Cdc.Search.Controller.IndexedCachedController">
+    <Position X="9" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\IndexedCachedController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gov.Hhs.Cdc.Search.Controller.UncachedSearchController">
+    <Position X="1.75" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAJAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\UncachedSearchController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Gov.Hhs.Cdc.Search.Controller.ISearchController">
+    <Position X="5.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ISearchController.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gov.Hhs.Cdc.DataServices.Bo.ISearchProvider">
+    <Position X="9.5" Y="1" Width="2.25" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
