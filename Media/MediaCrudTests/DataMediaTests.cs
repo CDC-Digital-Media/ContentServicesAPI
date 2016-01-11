@@ -97,7 +97,7 @@ namespace MediaCrudTests
         {
             IMediaProvider mediaMgr = new CsMediaProvider();
             string title = "ID:A12X000001 Test for Adding Attributes";
-            DeleteAnyOldMedias(title);
+            DeleteMediaByTitle(title);
 
             //Create a new Media OBject
             MediaObject newMediaObject = CreateNewMediaObject(title, new List<int>());
@@ -173,8 +173,9 @@ namespace MediaCrudTests
             //string abc = newMediaObject.ToString();
         }
 
-        public void DeleteAnyOldMedias(string title)
+        public void DeleteMediaByTitle(string title)
         {
+            //TODO:  Convert to new search
             IMediaProvider mediaMgr = new CsMediaProvider();
 
             SearchParameters parms = new SearchParameters("Media", "Media", "FullSearch".Is(title));
@@ -193,7 +194,7 @@ namespace MediaCrudTests
             IMediaProvider mediaMgr = new CsMediaProvider();
 
             string title = "ID:A12X000002 Test for Adding Attributes 2";
-            DeleteAnyOldMedias(title);
+            DeleteMediaByTitle(title);
             //Create a new Media OBject
             MediaObject newMediaObject = CreateNewMediaObject(title, new List<int>());
             //var topicsOld = new List<int> { 9, 19 };
@@ -245,7 +246,7 @@ namespace MediaCrudTests
             IMediaProvider mediaMgr = new CsMediaProvider();
 
             string title = "Test for Adding Omniture";
-            DeleteAnyOldMedias(title);
+            DeleteMediaByTitle(title);
             //Create a new Media Object
             MediaObject newMediaObject = CreateNewMediaObject(title, new List<int>());
             //var topicsOld = new List<int> { 9, 19 };

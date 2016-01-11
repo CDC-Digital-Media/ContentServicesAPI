@@ -27,7 +27,11 @@ namespace Gov.Hhs.Cdc.MediaProvider
         public string FilePath { get; set; }
         public string FeedFormatName { get; set; }
 
+        public int? Offset { get; set; }
+        public int? ItemCount { get; set; }
+
         public string MediaType { get; set; }
+        public FeedFormatObject FeedFormat { get; set; } 
 
         public Guid CreatedBy { get; set; }
         public Guid ModifiedBy { get; set; }

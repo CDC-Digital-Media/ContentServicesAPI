@@ -46,7 +46,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
                 if (onlyIsPublishedHidden)
                 {
                     //Is this a feed
-                    if (mediaItem.MediaTypeCode == "Feed")
+                    if (mediaItem.MediaTypeCode.ToLower() == "feed")
                     {
                         relatedMedia = relatedMedia
                             .Where(i => (i.EffectiveStatusCode == "Published") && i.PublishedDateTime <= DateTime.UtcNow);
@@ -65,7 +65,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
                 var children = new ListDictionary<int, MediaObject>();
                 var parents = new ListDictionary<int, MediaObject>();
 
-                if (sorting == null || !sorting.IsSorted || sorting.SortColumns.Count == 0)
+                if (sorting == null || !sorting.IsSorted || sorting.SortColumns.Count == 0 ||  mediaItem.MediaTypeCode.ToLower() == "collection")
                 {
                     sorting = new Sorting(new SortColumn() { Column = "DisplayOrdinal", SortOrder = SortOrderType.Asc });
                 }
@@ -127,6 +127,38 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
             }
 
             return relations;
+        }
+
+        public ValidationMessages MediaBulkSave(List<MediaObject> mediaObjects)
+        {
+            ValidationMessages messages = new ValidationMessages();
+
+            if (mediaObjects.Any())
+            {
+                foreach (var mediaObject in mediaObjects)
+                {
+                    bool imageExists = false;
+                    MediaImage image = null;
+                    if (mediaObject.HasImage())
+                    {
+                        image = GetFeedImage(mediaObject.Id);
+                        imageExists = (image != null);
+                        if (!imageExists)
+                        {
+                            image = CreateFeedImage(mediaObject);
+                        }
+                        else
+                        {
+                            image = UpdateFeedImage(mediaObject, image);
+                        }
+                    }
+                }
+
+                MediaUpdateMgr updateMgr = new MediaUpdateMgr(mediaObjects);
+                messages = MediaDataManager.Save(updateMgr);
+            }
+
+            return messages;
         }
 
         public ValidationMessages SaveMedia(MediaObject mediaObject)

@@ -50,9 +50,11 @@ namespace Gov.Hhs.Cdc.Api
             code = "";
             id = "";
             userMessage = ex.Message;
-            developerMessage = ex.StackTrace;
+            developerMessage = ex.GetBaseException().Message;
 
             return this;
         }
+
+        public string combinedMessage { get { return userMessage + " : " + developerMessage; } }
     }
 }

@@ -66,7 +66,7 @@ namespace Gov.Hhs.Cdc.Authorization
 
         public static IQueryable<AdminUser> GetUsers(AuthorizationObjectContext db)
         {
-            var roles = GetUserRoles(db);
+            var roles = db.AuthorizationDbEntities.UserRoles;
             return db.AuthorizationDbEntities.AdministrativeUsers
                 .Select(u => new AdminUser
             {
@@ -75,7 +75,14 @@ namespace Gov.Hhs.Cdc.Authorization
                 FirstName = u.FirstName,
                 LastName = u.LastName,
                 Roles = roles.Where(r => r.UserGUID == u.UserGuid).Select(r => r.RoleCode),
-                Email = u.EmailAddress
+                Email = u.EmailAddress,
+                MediaSets = db.AuthorizationDbEntities.MediaSet_Combined
+                    .Where(msc => msc.UserGUID == u.UserGuid)
+                    .Select(m => new CsBusinessObjects.Admin.MediaSet
+                   {
+                       Name = m.MediaSetName,
+                       Criteria = m.DynamicSearchCriteria
+                   })
             });
         }
 
@@ -110,11 +117,6 @@ namespace Gov.Hhs.Cdc.Authorization
             }
         }
 
-        private static IQueryable<UserRole> GetUserRoles(AuthorizationObjectContext db)
-        {
-            return db.AuthorizationDbEntities.UserRoles;
-        }
-
         public static void AddUser(AuthorizationObjectContext db, AdminUser user, AdminUser addedBy)
         {
             db.AuthorizationDbEntities.CreateUser(user.FirstName, null, user.LastName, user.UserName, user.Email, null, null, null);
@@ -144,5 +146,40 @@ namespace Gov.Hhs.Cdc.Authorization
             }
         }
 
+        public static IQueryable<CsBusinessObjects.Admin.MediaSet> MediaSets(AuthorizationObjectContext db)
+        {
+            return db.AuthorizationDbEntities.MediaSets
+                .Select(ms => new CsBusinessObjects.Admin.MediaSet
+                {
+                    Name = ms.MediaSetName,
+                    Criteria = ms.MediaSetDynamic.SearchCriteria
+                });
+        }
+
+        internal static void AddMediaSet(AuthorizationObjectContext db, CsBusinessObjects.Admin.MediaSet set, AdminUser addedBy)
+        {
+            db.AuthorizationDbEntities.MediaSets.AddObject(new MediaSet { MediaSetName = set.Name });
+            db.AuthorizationDbEntities.MediaSetDynamics.AddObject(new MediaSetDynamic { MediaSetName = set.Name, SearchCriteria = set.Criteria });
+            db.SaveChanges();
+        }
+
+        internal static void DeleteMediaSet(AuthorizationObjectContext db, string id)
+        {
+            var dyn = db.AuthorizationDbEntities.MediaSetDynamics.FirstOrDefault(msd => msd.MediaSetName == id);
+            if (dyn == null)
+            {
+                throw new InvalidOperationException("Media set " + id + " not found.");
+            }
+            db.AuthorizationDbEntities.MediaSetDynamics.DeleteObject(dyn);
+
+
+            var set = db.AuthorizationDbEntities.MediaSets.FirstOrDefault(ms => ms.MediaSetName == id);
+            if (set == null)
+            {
+                throw new InvalidOperationException("Media set " + id + " not found.");
+            }
+            db.AuthorizationDbEntities.MediaSets.DeleteObject(set);
+            db.SaveChanges();
+        }
     }
 }

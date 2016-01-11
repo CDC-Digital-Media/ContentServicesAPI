@@ -216,6 +216,22 @@ namespace Gov.Hhs.Cdc.Authorization
             }
         }
         private ObjectSet<MediaSetStatic> _MediaSetStatics;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<MediaSet_Combined> MediaSet_Combined
+        {
+            get
+            {
+                if ((_MediaSet_Combined == null))
+                {
+                    _MediaSet_Combined = base.CreateObjectSet<MediaSet_Combined>("MediaSet_Combined");
+                }
+                return _MediaSet_Combined;
+            }
+        }
+        private ObjectSet<MediaSet_Combined> _MediaSet_Combined;
 
         #endregion
 
@@ -283,6 +299,14 @@ namespace Gov.Hhs.Cdc.Authorization
         public void AddToMediaSetStatics(MediaSetStatic mediaSetStatic)
         {
             base.AddObject("MediaSetStatics", mediaSetStatic);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the MediaSet_Combined EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToMediaSet_Combined(MediaSet_Combined mediaSet_Combined)
+        {
+            base.AddObject("MediaSet_Combined", mediaSet_Combined);
         }
 
         #endregion
@@ -693,6 +717,30 @@ namespace Gov.Hhs.Cdc.Authorization
         private global::System.String _Description;
         partial void OnDescriptionChanging(global::System.String value);
         partial void OnDescriptionChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> ModifiedDateTime
+        {
+            get
+            {
+                return _ModifiedDateTime;
+            }
+            set
+            {
+                OnModifiedDateTimeChanging(value);
+                ReportPropertyChanging("ModifiedDateTime");
+                _ModifiedDateTime = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ModifiedDateTime");
+                OnModifiedDateTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _ModifiedDateTime;
+        partial void OnModifiedDateTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnModifiedDateTimeChanged();
 
         #endregion
 
@@ -788,6 +836,304 @@ namespace Gov.Hhs.Cdc.Authorization
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="ContentServices_SourceForgeModel", Name="MediaSet_Combined")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class MediaSet_Combined : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new MediaSet_Combined object.
+        /// </summary>
+        /// <param name="userGUID">Initial value of the UserGUID property.</param>
+        /// <param name="firstName">Initial value of the FirstName property.</param>
+        /// <param name="lastName">Initial value of the LastName property.</param>
+        /// <param name="active">Initial value of the Active property.</param>
+        /// <param name="roleCode">Initial value of the RoleCode property.</param>
+        /// <param name="mediaSetName">Initial value of the MediaSetName property.</param>
+        public static MediaSet_Combined CreateMediaSet_Combined(global::System.Guid userGUID, global::System.String firstName, global::System.String lastName, global::System.String active, global::System.String roleCode, global::System.String mediaSetName)
+        {
+            MediaSet_Combined mediaSet_Combined = new MediaSet_Combined();
+            mediaSet_Combined.UserGUID = userGUID;
+            mediaSet_Combined.FirstName = firstName;
+            mediaSet_Combined.LastName = lastName;
+            mediaSet_Combined.Active = active;
+            mediaSet_Combined.RoleCode = roleCode;
+            mediaSet_Combined.MediaSetName = mediaSetName;
+            return mediaSet_Combined;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid UserGUID
+        {
+            get
+            {
+                return _UserGUID;
+            }
+            set
+            {
+                if (_UserGUID != value)
+                {
+                    OnUserGUIDChanging(value);
+                    ReportPropertyChanging("UserGUID");
+                    _UserGUID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("UserGUID");
+                    OnUserGUIDChanged();
+                }
+            }
+        }
+        private global::System.Guid _UserGUID;
+        partial void OnUserGUIDChanging(global::System.Guid value);
+        partial void OnUserGUIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String NetworkID
+        {
+            get
+            {
+                return _NetworkID;
+            }
+            set
+            {
+                OnNetworkIDChanging(value);
+                ReportPropertyChanging("NetworkID");
+                _NetworkID = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("NetworkID");
+                OnNetworkIDChanged();
+            }
+        }
+        private global::System.String _NetworkID;
+        partial void OnNetworkIDChanging(global::System.String value);
+        partial void OnNetworkIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String FirstName
+        {
+            get
+            {
+                return _FirstName;
+            }
+            set
+            {
+                if (_FirstName != value)
+                {
+                    OnFirstNameChanging(value);
+                    ReportPropertyChanging("FirstName");
+                    _FirstName = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("FirstName");
+                    OnFirstNameChanged();
+                }
+            }
+        }
+        private global::System.String _FirstName;
+        partial void OnFirstNameChanging(global::System.String value);
+        partial void OnFirstNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String LastName
+        {
+            get
+            {
+                return _LastName;
+            }
+            set
+            {
+                if (_LastName != value)
+                {
+                    OnLastNameChanging(value);
+                    ReportPropertyChanging("LastName");
+                    _LastName = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("LastName");
+                    OnLastNameChanged();
+                }
+            }
+        }
+        private global::System.String _LastName;
+        partial void OnLastNameChanging(global::System.String value);
+        partial void OnLastNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Active
+        {
+            get
+            {
+                return _Active;
+            }
+            set
+            {
+                if (_Active != value)
+                {
+                    OnActiveChanging(value);
+                    ReportPropertyChanging("Active");
+                    _Active = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("Active");
+                    OnActiveChanged();
+                }
+            }
+        }
+        private global::System.String _Active;
+        partial void OnActiveChanging(global::System.String value);
+        partial void OnActiveChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String CSAdmin
+        {
+            get
+            {
+                return _CSAdmin;
+            }
+            set
+            {
+                OnCSAdminChanging(value);
+                ReportPropertyChanging("CSAdmin");
+                _CSAdmin = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("CSAdmin");
+                OnCSAdminChanged();
+            }
+        }
+        private global::System.String _CSAdmin;
+        partial void OnCSAdminChanging(global::System.String value);
+        partial void OnCSAdminChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String RoleCode
+        {
+            get
+            {
+                return _RoleCode;
+            }
+            set
+            {
+                if (_RoleCode != value)
+                {
+                    OnRoleCodeChanging(value);
+                    ReportPropertyChanging("RoleCode");
+                    _RoleCode = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("RoleCode");
+                    OnRoleCodeChanged();
+                }
+            }
+        }
+        private global::System.String _RoleCode;
+        partial void OnRoleCodeChanging(global::System.String value);
+        partial void OnRoleCodeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String MediaSetName
+        {
+            get
+            {
+                return _MediaSetName;
+            }
+            set
+            {
+                if (_MediaSetName != value)
+                {
+                    OnMediaSetNameChanging(value);
+                    ReportPropertyChanging("MediaSetName");
+                    _MediaSetName = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("MediaSetName");
+                    OnMediaSetNameChanged();
+                }
+            }
+        }
+        private global::System.String _MediaSetName;
+        partial void OnMediaSetNameChanging(global::System.String value);
+        partial void OnMediaSetNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String DynamicSearchCriteria
+        {
+            get
+            {
+                return _DynamicSearchCriteria;
+            }
+            set
+            {
+                OnDynamicSearchCriteriaChanging(value);
+                ReportPropertyChanging("DynamicSearchCriteria");
+                _DynamicSearchCriteria = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("DynamicSearchCriteria");
+                OnDynamicSearchCriteriaChanged();
+            }
+        }
+        private global::System.String _DynamicSearchCriteria;
+        partial void OnDynamicSearchCriteriaChanging(global::System.String value);
+        partial void OnDynamicSearchCriteriaChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String StaticJSON
+        {
+            get
+            {
+                return _StaticJSON;
+            }
+            set
+            {
+                OnStaticJSONChanging(value);
+                ReportPropertyChanging("StaticJSON");
+                _StaticJSON = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("StaticJSON");
+                OnStaticJSONChanged();
+            }
+        }
+        private global::System.String _StaticJSON;
+        partial void OnStaticJSONChanging(global::System.String value);
+        partial void OnStaticJSONChanged();
+
+        #endregion
+
+    
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="ContentServices_SourceForgeModel", Name="MediaSetDynamic")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -862,6 +1208,30 @@ namespace Gov.Hhs.Cdc.Authorization
         private global::System.String _SearchCriteria;
         partial void OnSearchCriteriaChanging(global::System.String value);
         partial void OnSearchCriteriaChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> ModifiedDateTime
+        {
+            get
+            {
+                return _ModifiedDateTime;
+            }
+            set
+            {
+                OnModifiedDateTimeChanging(value);
+                ReportPropertyChanging("ModifiedDateTime");
+                _ModifiedDateTime = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ModifiedDateTime");
+                OnModifiedDateTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _ModifiedDateTime;
+        partial void OnModifiedDateTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnModifiedDateTimeChanged();
 
         #endregion
 
@@ -990,6 +1360,30 @@ namespace Gov.Hhs.Cdc.Authorization
         private global::System.Int32 _MediaID;
         partial void OnMediaIDChanging(global::System.Int32 value);
         partial void OnMediaIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> ModifiedDateTime
+        {
+            get
+            {
+                return _ModifiedDateTime;
+            }
+            set
+            {
+                OnModifiedDateTimeChanging(value);
+                ReportPropertyChanging("ModifiedDateTime");
+                _ModifiedDateTime = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ModifiedDateTime");
+                OnModifiedDateTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _ModifiedDateTime;
+        partial void OnModifiedDateTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnModifiedDateTimeChanged();
 
         #endregion
 
@@ -1269,7 +1663,8 @@ namespace Gov.Hhs.Cdc.Authorization
         /// <param name="active">Initial value of the Active property.</param>
         /// <param name="createdDateTime">Initial value of the CreatedDateTime property.</param>
         /// <param name="modifiedDateTime">Initial value of the ModifiedDateTime property.</param>
-        public static User CreateUser(global::System.Guid userGuid, global::System.Guid apiClientGuid, global::System.String emailAddress, global::System.String firstName, global::System.String lastName, global::System.Int64 expirationUtcSeconds, global::System.String active, global::System.DateTime createdDateTime, global::System.DateTime modifiedDateTime)
+        /// <param name="isMigrated">Initial value of the IsMigrated property.</param>
+        public static User CreateUser(global::System.Guid userGuid, global::System.Guid apiClientGuid, global::System.String emailAddress, global::System.String firstName, global::System.String lastName, global::System.Int64 expirationUtcSeconds, global::System.String active, global::System.DateTime createdDateTime, global::System.DateTime modifiedDateTime, global::System.String isMigrated)
         {
             User user = new User();
             user.UserGuid = userGuid;
@@ -1281,6 +1676,7 @@ namespace Gov.Hhs.Cdc.Authorization
             user.Active = active;
             user.CreatedDateTime = createdDateTime;
             user.ModifiedDateTime = modifiedDateTime;
+            user.IsMigrated = isMigrated;
             return user;
         }
 
@@ -1746,6 +2142,78 @@ namespace Gov.Hhs.Cdc.Authorization
         private global::System.String _CSAdmin;
         partial void OnCSAdminChanging(global::System.String value);
         partial void OnCSAdminChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String PasswordSalt
+        {
+            get
+            {
+                return _PasswordSalt;
+            }
+            set
+            {
+                OnPasswordSaltChanging(value);
+                ReportPropertyChanging("PasswordSalt");
+                _PasswordSalt = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("PasswordSalt");
+                OnPasswordSaltChanged();
+            }
+        }
+        private global::System.String _PasswordSalt;
+        partial void OnPasswordSaltChanging(global::System.String value);
+        partial void OnPasswordSaltChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String IsMigrated
+        {
+            get
+            {
+                return _IsMigrated;
+            }
+            set
+            {
+                OnIsMigratedChanging(value);
+                ReportPropertyChanging("IsMigrated");
+                _IsMigrated = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("IsMigrated");
+                OnIsMigratedChanged();
+            }
+        }
+        private global::System.String _IsMigrated;
+        partial void OnIsMigratedChanging(global::System.String value);
+        partial void OnIsMigratedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> PasswordFormat
+        {
+            get
+            {
+                return _PasswordFormat;
+            }
+            set
+            {
+                OnPasswordFormatChanging(value);
+                ReportPropertyChanging("PasswordFormat");
+                _PasswordFormat = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PasswordFormat");
+                OnPasswordFormatChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _PasswordFormat;
+        partial void OnPasswordFormatChanging(Nullable<global::System.Int32> value);
+        partial void OnPasswordFormatChanged();
 
         #endregion
 

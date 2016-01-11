@@ -27,6 +27,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
+using System.Web.Script.Serialization;
 using System.Xml.Linq;
 
 namespace VocabularyAdminApiUnitTests
@@ -196,6 +197,29 @@ namespace VocabularyAdminApiUnitTests
             Assert.IsTrue(50 < valueSets.Count() && valueSets.Count() < 500);
         }
 
+        [TestMethod, Ignore]
+        //Work on Spanish Vocab Management later, per Thom per Fred
+        public void IncludesSpanishTopics()
+        {
+            string url = String.Format("{0}://{1}/adminapi/v1/resources/values?format=json&valueset=topics", TestUrl.Protocol, TestUrl.AdminApiServer);
+            Console.WriteLine(url);
+
+            ////Used for SSL
+            ServicePointManager.ServerCertificateValidationCallback += new RemoteCertificateValidationCallback(ValidateServerCertificate);
+
+            WebClient serviceRequest = new WebClient();
+            string response = serviceRequest.DownloadString(new Uri(url));
+            Console.WriteLine(response);
+            var jss = new JavaScriptSerializer();
+            var values = jss.Deserialize<SerialResponseWithType<List<SerialValueItemAdmin>>>(response);
+            Assert.IsNotNull(values);
+            Assert.IsNotNull(values.results);
+            Assert.IsTrue(values.results.Count() > 0);
+            Assert.IsTrue(values.results.Any(r => r.relationships.Any(rel => rel.relatedValueLanguageCode == "Spanish")));
+            //XDocument doc = XDocument.Load(url);
+            //List<XElement> valueSets = doc.Descendants(Namespace + "vocabValueItem").ToList();
+            //Assert.IsTrue(50 < valueSets.Count() && valueSets.Count() < 500);
+        }
 
         //https://.....[devApiServer]...../adminapi/v1/resources/valuesets
         //data: '{"name":"I have no values","languageCode":"English","description":"no, really","displayOrdinal":"-1","isActive":"true","isDefaultable":"true","isOrderable":"true","isHierachical":"true"}'
@@ -215,13 +239,12 @@ namespace VocabularyAdminApiUnitTests
         [TestMethod]
         public void ApiTestCreateValueSet()
         {
-            IApiServiceFactory adminService = new AdminApiServiceFactory();
+            var adminService = new AdminApiServiceFactory();
 
             var valueProvider = new CsValueProvider();
 
             string name = "API Test 1";
-            //string valueSetJson =        "{'name':'" + name + "','language':'English','description':'no, really','displayOrdinal':'-1','isActive':'true','isDefaultable':'true','isOrderable':'true','isHierachical':'true'}";
-            //SerialValueSetObj valueSet = new JavaScriptSerializer().Deserialize<SerialValueSetObj>(valueSetJson);
+
             SerialValueSetObj valueSet = new SerialValueSetObj()
             {
                 name = name,
@@ -234,8 +257,6 @@ namespace VocabularyAdminApiUnitTests
                 isHierachical = "true"
             };
 
-            //string updatedValueSetJson = "{'name':'" + name + "','language':'English','description':'no, really','displayOrdinal':'-1','isActive':'true','isDefaultable':'false','isOrderable':'true','isHierachical':'true'}";
-            //SerialValueSetObj updatedValueSet = new JavaScriptSerializer().Deserialize<SerialValueSetObj>(updatedValueSetJson);
             SerialValueSetObj updatedValueSet = new SerialValueSetObj()
             {
                 name = name,
@@ -250,10 +271,13 @@ namespace VocabularyAdminApiUnitTests
 
             var theRecord = GetValueSetObject(name);
             if (theRecord != null)
-                TestApiUtility.ApiDelete(adminService, adminService.CreateTestUrl("valuesets", theRecord.Id, "", ""), null, authorizedUser);
+            {
+                var url = adminService.CreateTestUrl("valuesets", theRecord.Id);
+                TestApiUtility.ApiDelete(adminService, url, authorizedUser);
+            }
 
 
-            var urlWithoutId = adminService.CreateTestUrl("valuesets", "", "", "");
+            var urlWithoutId = adminService.CreateTestUrl("valuesets");
             List<SerialValueSetObj> createdValueSets;
             var messages = TestApiUtility.ApiPost<SerialValueSetObj>(adminService, 
                 urlWithoutId, valueSet, out createdValueSets, authorizedUser);
@@ -264,7 +288,7 @@ namespace VocabularyAdminApiUnitTests
                 Assert.Fail(messages.Errors().Count() + " errors.");
             }
             int id = GetValueSetObject(name).Id;
-            var urlWithId = adminService.CreateTestUrl("valuesets", id, "", "");
+            var urlWithId = adminService.CreateTestUrl("valuesets", id);
 
             var duplicateMessages = TestApiUtility.ApiPost<SerialValueSetObj>(adminService,
                 urlWithoutId, valueSet, out createdValueSets, authorizedUser);
@@ -282,7 +306,7 @@ namespace VocabularyAdminApiUnitTests
             Assert.AreEqual(false, theRecord2.IsDefaultable);
 
 
-            var messagesDelete = TestApiUtility.ApiDelete(adminService, urlWithId, null, authorizedUser); 
+            var messagesDelete = TestApiUtility.ApiDelete(adminService, urlWithId, authorizedUser); 
 
             var theRecord3 = GetValueSetObject(name);
             Assert.IsNull(theRecord3);

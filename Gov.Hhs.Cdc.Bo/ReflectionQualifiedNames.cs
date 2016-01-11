@@ -41,15 +41,23 @@ namespace Gov.Hhs.Cdc.Bo
             try
             {
                 if (!QualifiedNames.ContainsKey(type))
+                {
                     QualifiedNames.Add(type, new ReflectionQualifiedNames(type));
+                }
 
-                return QualifiedNames[type];
             }
             catch (KeyNotFoundException ex)
             {
                 //adding error details for production error
                 throw new KeyNotFoundException(type.ToString(), ex);
             }
+            catch (ArgumentException ex)
+            {
+                //attempt to address another production error
+                Logging.Logger.LogError(ex, "ReflectionQualifiedNames.Get(" + type.ToString() + ")");
+
+            }
+            return QualifiedNames[type];
         }
 
         private void BuildQualifiedNames(ReflectionObjectType objectType, string prefix)

@@ -206,6 +206,10 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
                 else
                 {
                     Update(media, item, validationMessages);
+                    foreach (var message in validationMessages.Errors())
+                    {
+                        message.Id = item.MediaObject.Id.ToString();
+                    }
                 }
             }
         }
@@ -350,17 +354,11 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
             //Don't do logical commit if no relationships
 
             ResolveAttributeId(media, item.MediaObject.AttributeValues);
+
             MediaObject persistedMediaObject = MediaCtl.GetComplete(db, item.MediaObject.Id, forUpdate: true);
             if (persistedMediaObject == null)
             {
-                validationMessages.Add(new ValidationMessage(ValidationMessage.ValidationSeverity.Error, item.MediaObject.ValidationKey,
-                      "Media object was not found to update"));
-            }
-
-            //If no relationships to add/delete, then don't force a logical commit
-            if (!item.MediaObject.HasRelationships && !persistedMediaObject.HasRelationships)
-            {
-                item.RelationshipUpdateMgr = null;
+                validationMessages.AddError(item.MediaObject.ValidationKey, "Media object was not found to update");
             }
 
             if (item.MediaObject.MediaTypeParms.IsFeed)
@@ -384,14 +382,19 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
 
             UpdateAttributes(media, newAttributeValues, persistedAttributeValues);
 
-            var allRelationships = MediaRelationshipCtl.Get(db, forUpdate: true)
+            //If no relationships to add/delete, then don't force a logical commit
+            if (!item.MediaObject.HasRelationships && !persistedMediaObject.HasRelationships)
+            {
+                item.RelationshipUpdateMgr = null;
+            }
+            else
+            {
+                var allRelationships = MediaRelationshipCtl.Get(db, forUpdate: true)
                 .Where(mr => mr.MediaId == item.MediaObject.Id || mr.RelatedMediaId == item.MediaObject.Id).ToList();
 
-            var parentRelationships = allRelationships.Where(r => r.RelationshipTypeName == "Is Parent Of").ToList();
-            var childRelationships = allRelationships.Where(r => r.RelationshipTypeName == "Is Child Of").ToList();
+                var parentRelationships = allRelationships.Where(r => r.RelationshipTypeName == "Is Parent Of").ToList();
+                var childRelationships = allRelationships.Where(r => r.RelationshipTypeName == "Is Child Of").ToList();
 
-            if (item.RelationshipUpdateMgr != null)
-            {
                 List<MediaRelationshipCtl> newRelationships = item.RelationshipUpdateMgr.Update(media, parentRelationships, childRelationships, validationMessages);
                 mediaCtl.AddRelationships(newRelationships);
             }

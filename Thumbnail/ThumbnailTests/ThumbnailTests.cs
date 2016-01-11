@@ -62,7 +62,7 @@ namespace ThumbnailTests
             Console.WriteLine(media.mediaId);
             Console.WriteLine(media.sourceUrl);
             Assert.IsNotNull(media.embedcode, media.mediaId + " has no embed code, " + media.sourceUrl);
-            IApiServiceFactory adminServiceFactory = new AdminApiServiceFactory();      
+            var adminServiceFactory = new AdminApiServiceFactory();      
             
             List<SerialThumbnail> updatedThumbnails;
             TestUrl updateUrl = adminServiceFactory.CreateTestUrl(
@@ -75,8 +75,7 @@ namespace ThumbnailTests
             }
             Assert.IsNotNull(updatedThumbnails);  //TODO:  Look at Thumbnail PUT in Admin once it is working again
           
-            TestUrl getUrl = adminServiceFactory.CreateTestUrl(
-                    "media", media.id, "thumbnail", "");
+            TestUrl getUrl = adminServiceFactory.CreateTestUrl("media", media.id, "thumbnail");
 
             byte[] callResults = TestApiUtility.GetBytes(getUrl.ToString());
 
@@ -94,7 +93,7 @@ namespace ThumbnailTests
             var media = TestApiUtility.AdminApiMediaSearch("281584").FirstOrDefault();
             Assert.IsNotNull(media);
             Assert.IsNotNull(media.embedcode, media.mediaId + " has no embed code.");
-            IApiServiceFactory adminServiceFactory = new AdminApiServiceFactory();
+            var adminServiceFactory = new AdminApiServiceFactory();
 
             List<SerialThumbnail> updatedThumbnails;
             TestUrl updateUrl = adminServiceFactory.CreateTestUrl(
@@ -108,7 +107,7 @@ namespace ThumbnailTests
             Assert.IsNotNull(updatedThumbnails);  
 
             TestUrl getUrl = adminServiceFactory.CreateTestUrl(
-                    "media", media.id, "thumbnail", "");
+                    "media", media.id, "thumbnail");
 
             byte[] callResults = TestApiUtility.GetBytes(getUrl.ToString());
 

@@ -42,7 +42,7 @@ namespace MediaApiUnitTests
         [TestMethod]
         public void CanSearchExactTitle()
         {
-            var criteria = "?name=flu";
+            var criteria = "?name=Influenza Flu";
             var results = TestApiUtility.AdminApiMediaSearch(criteria);
             Assert.IsTrue(results.Count() > 0);
         }
@@ -96,10 +96,11 @@ namespace MediaApiUnitTests
             Assert.AreEqual("Widget", results.First().mediaType);
         }
 
+        string feedMediaIdWith2Children = "339625";
         [TestMethod]
         public void CanSearchByMediaId()
         {
-            var criteria = "157756";
+            var criteria = feedMediaIdWith2Children;
             var results = TestApiUtility.AdminApiMediaSearch(criteria); ;
             Assert.AreEqual(1, results.Count());
         }
@@ -107,23 +108,25 @@ namespace MediaApiUnitTests
         [TestMethod]
         public void CanSearchByParentId()
         {
-            var criteria = "?parentid=157756";
+            var criteria = "?parentid=" + feedMediaIdWith2Children;
             var results = TestApiUtility.AdminApiMediaSearch(criteria);
-            Assert.AreEqual(3, results.Count());
+            Assert.AreEqual(2, results.Count());
         }
 
         [TestMethod]
         public void CanSearchMultipleMediaIds()
         {
-            var criteria = "?mediaid=157756,171279,177872,195280"; //Feed 157756 and its 3 children
+            var childMediaIds = "343932,348599";
+            var criteria = "?mediaid=" + feedMediaIdWith2Children +"," + childMediaIds; //Feed and its children
             var results = TestApiUtility.AdminApiMediaSearch(criteria);
-            Assert.AreEqual(4, results.Count());
+            Assert.AreEqual(3, results.Count());
         }
 
         [TestMethod]
         public void CanSearchMediaIdPlusMediaType()
         {
-            var criteria = "?mediaid=157717,291418&mediatype=feed item";
+            var mediaIdsOneFeedItemOneNot = "343999,323390";
+            var criteria = "?mediaid=" + mediaIdsOneFeedItemOneNot + "&mediatype=feed item";
             var results = TestApiUtility.AdminApiMediaSearch(criteria);
             Assert.AreEqual(1, results.Count());
 
@@ -214,7 +217,7 @@ namespace MediaApiUnitTests
         {
             var from = "11/01/2015";
             var fromDate = DateTime.Parse(from);
-            var to = "11/16/2015";
+            var to = "11/16/2016";
             var toDate = DateTime.Parse(to);
 
             var criteria = "?status=published&fromdatemodified=" + from + "&todatemodified=" + to;

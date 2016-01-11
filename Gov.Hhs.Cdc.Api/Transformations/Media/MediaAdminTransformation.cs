@@ -85,7 +85,9 @@ namespace Gov.Hhs.Cdc.Api
                             {
                                 Id = a.feedExportId,
                                 FilePath = a.filePath,
-                                FeedFormatName = a.feedFormat
+                                FeedFormatName = a.feedFormat,
+                                Offset = a.offset,
+                                ItemCount = a.itemCount
                             }).ToList();
                         }
                         detail.ExportSettings = export;
@@ -267,7 +269,7 @@ namespace Gov.Hhs.Cdc.Api
             return relationships;
         }
 
-        public List<MediaRelationshipObject> CreateRelationships(int mediaId, IList<SerialMediaRelationship> medias, string relationshipTypeName)
+        private List<MediaRelationshipObject> CreateRelationships(int mediaId, IList<SerialMediaRelationship> medias, string relationshipTypeName)
         {
             if (medias == null)
             {
@@ -364,7 +366,9 @@ namespace Gov.Hhs.Cdc.Api
                 {
                     feedExportId = a.Id,
                     filePath = a.FilePath,
-                    feedFormat = a.FeedFormatName
+                    feedFormat = a.FeedFormatName,
+                    offset = a.Offset,
+                    itemCount = a.ItemCount
                 }).ToList();
             }
 

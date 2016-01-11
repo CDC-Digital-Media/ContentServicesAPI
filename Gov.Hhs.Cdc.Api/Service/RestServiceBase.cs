@@ -273,7 +273,9 @@ namespace Gov.Hhs.Cdc.Api
 #endif
 
             if (!data.CanRead)
+            {
                 return "";
+            }
             string stream;
             try
             {
@@ -285,24 +287,22 @@ namespace Gov.Hhs.Cdc.Api
                 return "";
             }
 
-            try
-            {
-                UTF8Encoding utf8 = new UTF8Encoding();
-                string unicodeString = stream;
-                byte[] encodedBytes = utf8.GetBytes(unicodeString);
 
-                foreach (byte b in encodedBytes)
+            UTF8Encoding utf8 = new UTF8Encoding();
+            string unicodeString = stream;
+
+            byte[] encodedBytes = utf8.GetBytes(unicodeString);
+
+            for (int i = 0; i < encodedBytes.Length; i++)
+            {
+                var b = encodedBytes[i];
+                var temp2 = unicodeString.Substring(i, 1);
+                if (b > 191)
                 {
-                    if (b > 191)
-                    {
-                        throw new Exception("Invalid UTF-8 character was found.");
-                    }
+                    throw new Exception("Invalid UTF-8 character:  " + temp2 + "(" + Convert.ToString(b) + ")");
                 }
             }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+
 
             if (!IsAuthenticated(stream))
             {
@@ -313,7 +313,7 @@ namespace Gov.Hhs.Cdc.Api
                         "Content-Type: " + HttpContext.Current.Request.Headers["Content-Type"] + " | " +
                         "Content-Length: " + HttpContext.Current.Request.Headers["Content-Length"] + " | " +
                         "X-Syndication-Date: " + HttpContext.Current.Request.Headers["X-Syndication-Date"] + " | " +
-                        "Date: " + HttpContext.Current.Request.Headers["Date"] + " | " +                        
+                        "Date: " + HttpContext.Current.Request.Headers["Date"] + " | " +
                         "Authorization: " + HttpContext.Current.Request.Headers["Authorization"] + " | " +
                         "Data: " + stream)
                         );
@@ -324,23 +324,22 @@ namespace Gov.Hhs.Cdc.Api
 
         protected static string GetDataStream(Stream data)
         {
-            string postData = "";
             using (StreamReader reader = new StreamReader(data, Encoding.UTF8))
             {
-                postData = reader.ReadToEnd();
-                reader.Close();
-                reader.Dispose();
+                return reader.ReadToEnd();
             }
-            return postData;
         }
 
         protected static int GetIdAsInt(string id)
         {
             int objId = 0;
             if (!string.IsNullOrEmpty(id))
+            {
                 if (!int.TryParse(id, out objId))
+                {
                     throw new ApplicationException("Invalid Id");
-
+                }
+            }
             return objId;
         }
 
@@ -390,8 +389,9 @@ namespace Gov.Hhs.Cdc.Api
 
                 // used to disable authentication
                 if (ConfigurationManager.AppSettings["Secure"] == "false")
-                    return true;                              
-
+                {
+                    return true;
+                }
                 string consumersecret = GetApiClientSecret(appKey);
                 if (string.IsNullOrEmpty(consumersecret))       //return false if consumer string is empty or null
                 {
@@ -421,27 +421,28 @@ namespace Gov.Hhs.Cdc.Api
             {
                 var apiClient = RegistrationHandler.RegistrationProvider.GetApiClientByAppKey(appKey);
                 if (apiClient != null)
+                {
                     consumersecret = CredentialManager.CreateHash(ConfigurationManager.AppSettings["ApiClientPassword"], apiClient.Salt);
+                }
             }
             return consumersecret;
         }
 
         private static string GetDateFromHeader()
         {
-            string dateStr = "";
-            dateStr = HttpContext.Current.Request.Headers["X-Syndication-Date"];
+            string dateStr = HttpContext.Current.Request.Headers["X-Syndication-Date"];
             if (string.IsNullOrEmpty(dateStr))
-                dateStr = HttpContext.Current.Request.Headers["Date"];
+            { dateStr = HttpContext.Current.Request.Headers["Date"]; }
             return dateStr;
         }
 
         private string GetAuthorizationHeader(string url, string method, string requestBody, string api_publicKey, string secret)
         {
-            AuthorizationHeaderGenerator.KeyAgreement keyAgreement = new AuthorizationHeaderGenerator.KeyAgreement();
+            var keyAgreement = new AuthorizationHeaderGenerator.KeyAgreement();
             keyAgreement.publicKey = api_publicKey;
             keyAgreement.secret = secret;
 
-            AuthorizationHeaderGenerator generator = new AuthorizationHeaderGenerator("syndication_api_key", keyAgreement);
+            var generator = new AuthorizationHeaderGenerator("syndication_api_key", keyAgreement);
 
             string apiKeyHeaderValue = generator.GetApiKeyHeaderValue(HttpContext.Current.Request.Headers, url, method, requestBody);
             return apiKeyHeaderValue;
@@ -881,9 +882,9 @@ namespace Gov.Hhs.Cdc.Api
             string theAction = action ?? "";
 
             if (theId != "" || theAction != "")
-                theId = "/" + theId;
+            { theId = "/" + theId; }
             if (theAction != "")
-                theAction = "/" + theAction;
+            { theAction = "/" + theAction; }
             return "/" + api + "/v" + parser.Version.ToString() + "/" + Param.API_ROOT + "/" + theResource + theId + theAction;
         }
 

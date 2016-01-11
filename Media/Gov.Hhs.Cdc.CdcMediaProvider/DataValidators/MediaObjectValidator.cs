@@ -25,10 +25,10 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
 {
     public class MediaObjectValidator : IValidator<MediaObject, MediaObject>
     {
-    //    private const int FeedTitleMaxLength = 100;
+        //    private const int FeedTitleMaxLength = 100;
         //MAR - 9/9/2015
-            //The spec says the max limit should be 100, but the title coming from youtube, can be longer.  
-            //The database field that will store the title is 1024, so let's use this as the upper limit
+        //The spec says the max limit should be 100, but the title coming from youtube, can be longer.  
+        //The database field that will store the title is 1024, so let's use this as the upper limit
         private const int FeedTitleMaxLength = 1024;
         public void PreSaveValidate(ref ValidationMessages validationMessages, IList<MediaObject> items)
         {
@@ -105,6 +105,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
             }
         }
 
+        private Dictionary<int, MediaObject> cachedItems = new Dictionary<int, MediaObject>();
         private ValidationMessages FeedItemPreSaveValidate(MediaObject media)
         {
             var messages = new ValidationMessages();
@@ -136,30 +137,42 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
                 return messages;
             }
 
-            var criteria = new CsBusinessObjects.Media.SearchCriteria { MediaId = parent.RelatedMediaId.ToString() };
-            var results = CsMediaSearchProvider.Search(criteria);
-            var item = results.Select(m => m).ToList().FirstOrDefault();
-            if (item == null)
+            MediaObject item = null;
+            if (cachedItems.ContainsKey(parent.RelatedMediaId))
             {
-                messages.AddError(media.ValidationKey, "Parent media Id " + parent.RelatedMediaId.ToString() + " not found.");
-                return messages;
+                item = cachedItems[parent.RelatedMediaId];
             }
+            else
+            {
+                item = CsMediaSearchProvider.Search(new CsBusinessObjects.Media.SearchCriteria { MediaId = parent.RelatedMediaId.ToString() }).FirstOrDefault();
+
+                if (item == null)
+                {
+                    messages.AddError(media.ValidationKey, "Parent media Id " + parent.RelatedMediaId.ToString() + " not found.");
+                    return messages;
+                }
+                else
+                {
+                    cachedItems[parent.RelatedMediaId] = item;
+                }
+            }
+
             if (!item.MediaTypeParms.IsFeed)
             {
                 messages.AddError(media.ValidationKey, "Parent media (" + parent.RelatedMediaId.ToString() + ") is not a feed.");
             }
 
-            if (item.MediaTypeCode == "Feed")
+            if (item.MediaTypeParms.IsManagedFeed)
             {
                 //check the other children
                 for (int i = 0; i < item.Children.Count; i++)
                 {
                     //get the child
-                    criteria = new CsBusinessObjects.Media.SearchCriteria { MediaId = item.Children[i].MediaId.ToString() };
+                    var criteria = new CsBusinessObjects.Media.SearchCriteria { MediaId = item.Children[i].MediaId.ToString() };
                     var childObjectToLookAt = CsMediaSearchProvider.Search(criteria);
                     var childItemToLookAt = childObjectToLookAt.ToList().FirstOrDefault();
-                    if (childItemToLookAt.SourceUrl == media.SourceUrl 
-                        && WebUtility.HtmlDecode(WebUtility.HtmlDecode(childItemToLookAt.Title)) == WebUtility.HtmlDecode(WebUtility.HtmlDecode(media.Title)) 
+                    if (childItemToLookAt.SourceUrl == media.SourceUrl
+                        && WebUtility.HtmlDecode(WebUtility.HtmlDecode(childItemToLookAt.Title)) == WebUtility.HtmlDecode(WebUtility.HtmlDecode(media.Title))
                         && childItemToLookAt.MediaId != media.Id)
                     {
                         messages.AddError(media.ValidationKey, "Parent media (" + parent.RelatedMediaId.ToString() + ") has child (" + childItemToLookAt.MediaId.ToString() + ") with the same sourceUrl.");
@@ -167,6 +180,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
                     }
                 }
             }
+
             //var otherChildrenCount = item.Children.Where(c => c.SourceUrl == media.SourceUrl).ToList().Count;
             //if (otherChildrenCount > 0)
             //{
@@ -175,7 +189,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
 
             return messages;
         }
-        
+
         private void FeedPreSaveValidate(ref ValidationMessages validationMessages, MediaObject mediaObject)
         {
             RegExValidator v = new RegExValidator(validationMessages, mediaObject.ValidationKey);
@@ -196,7 +210,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
 
             var feed = mediaObject.MediaTypeSpecificDetail as FeedDetailObject;
             if (feed != null)
-            {   
+            {
                 bool IsRequired = !string.IsNullOrEmpty(feed.Copyright) || !string.IsNullOrEmpty(feed.WebMasterEmail) ||
                     !string.IsNullOrEmpty(feed.EditorialManager);
 

@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="Admin\AdminScheduler.cs" />
     <Compile Include="Admin\AdminUser.cs" />
+    <Compile Include="Admin\MediaSet.cs" />
     <Compile Include="Admin\SerialAdminRole.cs" />
     <Compile Include="Media\ExtendedAttribute.cs" />
     <Compile Include="Media\SearchCriteria.cs" />

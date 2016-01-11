@@ -27,7 +27,7 @@ namespace Gov.Hhs.Cdc.Bo
         public int? LineNumber { get; set; }
         public int? ColumnNumber { get; set; }
 
-        public enum ValidationSeverity {Error, Warning, Information}
+        public enum ValidationSeverity { Error, Warning, Information }
         public string Key { get; set; }
         public string Id { get; set; }
         public string Message { get; set; }
@@ -38,19 +38,19 @@ namespace Gov.Hhs.Cdc.Bo
         {
         }
 
-        public ValidationMessage(string severity, string key, string message)
+        public ValidationMessage(string severity, string key, string message, string devMessage)
         {
             ValidationSeverity newSeverity;
             Severity = Enum.TryParse<ValidationSeverity>(severity, out newSeverity) ? newSeverity : ValidationSeverity.Error;
-                
+
             Key = key;
             Message = message;
             Id = "";
-            DeveloperMessage = "";
+            DeveloperMessage = devMessage;
         }
 
         public ValidationMessage(ValidationSeverity severity, string key, string message)
-        {
+        {   
             Severity = severity;
             Key = key;
             Message = message;
@@ -72,7 +72,7 @@ namespace Gov.Hhs.Cdc.Bo
             return string.Format("(Key={0}): {1} message [level {2}]{3}{4}: {5}",
                 Key,
                 MessageSource.ToString(),
-                Severity.ToString(),                
+                Severity.ToString(),
                 LineNumber == null ? "" : " [line " + LineNumber + "]",
                 ColumnNumber == null ? "" : " [column " + ColumnNumber + "]",
                 Message

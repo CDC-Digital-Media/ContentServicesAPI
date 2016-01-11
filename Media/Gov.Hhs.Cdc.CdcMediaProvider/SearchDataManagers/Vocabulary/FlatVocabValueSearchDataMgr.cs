@@ -69,7 +69,6 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
                                        select r;
                 }
 
-                var a = ValueRelationshipCtl.Get(media);
                 IQueryable<FlatVocabValueItem> items = from v in allValues
                                                        select new FlatVocabValueItem()
                                                        {

@@ -60,8 +60,10 @@ namespace Gov.Hhs.Cdc.Api
             }
 
             if (id < 3)
+            {
                 return new ValidationMessages(new ValidationMessage(ValidationMessage.ValidationSeverity.Error, "ValueSet.Id",
                     "Cannot delete value set < 3"));
+            }
             return ValueProvider.DeleteValueSet(new ValueSetObject() { Id = id });
         }
 
@@ -142,7 +144,9 @@ namespace Gov.Hhs.Cdc.Api
             }
 
             if (id < 4)
+            {
                 throw new ApplicationException("Temporarily block main value set from being deleted");
+            }
             ValueObject value = new ValueObject(id);
             return ValueProvider.DeleteValue(value);
         }
@@ -152,9 +156,13 @@ namespace Gov.Hhs.Cdc.Api
             ValidationMessages messages = new ValidationMessages();
 
             if (!adminUser.CanEditVocabulary())
+            {
                 writer.Write(ValidationMessages.CreateError("auth", "User not authorized to edit vocabulary"));
+            }
             else
+            {
                 messages = AddRelationship(id, data, adminUser);
+            }
 
             return messages;
         }
@@ -179,9 +187,13 @@ namespace Gov.Hhs.Cdc.Api
             ValidationMessages messages = new ValidationMessages();
 
             if (!adminUser.CanEditVocabulary())
+            {
                 writer.Write(ValidationMessages.CreateError("auth", "User not authorized to edit vocabulary"));
+            }
             else
+            {
                 messages = DeleteRelationship(id, data, adminUser);
+            }
 
             return messages;
         }

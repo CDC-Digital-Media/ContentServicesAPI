@@ -24,15 +24,19 @@
         postprocess: ""
     };
 
-    // load jquery
-    loadScript("https://.....[productionToolsServer]...../api/embed/html/js/jquery-1.9.1.min.js", "", function () {
-        // check if the jQuery object exist
-        if (typeof jQuery === "function") {
-            var $ = jQuery.noConflict();
-            main($);
-        }
-
-    });
+	// load jquery
+    if (!$) {
+    	loadScript("https://.....[productionToolsServer]...../api/embed/html/js/jquery-1.9.1.min.js", "", function () {
+    		// check if the jQuery object exist
+    		if (typeof jQuery === "function") {
+    			var $ = jQuery.noConflict();
+    			main($);
+    		}
+    	});
+    } else {
+    	var $ = jQuery.noConflict();
+    	main($);
+    }
 
     function handlePostProcess() {
         if (options.postprocess != '') {

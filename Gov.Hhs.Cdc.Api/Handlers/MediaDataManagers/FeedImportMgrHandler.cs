@@ -89,7 +89,7 @@ namespace Gov.Hhs.Cdc.Api
                             {
                                 // get items to deactivate
                                 var urlLists = theObject.Children.Select(a => a.SourceUrl);
-                                var feedItemsToDeactivate = existingFeedItems.Where(fi => !urlLists.Contains(fi.SourceUrl)).ToList();
+                                var feedItemsToDeactivate = existingFeedItems.Where(fi => !urlLists.Contains(fi.SourceUrl) && fi.MediaStatusCode != "Archived").ToList();
                                 if (feedItemsToDeactivate != null && feedItemsToDeactivate.Count > 0)
                                 {
                                     foreach (var item in feedItemsToDeactivate)
@@ -117,9 +117,12 @@ namespace Gov.Hhs.Cdc.Api
 
                         int i = 0;
                         string timestamp = ""; // passed in from API call to populate response. need this to find freshly imported items.
-                        if (parser.ParamDictionary.ContainsKey(ApiParam.timestamp.ToString())) 
-                            {timestamp = parser.ParamDictionary[ApiParam.timestamp.ToString()];}
+                        if (parser.ParamDictionary.ContainsKey(ApiParam.timestamp.ToString()))
+                        {
+                            timestamp = parser.ParamDictionary[ApiParam.timestamp.ToString()];
+                        }
 
+                        var itemsToBulkSave = new List<MediaObject>();
                         foreach (var item in theObject.Children)
                         {
                             i++;
@@ -129,7 +132,7 @@ namespace Gov.Hhs.Cdc.Api
                             addImportTimestamp(theObject.Children.Count, i, timestamp, item);
 
                             var mediaToUpdate = existingFeedItems.Where(fi => fi.SourceUrl == item.SourceUrl).FirstOrDefault();
-                            
+
                             if (mediaToUpdate != null)
                             {
                                 // if exists = update existing item
@@ -144,16 +147,19 @@ namespace Gov.Hhs.Cdc.Api
                                 mediaToUpdate.Enclosures = item.Enclosures;
                                 mediaToUpdate.ExtendedAttributes = item.ExtendedAttributes;
                                 mediaToUpdate.MediaStatusCode = "Published";
-                                
-                                messages.Add(MediaProvider.SaveMedia(mediaToUpdate));
+
+                                itemsToBulkSave.Add(mediaToUpdate);
                             }
                             else
                             {
                                 // if not exists = add new item
-                                item.MediaStatusCode = "Published";                                
-                                messages.Add(MediaProvider.SaveMedia(item));
+                                item.MediaStatusCode = "Published";
+                                itemsToBulkSave.Add(item);
                             }
+
                         }
+
+                        MediaProvider.MediaBulkSave(itemsToBulkSave);
                     }
 
                     resultMediaList = CsMediaSearchProvider.Search(criteria).ToList();

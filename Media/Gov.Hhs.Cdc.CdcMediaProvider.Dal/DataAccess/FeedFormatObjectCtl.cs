@@ -38,6 +38,8 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
         public override void SetUpdatableValues(DateTime modifiedDateTime, Guid modifiedGuid)
         {
             PersistedDbObject.FeedFormatName = NewBusinessObject.Name;
+            PersistedDbObject.FeedTemplate = NewBusinessObject.FeedTemplate;
+            PersistedDbObject.FeedItemTemplate = NewBusinessObject.FeedItemTemplate;
 
             PersistedDbObject.ModifiedDateTime = modifiedDateTime;
             PersistedDbObject.ModifiedByGuid = modifiedGuid;
@@ -78,6 +80,8 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
                                                  select new FeedFormatObject()
                                                  {
                                                      Name = item.FeedFormatName,
+                                                     FeedTemplate = item.FeedTemplate,
+                                                     FeedItemTemplate = item.FeedItemTemplate,
                                                      DbObject = forUpdate ? item : null,
                                                  };
             return items;

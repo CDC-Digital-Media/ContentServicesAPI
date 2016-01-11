@@ -269,17 +269,7 @@ namespace MediaApiUnitTests
             return combinedMediaSearchDataMgr.GetData(new SearchParameters("Media", "Media", "MediaId".Is(id))).Records.Cast<MediaObject>().FirstOrDefault();
         }
 
-        protected string GetDataStream(Stream data)
-        {
-            string postData = "";
-            using (StreamReader reader = new StreamReader(data, System.Text.Encoding.UTF8))
-            {
-                postData = reader.ReadToEnd();
-                reader.Close();
-                reader.Dispose();
-            }
-            return postData;
-        }
+
 
     }
 }

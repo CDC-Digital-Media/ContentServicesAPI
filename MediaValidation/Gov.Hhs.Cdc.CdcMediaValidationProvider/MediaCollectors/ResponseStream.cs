@@ -54,7 +54,7 @@ namespace Gov.Hhs.Cdc.CdcMediaValidationProvider
             StreamReader reader = new StreamReader(theStream, requestedEncoding);
             string data = reader.ReadToEnd();
 
-            System.Text.Encoding actualEncoding = GetCharacterEncodingFromData(response.CharacterSet, data);
+            var actualEncoding = GetCharacterEncodingFromData(response.CharacterSet, data);
             if (actualEncoding != requestedEncoding)
             {
                 theStream.Position = 0;
@@ -90,7 +90,7 @@ namespace Gov.Hhs.Cdc.CdcMediaValidationProvider
             }
         }
 
-        private static string ConvertStringEncoding(string data, System.Text.Encoding fromEncoding, System.Text.Encoding toEncoding)
+        private static string ConvertStringEncoding(string data, Encoding fromEncoding, Encoding toEncoding)
         {
             // convert from whatever we got to UTF8 because that is what WE serve
             byte[] cbuffer = fromEncoding.GetBytes(data);

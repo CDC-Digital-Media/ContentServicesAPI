@@ -11,17 +11,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Linq;
-using System.ServiceModel.Activation;
-using System.Web;
+using Gov.Hhs.Cdc.Api.Handlers.Admin;
+using Gov.Hhs.Cdc.Authorization;
 using Gov.Hhs.Cdc.Bo;
 using Gov.Hhs.Cdc.CsBusinessObjects.Admin;
-using Gov.Hhs.Cdc.DataServices.Bo;
-
-using System.ServiceModel;
 using Gov.Hhs.Cdc.CsCaching;
-using Gov.Hhs.Cdc.Api.Handlers.Admin;
+using Gov.Hhs.Cdc.DataServices.Bo;
+using System;
+using System.Linq;
+using System.ServiceModel;
+using System.ServiceModel.Activation;
+using System.Web;
 
 namespace Gov.Hhs.Cdc.Api.Admin
 {
@@ -90,6 +90,9 @@ namespace Gov.Hhs.Cdc.Api.Admin
                     ScheduleHandler.Get(writer, id, action, _parser);
                     break;
                 case "data":
+                    //var messages = new ValidationMessages(); //user header not provided
+                    //var user = AuthorizationHandler.Authorize(ref messages, HttpContext.Current);
+                    //var can = user.CanAdminData();
                     ExecuteGetActionForData(writer, _parser, resource, id, action);
                     break;
                 case "dataappkey":
@@ -113,6 +116,9 @@ namespace Gov.Hhs.Cdc.Api.Admin
                 case "logs":
                     var log = LogHandler.Log();
                     writer.CreateAndWriteSerialResponse(log);
+                    break;
+                case "mediasets":
+                    AuthorizationHandler.WriteMediaSets(writer);
                     break;
                 default:
                     ExecuteSearch(writer, resource);
@@ -303,9 +309,12 @@ namespace Gov.Hhs.Cdc.Api.Admin
                 LogTransaction("POST", "adminapi", resource, id, action, stream);
             }
 
-            ValidationMessages messages = new ValidationMessages();
+            var messages = new ValidationMessages();
 
             var adminUser = AuthorizationHandler.Authorize(ref messages, HttpContext.Current);
+
+            ServiceUtility.WriteDoNotCacheResponseToHeader(writer);
+
             if (messages.Errors().Any())
             {
                 writer.Write(messages);
@@ -320,7 +329,6 @@ namespace Gov.Hhs.Cdc.Api.Admin
                 }
             }
 
-            ServiceUtility.WriteDoNotCacheResponseToHeader(writer);
             switch (SafeTrimAndLower(resource))
             {
                 case "thumbnail":
@@ -329,10 +337,14 @@ namespace Gov.Hhs.Cdc.Api.Admin
 
                 case "media":
                     if (!string.IsNullOrEmpty(id))
+                    {
                         messages.AddError("id", "Url id must be blank for a media post");
+                    }
 
                     if (!string.IsNullOrEmpty(action))
+                    {
                         messages.AddError("action", "Url action must be blank for a media post");
+                    }
 
                     if (messages.Errors().Any())
                     {
@@ -343,21 +355,30 @@ namespace Gov.Hhs.Cdc.Api.Admin
                         MediaMgrHandler.Insert(writer, stream, appKey, adminUser, _parser);
                     }
                     break;
+                case "validations":
+                    //ALL users can validate media
+                    HtmlValidationHandler.ValidateResources(_parser, writer, stream);
+                    break;
                 case "links":
                     StorageMgrHandler.Insert(writer, stream, appKey, adminUser);
                     break;
                 case "adminusers":
                     AuthorizationHandler.UpdateUser(writer, stream, adminUser);
                     break;
+                case "mediasets":
+                    AuthorizationHandler.CreateMediaSet(writer, stream, adminUser);
+                    break;
                 case "dataadmin":
+                    if (!adminUser.CanAdminData())
+                    {
+                        writer.Write(ValidationMessages.CreateError("", "User not authorized for Data"));
+                        return;
+                    }
                     DataHandler.InsertProxyData(stream, appKey, writer);
                     break;
                 case "schedules":
                     //insert ScheduleHandler(IOutputWriter writer, string data, string params);
                     //end with: writer.Write(Response); SerialResponse  
-                    break;
-                case "validations":
-                    HtmlValidationHandler.ValidateResources(_parser, writer, stream);
                     break;
                 case "values":
                     messages.Add(ValueMgrHandler.UpdateValue(0, stream, adminUser, out id));
@@ -371,31 +392,32 @@ namespace Gov.Hhs.Cdc.Api.Admin
                     }
                     break;
                 case "data":
+                    if (!adminUser.CanAdminData())
+                    {
+                        writer.Write(ValidationMessages.CreateError("", "User not authorized for Data"));
+                        return;
+                    }
                     DataHandler.InsertProxyData(stream, appKey, writer);
                     break;
                 case "dataappkey":
+                    if (!adminUser.CanAdminData())
+                    {
+                        writer.Write(ValidationMessages.CreateError("", "User not authorized for Data"));
+                        return;
+                    }
                     DataHandler.InsertProxyCacheAppKey(stream, appKey, writer);
                     break;
+                case "valuesets":
+                    messages.Add(ValueMgrHandler.InsertValueSet(stream, adminUser));
+                    writer.Write(Response, messages);
+                    break;
                 default:
-                    //These are the old format of the call where we return the validation messages
-                    messages.Add(PostInOldFormat(resource, stream, appKey, adminUser));
+                    messages.AddError("Dataset", "Dataset is invalid: " + resource);
                     writer.Write(Response, messages);
                     break;
             }
 
         }
-
-        private ValidationMessages PostInOldFormat(string resource, string stream, string appKey, AdminUser adminUser)
-        {
-            switch (SafeTrimAndLower(resource))
-            {
-                case "valuesets":
-                    return ValueMgrHandler.InsertValueSet(stream, adminUser);
-                default:
-                    return ValidationMessages.CreateError("Dataset", "Dataset is invalid: " + resource);
-            }
-        }
-
 
         #endregion
 
@@ -408,7 +430,7 @@ namespace Gov.Hhs.Cdc.Api.Admin
                 LogTransaction("PUT", "adminapi", resource, id, action, stream);
             }
             ValidationMessages messages = new ValidationMessages();
-            var auth = AuthorizationHandler.Authorize(ref messages, HttpContext.Current);
+            var adminUser = AuthorizationHandler.Authorize(ref messages, HttpContext.Current);
             if (messages.Errors().Any())
             {
                 writer.Write(messages);
@@ -416,7 +438,7 @@ namespace Gov.Hhs.Cdc.Api.Admin
             }
             else
             {
-                if (auth == null)
+                if (adminUser == null)
                 {
                     writer.Write(ValidationMessages.CreateError("", "User not authorized for the admin system."));
                     return;
@@ -428,7 +450,7 @@ namespace Gov.Hhs.Cdc.Api.Admin
                 case "media":
                     if (string.IsNullOrEmpty(action) || string.Equals(action, "update", StringComparison.OrdinalIgnoreCase))
                     {
-                        MediaMgrHandler.Update(writer, stream, appKey, GetIdAsInt(id), auth);
+                        MediaMgrHandler.Update(writer, stream, appKey, GetIdAsInt(id), adminUser);
                     }
                     else if (string.Equals(action, "thumbnail", StringComparison.OrdinalIgnoreCase))
                     {
@@ -436,28 +458,28 @@ namespace Gov.Hhs.Cdc.Api.Admin
                     }
                     else if (string.Equals(action, "importfeeditems", StringComparison.OrdinalIgnoreCase))
                     {
-                        FeedImportMgrHandler.Update(writer, stream, appKey, GetIdAsInt(id), auth, _parser);
+                        FeedImportMgrHandler.Update(writer, stream, appKey, GetIdAsInt(id), adminUser, _parser);
                     }
                     break;
                 case "syndicationlists":
                     SyndicationListHandler.Update(stream, writer);
                     break;
                 case "valuesets":
-                    ValueMgrHandler.UpdateValueSet(stream, GetIdAsInt(id), writer, auth);
+                    ValueMgrHandler.UpdateValueSet(stream, GetIdAsInt(id), writer, adminUser);
                     break;
                 case "values":
                     if (!string.IsNullOrEmpty(action) && string.Equals(action, "addRelationships", StringComparison.OrdinalIgnoreCase))
                     {
-                        messages.Add(ValueMgrHandler.AddRelationship(GetIdAsInt(id), stream, writer, auth));
+                        messages.Add(ValueMgrHandler.AddRelationship(GetIdAsInt(id), stream, writer, adminUser));
                     }
                     else if (!string.IsNullOrEmpty(action)
                         && string.Equals(action, "deleteRelationships", StringComparison.OrdinalIgnoreCase))
                     {
-                        messages.Add(ValueMgrHandler.DeleteRelationship(GetIdAsInt(id), stream, writer, auth));
+                        messages.Add(ValueMgrHandler.DeleteRelationship(GetIdAsInt(id), stream, writer, adminUser));
                     }
                     else
                     {
-                        messages.Add(ValueMgrHandler.UpdateValue(GetIdAsInt(id), stream, writer, auth));
+                        messages.Add(ValueMgrHandler.UpdateValue(GetIdAsInt(id), stream, writer, adminUser));
                     }
                     if (messages.Errors().Any())
                     {
@@ -473,9 +495,19 @@ namespace Gov.Hhs.Cdc.Api.Admin
                     //end with: writer.Write(Response); SerialResponse 
                     break;
                 case "data":
+                    if (!adminUser.CanAdminData())
+                    {
+                        writer.Write(ValidationMessages.CreateError("", "User not authorized for Data"));
+                        return;
+                    }
                     DataHandler.UpdateProxyData(id, stream, appKey, writer);
                     break;
                 case "dataappkey":
+                    if (!adminUser.CanAdminData())
+                    {
+                        writer.Write(ValidationMessages.CreateError("", "User not authorized for Data"));
+                        return;
+                    }
                     DataHandler.UpdateProxyCacheAppKey(id, stream, appKey, writer);
                     break;
                 default:
@@ -517,6 +549,11 @@ namespace Gov.Hhs.Cdc.Api.Admin
                     case "media":
                         if (string.IsNullOrEmpty(action))
                         {
+                            if (!auth.CanDeleteMedia())
+                            {
+                                writer.Write(ValidationMessages.CreateError("", "User not authorized to delete media"));
+                                return;
+                            }
                             writer.Write(MediaMgrHandler.Delete(GetIdAsInt(id)));
                         }
                         else if (string.Equals(action, "thumbnail", StringComparison.OrdinalIgnoreCase))
@@ -534,13 +571,27 @@ namespace Gov.Hhs.Cdc.Api.Admin
                         writer.Write(ValueMgrHandler.DeleteValue(GetIdAsInt(id), auth));
                         break;
                     case "data":
+                        if (!auth.CanAdminData())
+                        {
+                            writer.Write(ValidationMessages.CreateError("", "User not authorized for Data"));
+                            return;
+                        }
                         DataHandler.DeleteProxyData(id, appKey, writer);
                         break;
                     case "dataappkey":
+                        if (!auth.CanAdminData())
+                        {
+                            writer.Write(ValidationMessages.CreateError("", "User not authorized for Data"));
+                            return;
+                        }
                         DataHandler.DeleteProxyCacheAppKey(id, appKey, writer);
                         break;
                     case "links":
-                        writer.Write(StorageHandler.Delete(GetIdAsInt(id), appKey));
+                        writer.Write(StorageHandler.Delete(GetIdAsInt(id), appKey, auth));
+                        break;
+                    case "mediasets":
+                        AuthorizationManager.DeleteMediaSet(id);
+                        writer.Write(new ValidationMessages());
                         break;
                     default:
                         writer.Write(ValidationMessages.CreateError("Resource", "Resource is invalid: " + resource));

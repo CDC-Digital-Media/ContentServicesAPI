@@ -78,12 +78,13 @@ namespace MediaApiUnitTests
             var callResults = TestApiUtility.CallAPIPut(url, jss.Serialize(data), "");
             Console.WriteLine(callResults);
 
-            var result = new JavaScriptSerializer().Deserialize<SerialResponseWithType<List<SerialMediaAdmin>>>(callResults);
+            var result = jss.Deserialize<SerialResponseWithType<List<SerialMediaAdmin>>>(callResults);
             if (result.meta.status != 200)
             {
-                Console.WriteLine(result.meta.message[0].userMessage);
-                Console.WriteLine(result.meta.message[0].developerMessage);
-                Assert.Fail(result.meta.message[0].userMessage);
+                var error = result.meta.message[0];
+                Console.WriteLine(error.userMessage);
+                Console.WriteLine(error.developerMessage);
+                Assert.Fail(mediaId + error.combinedMessage);
             }
 
             Assert.IsNotNull(result.results);
@@ -119,7 +120,7 @@ namespace MediaApiUnitTests
             {
                 Console.WriteLine(result.meta.message[0].userMessage);
                 Console.WriteLine(result.meta.message[0].developerMessage);
-                Assert.Fail(result.meta.message[0].userMessage);
+                Assert.Fail(mediaId + result.meta.message[0].userMessage);
             }
 
             Assert.IsNotNull(result.results);
@@ -173,7 +174,7 @@ namespace MediaApiUnitTests
             {
                 Console.WriteLine(result.meta.message[0].userMessage);
                 Console.WriteLine(result.meta.message[0].developerMessage);
-                Assert.Fail(result.meta.message[0].userMessage);
+                Assert.Fail(mediaId + result.meta.message[0].userMessage);
             }
 
             Assert.IsNotNull(result.results);

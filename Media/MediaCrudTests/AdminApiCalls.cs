@@ -19,44 +19,66 @@ using Gov.Hhs.Cdc.Api;
 using Gov.Hhs.Cdc.Api.Admin;
 using Newtonsoft.Json;
 
-namespace MediaCrudTests
+
+public static class AdminApiCalls
 {
-    public static class AdminApiCalls
+    public static SerialMediaAdmin SingleMedia(string mediaId)
     {
-        public static SerialMediaAdmin SingleMedia(int mediaId)
+        return SingleMedia(int.Parse(mediaId));
+    }
+
+    public static SerialMediaAdmin SingleMedia(int mediaId)
+    {
+        var adminService = new AdminApiServiceFactory();
+        var sampleMedias = TestApiUtility.GetResource<SerialMediaAdmin>(adminService.CreateTestUrl("media", mediaId));
+
+        if (sampleMedias == null)
         {
-            IApiServiceFactory adminService = new AdminApiServiceFactory();
-            List<SerialMediaAdmin> sampleMedias;
-
-            TestApiUtility.ApiGet<SerialMediaAdmin>(adminService,
-                adminService.CreateTestUrl("media", mediaId.ToString(), "", ""), out sampleMedias);
-
-            if (sampleMedias == null)
-            {
-                throw new InvalidOperationException("Medias not found for id " + mediaId.ToString());
-            }
-            if (sampleMedias.Count != 1)
-            {
-                throw new InvalidOperationException("Media count found for id " + mediaId.ToString() + " was " + sampleMedias.Count.ToString());
-            } return sampleMedias[0];
+            throw new InvalidOperationException("Media not found for id " + mediaId.ToString());
         }
-
-        public static List<SerialAdminLog> Log()
+        if (sampleMedias.Count != 1)
         {
-            var service = new AdminApiServiceFactory();
-            List<SerialAdminLog> logs;
-            var messages = TestApiUtility.ApiGet<SerialAdminLog>(service, service.CreateTestUrl("logs"), out logs);
-            return logs;
+            throw new InvalidOperationException("Media count found for id " + mediaId.ToString() + " was " + sampleMedias.Count.ToString());
         }
+        return sampleMedias[0];
+    }
 
+    public static SerialMediaAdmin SingleCollection()
+    {
+        return Collections()[0];
+    }
 
-        internal static object UpdateAdminMedia(SerialMediaAdmin media, string adminUser)
+    public static List<SerialMediaAdmin> Collections()
+    {
+        var adminService = new AdminApiServiceFactory();
+        List<SerialMediaAdmin> collection;
+        TestApiUtility.ApiGet<SerialMediaAdmin>(adminService,
+            adminService.CreateTestUrl("media?mediatype=collection"), out collection);
+        if (collection == null || collection.Count() == 0)
         {
-            var url = string.Format("{0}://{1}/adminapi/v1/resources/media/{2}", TestUrl.Protocol, TestUrl.AdminApiServer, media.id);
-            Console.WriteLine(url);
-            var ser = JsonConvert.SerializeObject(media);
-            var results = TestApiUtility.CallAPIPut(url, ser, adminUser);
-            return new ActionResultsWithType<List<SerialMediaAdmin>>(results);
+            throw new InvalidOperationException("No collections found.");
         }
+        //return collection;
+        return collection.Where(c => c.mediaId != "362221").ToList();
+        //collection with non-utf8 topic, Agua, conservación del (195)
+    }
+
+    public static List<SerialAdminLog> Log()
+    {
+        var service = new AdminApiServiceFactory();
+        List<SerialAdminLog> logs;
+        var messages = TestApiUtility.ApiGet<SerialAdminLog>(service, service.CreateTestUrl("logs"), out logs);
+        return logs;
+    }
+
+
+    internal static object UpdateAdminMedia(SerialMediaAdmin media, string adminUser)
+    {
+        var url = string.Format("{0}://{1}/adminapi/v1/resources/media/{2}", TestUrl.Protocol, TestUrl.AdminApiServer, media.id);
+        Console.WriteLine(url);
+        var ser = JsonConvert.SerializeObject(media);
+        var results = TestApiUtility.CallAPIPut(url, ser, adminUser);
+        return new ActionResultsWithType<List<SerialMediaAdmin>>(results);
     }
 }
+

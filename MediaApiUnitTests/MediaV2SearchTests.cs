@@ -1243,7 +1243,7 @@ namespace MediaApiUnitTests
                 TargetUrl = "http://www......[domain]...../tobacco/data_statistics/by_topic/secondhand_smoke/index.htm",
                 RatingMinimum = 1,
                 RatingMaximum = 5,
-                MediaStatusCodeValue = MediaStatusCodeValue.Published,
+                MediaStatusCodeValue = MediaStatusCodeValue.Staged,
                 PublishedDateTime = DateTime.UtcNow,
                 DateContentAuthored = null,
                 DateContentReviewed = null,

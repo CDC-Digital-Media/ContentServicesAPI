@@ -72,12 +72,14 @@ namespace Gov.Hhs.Cdc.Logging
 
         public static void LogError(Exception exception)
         {
-            Log.Error(exception.Message, exception);
+            var ex = exception.GetBaseException();
+            Log.Error(ex.Message, ex);
         }
 
         public static void LogError(Exception exception, string message)
         {
-            Log.Error(message, exception);
+            var ex = exception.GetBaseException();
+            Log.Error(message, ex);
         }
 
         public static void LogError(Exception exception, string message, string query)

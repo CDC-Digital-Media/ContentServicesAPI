@@ -14,12 +14,16 @@
 using Gov.Hhs.Cdc.Bo;
 using System;
 
+using Gov.Hhs.Cdc.MediaProvider;
+
 namespace Gov.Hhs.Cdc.Api
 {
     public interface IOutputWriter
     {
         void Write(object theObject, ValidationMessages messages = null);
-        void WriteToFile(object response, string atFilePath);
+        void WriteToFile(object response, FeedExportObject feedExport);
+
+        void WriteToOutputStream(object theObject, bool isWritingFromCache);
 
         ValidationMessages Write(ValidationMessages messages);
         void CreateAndWriteSerialResponse(object results, ValidationMessages messages = null);

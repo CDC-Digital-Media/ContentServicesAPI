@@ -11,48 +11,179 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
 using Gov.Hhs.Cdc.Api;
 using Gov.Hhs.Cdc.Api.Admin;
 using Gov.Hhs.Cdc.Bo;
-using Gov.Hhs.Cdc.Global;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Gov.Hhs.Cdc.Connection;
+using Gov.Hhs.Cdc.Global;
+using Gov.Hhs.Cdc.MediaProvider;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MediaCrudTests
 {
     [TestClass]
-    public class MediaCollectionTests
+    public class CollectionTests
     {
         int collectionMediaId = 138478;
 
-        static MediaCollectionTests()
+        static CollectionTests()
         {
             ContentServicesDependencyBuilder.BuildAssembliesWithTestEMailProvider();
             CurrentConnection.Name = "ContentServicesDb";
         }
 
-        [TestMethod]
-        public void TestSaveCollection()
+        //could be a global method
+        private static List<AttributeValueObject> CreateAttributeValues(string attributeName, List<int> valueIds)
         {
-            IApiServiceFactory adminService = new AdminApiServiceFactory();
-            var media = AdminApiCalls.SingleMedia(collectionMediaId);
+            var attributeValues = new List<AttributeValueObject>();
+            int displayOrder = 10;
+            foreach (int valueId in valueIds)
+            {
+                attributeValues.Add(NewAttributeValue(attributeName, valueId, displayOrder));
+                displayOrder += 10;
+            };
+            return attributeValues;
+        }
 
-            var child = TestApiUtility.SinglePublishedHtml();
+        //could be a global method
+        private static AttributeValueObject NewAttributeValue(string attributeName, int valueId, int displayOrder)
+        {
+            AttributeValueObject attributeValue = new AttributeValueObject()
+            {
+                ValueKey = new ValueKey(valueId, "English"),
+                AttributeId = 1,
+                AttributeName = attributeName,
+                DisplayOrdinal = displayOrder,
+                IsActive = true
+            };
+            return attributeValue;
+        }
+
+        public static MediaObject CreateNewCollection()
+        {
+            MediaObject newMediaObject = new MediaObject()
+            {
+                SourceCode = "Centers for Disease Control and Prevention",
+                LanguageCode = "English",
+                MediaTypeCode = "Collection",
+                CharacterEncodingCode = "UTF-8",
+                Title = "CreateNewCollection",
+                Description = "test",
+                SourceUrlForApi = "http://www......[domain]...../tobacco/data_statistics/by_topic/secondhand_smoke/index.htm",
+                TargetUrl = "http://www......[domain]...../tobacco/data_statistics/by_topic/secondhand_smoke/index.htm",
+                RatingMinimum = 1,
+                RatingMaximum = 5,
+                MediaStatusCodeValue = MediaStatusCodeValue.Published,
+                PublishedDateTime = DateTime.UtcNow,
+                DateContentAuthored = null,
+                DateContentReviewed = null,
+                DateContentUpdated = null,
+                DateContentPublished = null,
+                DateSyndicationCaptured = null,
+                DateSyndicationUpdated = null,
+                DateSyndicationVisible = null,
+            };
+            List<int> topicIds = new List<int>() { 25272, 25329 };
+
+            List<AttributeValueObject> topics = CreateAttributeValues("Topic", topicIds);
+            newMediaObject.AttributeValues = topics;
+
+
+            return newMediaObject;
+        }
+
+        [TestMethod]
+        public void CanAddItemToCollection()
+        {
+            var adminService = new AdminApiServiceFactory();
+            var media = AdminApiCalls.SingleCollection();
+
+            //media that is not already part of a collection
+            var child = TestApiUtility.PublishedHtml().First(h => h.parentCount == 0);
             int[] testChildMediaIdsToInsert = { int.Parse(child.mediaId) };
 
             TestMediaItems media1 = new TestMediaItems(media, adminService, testChildMediaIdsToInsert);
-            
-            SerialMediaAdmin mediaFromGet = media1.Get();
+
             Assert.AreEqual(1, media1.Media.childRelationships.Count);
 
             media1.UpdateChildren(testChildMediaIdsToInsert);
 
-            mediaFromGet = media1.Get();
+            var mediaFromGet = AdminApiCalls.SingleMedia(child.mediaId);
+            Assert.AreEqual(1, mediaFromGet.parentCount);
+        }
+
+        [TestMethod]
+        public void CanAddItemTo2Collections()
+        {
+            var adminService = new AdminApiServiceFactory();
+            var collectionsWithoutItems = AdminApiCalls.Collections().Where(c => c.childRelationshipCount == 0);
+            var collection1 = collectionsWithoutItems.First();
+            var collection2 = collectionsWithoutItems.First(c => c.mediaId != collection1.mediaId);
+            Assert.AreNotEqual(collection1.mediaId, collection2.mediaId);
+
+            var child = TestApiUtility.PublishedHtml().Where(h => h.childRelationshipCount == 0).First();
+            int[] testChildMediaIdsToInsert = { int.Parse(child.mediaId) };
+            Console.WriteLine("Media ID to add to 2 collections: " + child.mediaId);
+
+            var tmi1 = new TestMediaItems(collection1, adminService, testChildMediaIdsToInsert);
+
+            Assert.AreEqual(1, tmi1.Media.childRelationships.Count);
+
+            tmi1.UpdateChildren(testChildMediaIdsToInsert);
+
+            var mediaFromGet = AdminApiCalls.SingleMedia(collection1.mediaId);
             Assert.AreEqual(1, mediaFromGet.childRelationshipCount);
+
+            var tmi2 = new TestMediaItems(collection2, adminService, testChildMediaIdsToInsert);
+
+            Assert.AreEqual(1, tmi2.Media.childRelationships.Count);
+
+            tmi2.UpdateChildren(testChildMediaIdsToInsert);
+
+            var coll2FromGet = AdminApiCalls.SingleMedia(collection2.mediaId);
+            Assert.AreEqual(1, coll2FromGet.childRelationshipCount);
+        }
+
+        [TestMethod]
+        public void CanSaveItemAddedTo2Collections()
+        {
+            Console.WriteLine("start of test");
+            var adminService = new AdminApiServiceFactory();
+            var collectionsWithoutItems = AdminApiCalls.Collections().Where(c => c.childRelationshipCount == 0);
+            Console.WriteLine(collectionsWithoutItems.Count().ToString());
+            var collection1 = collectionsWithoutItems.First();
+            Console.WriteLine(collection1.mediaId + " is collection1");
+            var collection2 = collectionsWithoutItems.First(c => c.mediaId != collection1.mediaId);
+            Assert.AreNotEqual(collection1.mediaId, collection2.mediaId);
+
+            var child = TestApiUtility.PublishedHtml().Where(h => h.parentCount == 0).First();
+            Assert.IsNotNull(child);
+            Console.WriteLine("Media ID to add to 2 collections: " + child.mediaId);
+            int[] testChildMediaIdsToInsert = { int.Parse(child.mediaId) };
+
+            var tmi1 = new TestMediaItems(collection1, adminService, testChildMediaIdsToInsert);
+            tmi1.UpdateChildren(testChildMediaIdsToInsert);
+
+            var tmi2 = new TestMediaItems(collection2, adminService, testChildMediaIdsToInsert);
+            tmi2.UpdateChildren(testChildMediaIdsToInsert);
+
+            var mediaFromGet = AdminApiCalls.SingleMedia(child.mediaId);
+            Assert.AreEqual(2, mediaFromGet.parentRelationships.Count);
+
+            List<SerialMediaAdmin> updatedAdmins;
+            var url = adminService.CreateTestUrl("media", child.mediaId);
+            string authorizedUser = "";
+            var messages = TestApiUtility.ApiPut<SerialMediaAdmin>(adminService, url, child, out updatedAdmins, authorizedUser);
+            if (messages.NumberOfErrors > 0)
+            {
+                var firstError = messages.Errors().First();
+                Assert.Fail(firstError.Message + " : " + firstError.DeveloperMessage);
+            }
+            mediaFromGet = AdminApiCalls.SingleMedia(child.mediaId);
+            Assert.AreEqual(2, mediaFromGet.parentRelationships.Count);
         }
 
 
@@ -62,13 +193,13 @@ namespace MediaCrudTests
         [TestMethod]
         public void TestRecursiveLoopError()
         {
-            IApiServiceFactory adminService = new AdminApiServiceFactory();
+            var adminService = new AdminApiServiceFactory();
             List<SerialMediaAdmin> sampleMedias;
 
             int[] testMediaIds = { 1, 2 };
 
             TestApiUtility.ApiGet<SerialMediaAdmin>(adminService,
-                adminService.CreateTestUrl("media", collectionMediaId.ToString(), "", ""), out sampleMedias);
+                adminService.CreateTestUrl("media", collectionMediaId), out sampleMedias);
 
             TestMediaItems media1 = new TestMediaItems(sampleMedias[0], adminService, testMediaIds);
             media1.Insert();
@@ -99,15 +230,16 @@ namespace MediaCrudTests
         private class TestMediaItems
         {
             public SerialMediaAdmin Media { get; set; }
-            IApiServiceFactory AdminService { get; set; }
+            AdminApiServiceFactory AdminService { get; set; }
             public int MediaId { get { return int.Parse(Media.id); } }
             public ValidationMessages InsertValidationMessages { get; set; }
             public ValidationMessages UpdateValidationMessages { get; set; }
             private string authorizedUser = "";
 
 
-            public TestMediaItems(SerialMediaAdmin mediaObject, IApiServiceFactory adminService, params int[] children)
+            public TestMediaItems(SerialMediaAdmin mediaObject, AdminApiServiceFactory adminService, params int[] children)
             {
+                if (mediaObject == null) { throw new InvalidOperationException("media not found"); }
                 Media = mediaObject;
                 AdminService = adminService;
                 Media.id = mediaObject.id;
@@ -119,7 +251,7 @@ namespace MediaCrudTests
             public void Insert()
             {
                 List<SerialMediaAdmin> updatedAdmins;
-                TestUrl insertUrl = AdminService.CreateTestUrl("media", "", "", "");
+                TestUrl insertUrl = AdminService.CreateTestUrl("media");
                 InsertValidationMessages = TestApiUtility.ApiPost<SerialMediaAdmin>(AdminService, insertUrl, Media, out updatedAdmins, authorizedUser);
                 //not getting a media object back when inserting a child
                 //maybe because it doesn't exist?
@@ -129,15 +261,7 @@ namespace MediaCrudTests
 
             public TestUrl UrlWithId
             {
-                get { return AdminService.CreateTestUrl("media", Media.id, "", ""); }
-            }
-
-            public SerialMediaAdmin Get()
-            {
-                List<SerialMediaAdmin> mediasFromGet;
-                TestApiUtility.ApiGet<SerialMediaAdmin>(AdminService, UrlWithId, out mediasFromGet);
-                Assert.IsTrue(mediasFromGet.Count() > 0);
-                return mediasFromGet[0];
+                get { return AdminService.CreateTestUrl("media", Media.id); }
             }
 
             public void UpdateChildren(params int[] children)
@@ -146,7 +270,10 @@ namespace MediaCrudTests
                     .Select(i => new SerialMediaRelationship() { relatedMediaId = i, displayOrdinal = 20 - i }).ToList();
                 List<SerialMediaAdmin> updatedAdmins;
                 UpdateValidationMessages = TestApiUtility.ApiPut<SerialMediaAdmin>(AdminService, UrlWithId, Media, out updatedAdmins, authorizedUser);
-                Assert.IsNotNull(updatedAdmins);
+                if (updatedAdmins == null)
+                {
+                    Assert.Fail("Media ID: " + Media.id + " " + UpdateValidationMessages.Errors().FirstOrDefault().Message);
+                }
                 if (UpdateValidationMessages.Errors().Count() == 0)
                 {
                     Assert.AreEqual(1, updatedAdmins.Count);
@@ -154,13 +281,13 @@ namespace MediaCrudTests
                 }
                 else
                 {
-                    Assert.Fail(UpdateValidationMessages.Errors().First().Message);
+                    Assert.Fail("Media ID: " + Media.id + " " + UpdateValidationMessages.Errors().FirstOrDefault().Message);
                 }
             }
 
             public void Delete()
             {
-                ValidationMessages deleteMessages = TestApiUtility.ApiDelete(AdminService, UrlWithId, "", authorizedUser);
+                ValidationMessages deleteMessages = TestApiUtility.ApiDelete(AdminService, UrlWithId, authorizedUser);
                 if (deleteMessages.Errors().Count() > 0)
                 {
                     Assert.Fail(deleteMessages.Errors().First().Message);

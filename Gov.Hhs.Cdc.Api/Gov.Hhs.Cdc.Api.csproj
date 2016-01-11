@@ -179,9 +179,12 @@
     <Compile Include="Handlers\ThumbnailHandler.cs" />
     <Compile Include="Output\CustomSerialize\MediaV2CustomJsonSerializer.cs" />
     <Compile Include="Output\CustomSerialize\DictionaryJsonDotNetConverter.cs" />
+    <Compile Include="Output\Feed\Export\FacebookFeedExporter.cs" />
+    <Compile Include="Output\Feed\Export\FeedExportBase.cs" />
     <Compile Include="Output\Feed\FeedBase.cs" />
     <Compile Include="Output\Feed\FeedFactory.cs" />
     <Compile Include="Output\Feed\FeedImport.cs" />
+    <Compile Include="Output\Feed\Export\GenericExporter.cs" />
     <Compile Include="Output\Feed\IFeedBase.cs" />
     <Compile Include="Output\Feed\FeedManaged.cs" />
     <Compile Include="Output\Feed\old_FeedFormatter.cs" />
@@ -190,6 +193,8 @@
     <Compile Include="Output\Feed\old_ParseMediaList.cs" />
     <Compile Include="Output\Feed\old_RootElement.cs" />
     <Compile Include="Output\Feed\FeedProxy.cs" />
+    <Compile Include="Output\Feed\Export\OutbreaksFeedExporter.cs" />
+    <Compile Include="Output\Feed\Export\TwitterFeedExporter.cs" />
     <Compile Include="Output\IOutputWriter.cs" />
     <Compile Include="Output\CustomSerialize\KeyValuePairJsonConverter.cs" />
     <Compile Include="Output\TestOutputWriter.cs" />

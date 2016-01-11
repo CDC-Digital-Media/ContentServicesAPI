@@ -129,8 +129,9 @@ namespace Gov.Hhs.Cdc.DataServices
             catch (Exception ex)
             {
                 var message =  "An error occurred while saving " + updateMgr.ObjectName + " to the database";
-                Logger.LogError(ex.GetBaseException(), message);
-                validationMessages.Add(new ValidationMessage(ValidationMessage.ValidationSeverity.Error, "Value", message));
+                var baseEx = ex.GetBaseException();
+                Logger.LogError(baseEx, message);
+                validationMessages.AddError("DataManager.Save", "", message, baseEx.Message);
             }
 
             return validationMessages;
@@ -164,7 +165,7 @@ namespace Gov.Hhs.Cdc.DataServices
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Error occurred in Media.Delete for type: " + updateMgr.ObjectName);
+                Logger.LogError(ex, "Error occurred in Delete for type: " + updateMgr.ObjectName);
                 validationMessages.Add(new ValidationMessage(ValidationMessage.ValidationSeverity.Error, "Value", ex.Message));
             }
             return validationMessages;

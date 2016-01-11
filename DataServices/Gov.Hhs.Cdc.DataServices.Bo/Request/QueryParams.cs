@@ -19,7 +19,7 @@ namespace Gov.Hhs.Cdc.DataServices.Bo
 {
     public enum FormatType
     {
-        json, jsonp, xml, jpg, jpeg, png, html, rss, atom, itunes
+        json, jsonp, xml, jpg, jpeg, png, html, rss, atom, itunes, facebook, twitter, outbreaks, generic
     }
 
     public sealed class QueryParams
@@ -42,6 +42,9 @@ namespace Gov.Hhs.Cdc.DataServices.Bo
             this.CropW = 0;
             this.CropH = 0;
             this.Pause = 0;
+
+            this.ItemOffset= null;
+            this.ItemCount = null;
         }
 
         public bool IsKindOfFeedFormatType
@@ -58,6 +61,10 @@ namespace Gov.Hhs.Cdc.DataServices.Bo
 
         //public int TimeToLive { get; set; }
         //public int TimeToWait { get; set; }
+
+        public int? ItemOffset { get; set; }
+        public int? ItemCount { get; set; }
+
         public int Offset { get; set; }
         public int PageNumber { get; set; }
         public int PageSize { get; set; }

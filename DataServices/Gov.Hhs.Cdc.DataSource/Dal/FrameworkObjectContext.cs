@@ -59,10 +59,10 @@ namespace Gov.Hhs.Cdc.DataSource.Dal
 
         public override ICachedDataControl CreateNewCachedDataControl<T>()
         {
-            if (typeof(T) == typeof(FilterCriteriaDefinition))
-            {
-                return new FilterCriteriaDTOCtl();
-            }
+            //if (typeof(T) == typeof(FilterCriteriaDefinition))
+            //{
+            //    return new FilterCriteriaDTOCtl();
+            //}
             throw new ApplicationException("ObjectContext.CreateNewCachedDataControl could not find a DataCtl for class :" + typeof(T).ToString());
         }
     }

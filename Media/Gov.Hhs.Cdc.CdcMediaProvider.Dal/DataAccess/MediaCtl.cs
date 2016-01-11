@@ -706,6 +706,17 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
             }
         }
 
+        public static IQueryable<MediaObject> GetSimpleOptimized(MediaObjectContext media)
+        {
+            IQueryable<MediaObject> mediaItems = from m in media.MediaDbEntities.Medias
+                                                 select new MediaObject()
+                                                 {
+                                                     Id = m.MediaId,
+                                                     MediaTypeCode = m.MediaTypeCode                                                    
+                                                 };
+            return mediaItems;
+        }
+
         public static IQueryable<MediaObject> GetSimple(MediaObjectContext media)
         {
             IQueryable<MediaObject> mediaItems = from m in media.MediaDbEntities.CombinedMediaList1
@@ -919,7 +930,9 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
                             Id = a.Id,
                             MediaId = r.MediaId,
                             FilePath = a.FilePath,
-                            FeedFormatName = a.FeedFormatName
+                            FeedFormatName = a.FeedFormatName,
+                            Offset = a.Offset,
+                            ItemCount = a.ItemCount
                         }).ToList()
                     };
                 case "feed item":

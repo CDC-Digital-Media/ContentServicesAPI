@@ -44,20 +44,38 @@ namespace Gov.Hhs.Cdc.Api
 
         private List<SyndicationItem> Items { get; set; }
 
-        protected SyndicationFeed Feed { get; set; }       
+        protected IEnumerable<MediaObject> MediaItems { get; set; }
+
+        protected SyndicationFeed Feed { get; set; }
         protected List<MediaObject> Medias { get; set; }
         protected MediaObject Media { get; set; }
         protected ICallParser Parser { get; set; }
-        protected string strReturn { get; set; }        
-        
+
+        protected string strReturn { get; set; }
+
         public FeedBase(List<MediaObject> medias, ICallParser parser)
         {
             this.Medias = medias;
             this.Media = medias.FirstOrDefault();
 
             this.Parser = parser;
-
             this.Feed = new SyndicationFeed();
+
+            InitializeMediaItems();
+        }
+
+        private void InitializeMediaItems()
+        {
+            if (this.Media.Children != null)
+            {
+                this.MediaItems = this.Media.Children;
+
+                if (Parser.Query.ItemOffset != null && Parser.Query.ItemOffset > 0)
+                    this.MediaItems = this.MediaItems.Skip(int.Parse(Parser.Query.ItemOffset.ToString()));
+
+                if (Parser.Query.ItemCount != null && Parser.Query.ItemCount > 0)
+                    this.MediaItems = this.MediaItems.Take(int.Parse(Parser.Query.ItemCount.ToString()));
+            }
         }
 
         #region "Generate Feed"
@@ -184,15 +202,15 @@ namespace Gov.Hhs.Cdc.Api
         {
             this.Items = new List<SyndicationItem>();
 
-            if (this.Media.Children != null)
+            if (this.MediaItems != null)
             {
                 var feedItems = new List<MediaObject>();
 
                 if (this.Parser.IsPublicFacing)
-                    feedItems = this.Media.Children;
+                    feedItems = this.MediaItems.ToList();
                 else
                     feedItems = GetChildItemFromXmlSearch(status: "Published");
-                    //feedItems = this.Media.Children.Where(c => c.MediaStatusCode == "Published").ToList();
+                //feedItems = this.Media.Children.Where(c => c.MediaStatusCode == "Published").ToList();
 
                 foreach (var mediaItem in feedItems.Where(a => !a.MediaTypeParms.IsFeedImage).ToList())
                 {
@@ -212,7 +230,7 @@ namespace Gov.Hhs.Cdc.Api
                     {
                         feedItem.Categories.Add(new SyndicationCategory(vocabCategory.ValueName, "", vocabCategory.AttributeName));
                     }
-                    
+
                     if (!string.IsNullOrEmpty(mediaItem.TargetUrl))
                     {
                         feedItem.AddPermalink(new Uri(mediaItem.TargetUrl));
@@ -275,13 +293,22 @@ namespace Gov.Hhs.Cdc.Api
         {
             this.Parser.Criteria2.ParentId = this.Media.MediaId.ToString();
             this.Parser.Criteria2.Status = status;
+
+            this.MediaItems = this.Media.Children;
+
+            if (Parser.Query.ItemOffset != null && Parser.Query.ItemOffset > 0)
+                this.Parser.Criteria2.PageOffset = Parser.Query.ItemOffset.ToString();
+
+            if (Parser.Query.ItemCount != null && Parser.Query.ItemCount > 0)
+                this.Parser.Criteria2.RowsPerPage = Parser.Query.ItemCount.ToString();
+
             IEnumerable<MediaObject> mediaObjects = CsMediaSearchProvider.Search(Parser.Criteria2);
-            
+
             return mediaObjects.ToList();
         }
 
         #endregion
-                
+
         protected static string PerformWebRequest(HttpWebRequest request)
         {
             string result = null;

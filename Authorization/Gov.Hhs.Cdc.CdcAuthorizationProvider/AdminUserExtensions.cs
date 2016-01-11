@@ -22,10 +22,23 @@ namespace Gov.Hhs.Cdc.Authorization
         {
             if (user == null || user.Roles == null) { return false; }
             var roles = user.Roles.ToList();
-            if (roles.Contains(AuthorizationManager.SystemAdminRole)) { return true; }
+            if (roles.Contains(AuthorizationManager.SystemAdminRole)
+                || roles.Contains(AuthorizationManager.FeedsAdminRole)
+                || roles.Contains(AuthorizationManager.StorefrontManagerRole)
+                || roles.Contains(AuthorizationManager.MediaAdminRole))
+            {
+                return true;
+            }
 
             //TODO:  Add mediaId check
-            return roles.Contains(AuthorizationManager.MediaAdminRole);
+            return false;
+        }
+
+        public static bool CanDeleteMedia(this AdminUser user)
+        {
+            if (user == null || user.Roles == null) { return false; }
+            var roles = user.Roles.ToList();
+            return roles.Contains(AuthorizationManager.SystemAdminRole);
         }
 
         public static bool CanEditVocabulary(this AdminUser user)
@@ -41,6 +54,20 @@ namespace Gov.Hhs.Cdc.Authorization
             var roles = user.Roles.ToList();
             if (roles.Contains(AuthorizationManager.SystemAdminRole)) { return true; }
             return roles.Contains(AuthorizationManager.FeedsSchedulerRole);
+        }
+
+        public static bool CanAdminData(this AdminUser user)
+        {
+            if (user == null || user.Roles == null) { return false; }
+            var roles = user.Roles.ToList();
+            return roles.Contains(AuthorizationManager.SystemAdminRole);
+        }
+
+        public static bool CanAdminAuthorization(this AdminUser user)
+        {
+            if (user == null || user.Roles == null) { return false; }
+            var roles = user.Roles.ToList();
+            return roles.Contains(AuthorizationManager.SystemAdminRole);
         }
     }
 }

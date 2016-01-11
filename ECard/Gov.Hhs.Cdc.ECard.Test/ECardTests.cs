@@ -87,14 +87,13 @@ namespace Gov.Hhs.Cdc.ECard.Test
         [TestMethod]
         public void ViewECard()
         {
-            string testEcardInstanceId = "C8B1B095-404F-4BFD-9884-A67C10205D15";
+            string testEcardInstanceId = "E1E21610-CD87-45FF-BE41-29DFBE026F20";
             SerialCardView cardView;
             ValidationMessages messages = ViewEcard(testEcardInstanceId, out cardView);
             if (messages.Errors().Any())
             {
-                Console.WriteLine(messages.Errors().First().Message);
                 Console.WriteLine(messages.Errors().First().DeveloperMessage);
-                Assert.Fail();
+                Assert.Fail(messages.Errors().First().Message);
             }
         }
 
@@ -108,8 +107,9 @@ namespace Gov.Hhs.Cdc.ECard.Test
 
                 WebClient serviceRequest = new WebClient();
                 string callResults = serviceRequest.DownloadString(new Uri(ecardUrl));
+                Console.WriteLine(callResults);
                 
-                SerialResponseWithType<SerialCardView> mediaObj = new JavaScriptSerializer().Deserialize<SerialResponseWithType<SerialCardView>>(callResults);
+                var mediaObj = new JavaScriptSerializer().Deserialize<SerialResponseWithType<SerialCardView>>(callResults);
                 cardView = mediaObj.results;
                 return mediaObj.meta.GetUnserializedMessages();
             }

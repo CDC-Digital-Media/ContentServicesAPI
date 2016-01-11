@@ -63,7 +63,12 @@ namespace Gov.Hhs.Cdc.Api
 
         public static void UpdateUser(IOutputWriter writer, string stream, AdminUser updatedBy)
         {
-            ValidationMessages messages = new ValidationMessages();
+            if (!updatedBy.CanAdminAuthorization())
+            {
+                writer.Write(ValidationMessages.CreateError("auth", "User " + updatedBy.UserName + " is not authorized for Authorization."));
+                return;
+            }
+            var messages = new ValidationMessages();
             SerialAdminUser user = null;
             try
             {
@@ -78,7 +83,7 @@ namespace Gov.Hhs.Cdc.Api
             var temp = new AdminUser
             {
                 Roles = user.roles,
-                UserName = "CDC\\" + user.userName,
+                UserName = "CDC\\" + user.userName, //TODO:  Create prefix constant
                 Email = user.email,
                 FirstName = user.firstName,
                 LastName = user.lastName
@@ -92,7 +97,7 @@ namespace Gov.Hhs.Cdc.Api
                 AuthorizationManager.SetRoles(temp, updatedBy);
             }
 
-            var response = new SerialResponse(user);
+            var response = new SerialResponse(user);   
             writer.Write(response, messages);
 
         }
@@ -104,5 +109,29 @@ namespace Gov.Hhs.Cdc.Api
             writer.Write(response);
         }
 
+        public static void WriteMediaSets(IOutputWriter writer)
+        {
+            var mediasets = AuthorizationManager.MediaSets();
+            var response = new SerialResponse(mediasets);
+            writer.Write(response);
+        }
+
+        public static void CreateMediaSet(IOutputWriter writer, string stream, AdminUser addedBy)
+        {
+            if (!addedBy.CanAdminAuthorization())
+            {
+                writer.Write(ValidationMessages.CreateError("auth", "User " + addedBy.UserName + " is not authorized for Authorization."));
+                return;
+            }
+
+            var messages = new ValidationMessages();
+            var set = new JavaScriptSerializer().Deserialize<Gov.Hhs.Cdc.CsBusinessObjects.Admin.MediaSet>(stream);
+
+            AuthorizationManager.AddMediaSet(set, addedBy);
+
+            var response = new SerialResponse(set);
+            writer.Write(response, messages);
+
+        }
     }
 }

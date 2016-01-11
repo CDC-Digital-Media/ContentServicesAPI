@@ -689,6 +689,8 @@
           <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
           <Property Name="ModifiedByGUID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="Offset" Type="int" />
+          <Property Name="ItemCount" Type="int" />
         </EntityType>
         <EntityType Name="FeedFormat">
           <Key>
@@ -696,6 +698,8 @@
           </Key>
           <Property Name="FeedFormatName" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="TypeName" Type="nvarchar" MaxLength="512" />
+          <Property Name="FeedTemplate" Type="nvarchar(max)" />
+          <Property Name="FeedItemTemplate" Type="nvarchar(max)" />
           <Property Name="Active" Type="bit" Nullable="false" />
           <Property Name="CreatedByGuid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
@@ -1292,6 +1296,7 @@
             <PropertyRef Name="RowVersion" />
             <PropertyRef Name="MediaStatusCode" />
             <PropertyRef Name="EffectiveStatus" />
+            
             <PropertyRef Name="CreatedByGuid" />
             <PropertyRef Name="CreatedDateTime" />
             <PropertyRef Name="ModifiedByGuid" />
@@ -1299,7 +1304,7 @@
           </Key>
           <Property Name="MediaId" Type="int" Nullable="false" />
           <Property Name="MediaGuid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ExternalIdentifier" Type="nvarchar(max)" />
+          <Property Name="ExternalIdentifier" Type="nvarchar" MaxLength="25" />
           <Property Name="SourceCode" Type="nvarchar" Nullable="false" MaxLength="255" />
           <Property Name="DomainName" Type="varchar" MaxLength="1024" />
           <Property Name="OwningBusinessUnitId" Type="int" />
@@ -1336,7 +1341,7 @@
           <Property Name="PersistentURLToken" Type="varchar" MaxLength="15" />
           <Property Name="MediaStatusCode" Type="varchar" Nullable="false" MaxLength="200" />
           <Property Name="EffectiveStatus" Type="varchar" Nullable="false" MaxLength="200" />
-          <Property Name="AttributionText" Type="nvarchar(max)" />
+          <Property Name="AttributionText" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ChildCount" Type="int" />
           <Property Name="DisplayOnSearch" Type="varchar" MaxLength="3" />
           <Property Name="CreatedByGuid" Type="uniqueidentifier" Nullable="false" />
@@ -2426,18 +2431,19 @@
             <End Role="Medias" EntitySet="Medias" />
             <End Role="FeedAggregate" EntitySet="FeedAggregates" />
           </AssociationSet>
-          <EntitySet Name="FeedFormats" EntityType="ContentServices_IntegrationModel.FeedFormat" />
           <EntitySet Name="Feeds" EntityType="ContentServices_IntegrationModel.Feed" />
+          <AssociationSet Name="FK_media_Feeds_ref_media_Media" Association="ContentServices_IntegrationModel.FK_media_Feeds_ref_media_Media">
+            <End Role="Medias" EntitySet="Medias" />
+            <End Role="Feed" EntitySet="Feeds" />
+          </AssociationSet>
+          <EntitySet Name="Logs" EntityType="ContentServices_IntegrationModel.Log" />
+          <EntitySet Name="FeedFormats" EntityType="ContentServices_IntegrationModel.FeedFormat" />
           <AssociationSet Name="FK_Media_Feeds_ref_Media_FeedFormatExport" Association="ContentServices_IntegrationModel.FK_Media_Feeds_ref_Media_FeedFormatExport">
             <End Role="FeedFormat" EntitySet="FeedFormats" />
             <End Role="Feed" EntitySet="Feeds" />
           </AssociationSet>
           <AssociationSet Name="FK_Media_Feeds_ref_Media_FeedFormatImport" Association="ContentServices_IntegrationModel.FK_Media_Feeds_ref_Media_FeedFormatImport">
             <End Role="FeedFormat" EntitySet="FeedFormats" />
-            <End Role="Feed" EntitySet="Feeds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_media_Feeds_ref_media_Media" Association="ContentServices_IntegrationModel.FK_media_Feeds_ref_media_Media">
-            <End Role="Medias" EntitySet="Medias" />
             <End Role="Feed" EntitySet="Feeds" />
           </AssociationSet>
           <EntitySet Name="FeedExports" EntityType="ContentServices_IntegrationModel.FeedExport" />
@@ -2450,9 +2456,8 @@
             <End Role="FeedExport" EntitySet="FeedExports" />
           </AssociationSet>
           <FunctionImport Name="SearchMediaXML" ReturnType="Collection(ContentServices_IntegrationModel.SearchMediaXML_Result)">
-          <Parameter Name="XML" Mode="In" Type="String" />
+            <Parameter Name="XML" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="Logs" EntityType="ContentServices_IntegrationModel.Log" />
           </EntityContainer>
         <EntityType Name="Language">
           <Key>
@@ -3595,7 +3600,7 @@
           </Key>
           <Property Type="Int32" Name="MediaId" Nullable="false" />
           <Property Type="Guid" Name="MediaGuid" Nullable="false" />
-          <Property Type="String" Name="ExternalIdentifier" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ExternalIdentifier" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="SourceCode" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="DomainName" MaxLength="1024" FixedLength="false" Unicode="false" />
           <Property Type="Int32" Name="OwningBusinessUnitId" />
@@ -3631,7 +3636,7 @@
           <Property Type="String" Name="PersistentURLToken" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="MediaStatusCode" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="EffectiveStatus" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="AttributionText" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="AttributionText" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Type="Int32" Name="ChildCount" />
           <Property Type="String" Name="DisplayOnSearch" MaxLength="3" FixedLength="false" Unicode="false" />
           <Property Type="Guid" Name="CreatedByGuid" Nullable="false" />
@@ -4027,21 +4032,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="FeedFormat">
-          <Key>
-            <PropertyRef Name="FeedFormatName" />
-          </Key>
-          <Property Type="String" Name="FeedFormatName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="TypeName" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Type="Boolean" Name="Active" Nullable="false" />
-          <Property Type="Guid" Name="CreatedByGuid" Nullable="false" />
-          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
-          <Property Type="Guid" Name="ModifiedByGuid" Nullable="false" />
-          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Feeds" Relationship="ContentServices_IntegrationModel.FK_Media_Feeds_ref_Media_FeedFormatExport" FromRole="FeedFormat" ToRole="Feed" />
-          <NavigationProperty Name="Feeds1" Relationship="ContentServices_IntegrationModel.FK_Media_Feeds_ref_Media_FeedFormatImport" FromRole="FeedFormat" ToRole="Feed" />
-          <NavigationProperty Name="FeedExports" Relationship="ContentServices_IntegrationModel.FK_Media_FeedExport_Ref_Media_FeedFormatExport" FromRole="FeedFormat" ToRole="FeedExport" />
-        </EntityType>
         <EntityType Name="Feed">
           <Key>
             <PropertyRef Name="MediaID" />
@@ -4059,9 +4049,52 @@
           <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
           <Property Type="Guid" Name="ModifiedByGUID" Nullable="false" />
           <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Medium" Relationship="ContentServices_IntegrationModel.FK_media_Feeds_ref_media_Media" FromRole="Feed" ToRole="Medias" />
           <NavigationProperty Name="FeedFormat" Relationship="ContentServices_IntegrationModel.FK_Media_Feeds_ref_Media_FeedFormatExport" FromRole="Feed" ToRole="FeedFormat" />
           <NavigationProperty Name="FeedFormat1" Relationship="ContentServices_IntegrationModel.FK_Media_Feeds_ref_Media_FeedFormatImport" FromRole="Feed" ToRole="FeedFormat" />
-          <NavigationProperty Name="Medium" Relationship="ContentServices_IntegrationModel.FK_media_Feeds_ref_media_Media" FromRole="Feed" ToRole="Medias" />
+        </EntityType>
+        <Association Name="FK_media_Feeds_ref_media_Media">
+          <End Type="ContentServices_IntegrationModel.Medias" Role="Medias" Multiplicity="1" />
+          <End Type="ContentServices_IntegrationModel.Feed" Role="Feed" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Medias">
+              <PropertyRef Name="MediaId" />
+            </Principal>
+            <Dependent Role="Feed">
+              <PropertyRef Name="MediaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Type="DateTime" Name="LogDateTime" Nullable="false" Precision="7" />
+          <Property Type="String" Name="Thread" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Level" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Logger" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Message" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Exception" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="Int64" Name="LogID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Precision="3" />
+          <Property Type="String" Name="Query" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="FeedFormat">
+          <Key>
+            <PropertyRef Name="FeedFormatName" />
+          </Key>
+          <Property Type="String" Name="FeedFormatName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TypeName" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FeedTemplate" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FeedItemTemplate" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="Active" Nullable="false" />
+          <Property Type="Guid" Name="CreatedByGuid" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Guid" Name="ModifiedByGuid" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Feeds" Relationship="ContentServices_IntegrationModel.FK_Media_Feeds_ref_Media_FeedFormatExport" FromRole="FeedFormat" ToRole="Feed" />
+          <NavigationProperty Name="Feeds1" Relationship="ContentServices_IntegrationModel.FK_Media_Feeds_ref_Media_FeedFormatImport" FromRole="FeedFormat" ToRole="Feed" />
+          <NavigationProperty Name="FeedExports" Relationship="ContentServices_IntegrationModel.FK_Media_FeedExport_Ref_Media_FeedFormatExport" FromRole="FeedFormat" ToRole="FeedExport" />
         </EntityType>
         <Association Name="FK_Media_Feeds_ref_Media_FeedFormatExport">
           <End Type="ContentServices_IntegrationModel.FeedFormat" Role="FeedFormat" Multiplicity="0..1" />
@@ -4087,18 +4120,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_media_Feeds_ref_media_Media">
-          <End Type="ContentServices_IntegrationModel.Medias" Role="Medias" Multiplicity="1" />
-          <End Type="ContentServices_IntegrationModel.Feed" Role="Feed" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Medias">
-              <PropertyRef Name="MediaId" />
-            </Principal>
-            <Dependent Role="Feed">
-              <PropertyRef Name="MediaID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="FeedExport">
           <Key>
             <PropertyRef Name="FeedExportID" />
@@ -4111,6 +4132,8 @@
           <Property Type="DateTime" Name="CreatedDateTime" Nullable="false" Precision="3" />
           <Property Type="Guid" Name="ModifiedByGUID" Nullable="false" />
           <Property Type="DateTime" Name="ModifiedDateTime" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="Offset" />
+          <Property Type="Int32" Name="ItemCount" />
           <NavigationProperty Name="FeedFormat" Relationship="ContentServices_IntegrationModel.FK_Media_FeedExport_Ref_Media_FeedFormatExport" FromRole="FeedExport" ToRole="FeedFormat" />
           <NavigationProperty Name="Medium" Relationship="ContentServices_IntegrationModel.FK_Media_FeedExport_Ref_Media_Media" FromRole="FeedExport" ToRole="Medias" />
         </EntityType>
@@ -4151,7 +4174,7 @@
           <Property Type="String" Name="Campaigns" Nullable="true" />
           <Property Type="String" Name="SourceCode" Nullable="false" MaxLength="255" />
           <Property Type="String" Name="Acronym" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="AttributionText" Nullable="true" />
+          <Property Type="String" Name="AttributionText" Nullable="false" />
           <Property Type="String" Name="LogoLargeUrl" Nullable="true" MaxLength="2048" />
           <Property Type="String" Name="LogoSmallUrl" Nullable="true" MaxLength="2048" />
           <Property Type="String" Name="GeoJSON" Nullable="true" />
@@ -4230,20 +4253,6 @@
           <Property Type="Int32" Name="RowsPerPage" Nullable="true" />
           <Property Type="Int32" Name="PageOffset" Nullable="true" />
         </ComplexType>
-        <EntityType Name="Log">
-          <Key>
-            <PropertyRef Name="LogID" />
-          </Key>
-          <Property Type="DateTime" Name="LogDateTime" Nullable="false" Precision="7" />
-          <Property Type="String" Name="Thread" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Level" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Logger" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Message" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Exception" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="Int64" Name="LogID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="DateTime" Name="ModifiedDateTime" Precision="3" />
-          <Property Type="String" Name="Query" MaxLength="Max" FixedLength="false" Unicode="false" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5212,19 +5221,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="FeedFormats">
-            <EntityTypeMapping TypeName="ContentServices_IntegrationModel.FeedFormat">
-              <MappingFragment StoreEntitySet="FeedFormat">
-                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
-                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
-                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
-                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
-                <ScalarProperty Name="FeedFormatName" ColumnName="FeedFormatName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Feeds">
             <EntityTypeMapping TypeName="ContentServices_IntegrationModel.Feed">
               <MappingFragment StoreEntitySet="Feeds">
@@ -5244,9 +5240,41 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="ContentServices_IntegrationModel.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="Query" ColumnName="Query" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+                <ScalarProperty Name="Exception" ColumnName="Exception" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Logger" ColumnName="Logger" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Thread" ColumnName="Thread" />
+                <ScalarProperty Name="LogDateTime" ColumnName="LogDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FeedFormats">
+            <EntityTypeMapping TypeName="ContentServices_IntegrationModel.FeedFormat">
+              <MappingFragment StoreEntitySet="FeedFormat">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="ModifiedByGuid" ColumnName="ModifiedByGuid" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="CreatedByGuid" ColumnName="CreatedByGuid" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="FeedItemTemplate" ColumnName="FeedItemTemplate" />
+                <ScalarProperty Name="FeedTemplate" ColumnName="FeedTemplate" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="FeedFormatName" ColumnName="FeedFormatName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="FeedExports">
             <EntityTypeMapping TypeName="ContentServices_IntegrationModel.FeedExport">
               <MappingFragment StoreEntitySet="FeedExport">
+                <ScalarProperty Name="ItemCount" ColumnName="ItemCount" />
+                <ScalarProperty Name="Offset" ColumnName="Offset" />
                 <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
                 <ScalarProperty Name="ModifiedByGUID" ColumnName="ModifiedByGUID" />
                 <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
@@ -5354,21 +5382,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="Logs">
-            <EntityTypeMapping TypeName="ContentServices_IntegrationModel.Log">
-              <MappingFragment StoreEntitySet="Log">
-                <ScalarProperty Name="Query" ColumnName="Query" />
-                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
-                <ScalarProperty Name="LogID" ColumnName="LogID" />
-                <ScalarProperty Name="Exception" ColumnName="Exception" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="Logger" ColumnName="Logger" />
-                <ScalarProperty Name="Level" ColumnName="Level" />
-                <ScalarProperty Name="Thread" ColumnName="Thread" />
-                <ScalarProperty Name="LogDateTime" ColumnName="LogDateTime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -5644,15 +5657,15 @@
         <AssociationConnector Association="ContentServices_IntegrationModel.FK_Enclosures_Media" />
         <EntityTypeShape EntityType="ContentServices_IntegrationModel.FeedAggregate" Width="1.5" PointX="3.6695997136037795" PointY="12.634037440937961" />
         <AssociationConnector Association="ContentServices_IntegrationModel.FK_FeedAggregate_Media" />
-        <EntityTypeShape EntityType="ContentServices_IntegrationModel.FeedFormat" Width="1.5" PointX="11.25" PointY="16" />
         <EntityTypeShape EntityType="ContentServices_IntegrationModel.Feed" Width="1.5" PointX="8.7479926369842111" PointY="16.798911042883486" />
+        <AssociationConnector Association="ContentServices_IntegrationModel.FK_media_Feeds_ref_media_Media" />
+        <EntityTypeShape EntityType="ContentServices_IntegrationModel.Log" Width="1.5" PointX="3.7666818498478651" PointY="18.828446590727403" />
+        <EntityTypeShape EntityType="ContentServices_IntegrationModel.FeedFormat" Width="1.5" PointX="4.1830121037471164" PointY="10.673960064851661" />
         <AssociationConnector Association="ContentServices_IntegrationModel.FK_Media_Feeds_ref_Media_FeedFormatExport" />
         <AssociationConnector Association="ContentServices_IntegrationModel.FK_Media_Feeds_ref_Media_FeedFormatImport" />
-        <AssociationConnector Association="ContentServices_IntegrationModel.FK_media_Feeds_ref_media_Media" />
-        <EntityTypeShape EntityType="ContentServices_IntegrationModel.FeedExport" Width="1.5" PointX="6.6700426762318443" PointY="22.808017026077962" />
+        <EntityTypeShape EntityType="ContentServices_IntegrationModel.FeedExport" Width="1.5" PointX="8.660926204482525" PointY="27.832291407432542" />
         <AssociationConnector Association="ContentServices_IntegrationModel.FK_Media_FeedExport_Ref_Media_FeedFormatExport" />
         <AssociationConnector Association="ContentServices_IntegrationModel.FK_Media_FeedExport_Ref_Media_Media" />
-        <EntityTypeShape EntityType="ContentServices_IntegrationModel.Log" Width="1.5" PointX="3.7666818498478651" PointY="18.828446590727403" />
         </Diagram>
     </Diagrams>
   </Designer>

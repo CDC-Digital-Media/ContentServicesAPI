@@ -17,7 +17,8 @@ namespace Gov.Hhs.Cdc.Api
     {
         RestServiceBase CreateNewService(int version);
         TestUrl CreateTestUrl(string resource);
+        TestUrl CreateTestUrl(string resource, int id);
         TestUrl CreateTestUrl(string resource, int id, string action, string queryParms);
-        TestUrl CreateTestUrl(string resource, string id, string action, string queryParms, int version = 1);
+        TestUrl CreateTestUrl(string resource, string id, string action, string queryParms, int version);
     }
 }

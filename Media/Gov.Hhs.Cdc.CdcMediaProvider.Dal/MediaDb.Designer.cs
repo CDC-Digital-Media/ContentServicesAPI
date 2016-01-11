@@ -73,9 +73,9 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("ContentServices_IntegrationModel", "FK_Images_Media", "Medias", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.Medias), "Image", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.Image), true)]
 [assembly: EdmRelationshipAttribute("ContentServices_IntegrationModel", "FK_Enclosures_Media", "Medias", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.Medias), "Enclosure", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.Enclosure), true)]
 [assembly: EdmRelationshipAttribute("ContentServices_IntegrationModel", "FK_FeedAggregate_Media", "Medias", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.Medias), "FeedAggregate", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.FeedAggregate), true)]
+[assembly: EdmRelationshipAttribute("ContentServices_IntegrationModel", "FK_media_Feeds_ref_media_Media", "Medias", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.Medias), "Feed", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.Feed), true)]
 [assembly: EdmRelationshipAttribute("ContentServices_IntegrationModel", "FK_Media_Feeds_ref_Media_FeedFormatExport", "FeedFormat", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.FeedFormat), "Feed", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.Feed), true)]
 [assembly: EdmRelationshipAttribute("ContentServices_IntegrationModel", "FK_Media_Feeds_ref_Media_FeedFormatImport", "FeedFormat", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.FeedFormat), "Feed", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.Feed), true)]
-[assembly: EdmRelationshipAttribute("ContentServices_IntegrationModel", "FK_media_Feeds_ref_media_Media", "Medias", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.Medias), "Feed", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.Feed), true)]
 [assembly: EdmRelationshipAttribute("ContentServices_IntegrationModel", "FK_Media_FeedExport_Ref_Media_FeedFormatExport", "FeedFormat", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.FeedFormat), "FeedExport", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.FeedExport), true)]
 [assembly: EdmRelationshipAttribute("ContentServices_IntegrationModel", "FK_Media_FeedExport_Ref_Media_Media", "Medias", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.Medias), "FeedExport", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Gov.Hhs.Cdc.CdcMediaProvider.Dal.FeedExport), true)]
 
@@ -1012,22 +1012,6 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<FeedFormat> FeedFormats
-        {
-            get
-            {
-                if ((_FeedFormats == null))
-                {
-                    _FeedFormats = base.CreateObjectSet<FeedFormat>("FeedFormats");
-                }
-                return _FeedFormats;
-            }
-        }
-        private ObjectSet<FeedFormat> _FeedFormats;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<Feed> Feeds
         {
             get
@@ -1044,22 +1028,6 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<FeedExport> FeedExports
-        {
-            get
-            {
-                if ((_FeedExports == null))
-                {
-                    _FeedExports = base.CreateObjectSet<FeedExport>("FeedExports");
-                }
-                return _FeedExports;
-            }
-        }
-        private ObjectSet<FeedExport> _FeedExports;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<Log> Logs
         {
             get
@@ -1072,6 +1040,38 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
             }
         }
         private ObjectSet<Log> _Logs;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<FeedFormat> FeedFormats
+        {
+            get
+            {
+                if ((_FeedFormats == null))
+                {
+                    _FeedFormats = base.CreateObjectSet<FeedFormat>("FeedFormats");
+                }
+                return _FeedFormats;
+            }
+        }
+        private ObjectSet<FeedFormat> _FeedFormats;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<FeedExport> FeedExports
+        {
+            get
+            {
+                if ((_FeedExports == null))
+                {
+                    _FeedExports = base.CreateObjectSet<FeedExport>("FeedExports");
+                }
+                return _FeedExports;
+            }
+        }
+        private ObjectSet<FeedExport> _FeedExports;
 
         #endregion
 
@@ -1518,14 +1518,6 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the FeedFormats EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToFeedFormats(FeedFormat feedFormat)
-        {
-            base.AddObject("FeedFormats", feedFormat);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the Feeds EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToFeeds(Feed feed)
@@ -1534,19 +1526,27 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the FeedExports EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToFeedExports(FeedExport feedExport)
-        {
-            base.AddObject("FeedExports", feedExport);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the Logs EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToLogs(Log log)
         {
             base.AddObject("Logs", log);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the FeedFormats EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToFeedFormats(FeedFormat feedFormat)
+        {
+            base.AddObject("FeedFormats", feedFormat);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the FeedExports EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToFeedExports(FeedExport feedExport)
+        {
+            base.AddObject("FeedExports", feedExport);
         }
 
         #endregion
@@ -4067,11 +4067,12 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
         /// <param name="rowVersion">Initial value of the RowVersion property.</param>
         /// <param name="mediaStatusCode">Initial value of the MediaStatusCode property.</param>
         /// <param name="effectiveStatus">Initial value of the EffectiveStatus property.</param>
+        /// <param name="attributionText">Initial value of the AttributionText property.</param>
         /// <param name="createdByGuid">Initial value of the CreatedByGuid property.</param>
         /// <param name="createdDateTime">Initial value of the CreatedDateTime property.</param>
         /// <param name="modifiedByGuid">Initial value of the ModifiedByGuid property.</param>
         /// <param name="modifiedDateTime">Initial value of the ModifiedDateTime property.</param>
-        public static CombinedMediaList1 CreateCombinedMediaList1(global::System.Int32 mediaId, global::System.Guid mediaGuid, global::System.String sourceCode, global::System.String languageCode, global::System.String mediaTypeCode, global::System.String characterEncodingCode, global::System.String title, global::System.Int32 ratingMinimum, global::System.Int32 ratingMaximum, global::System.Byte[] rowVersion, global::System.String mediaStatusCode, global::System.String effectiveStatus, global::System.Guid createdByGuid, global::System.DateTime createdDateTime, global::System.Guid modifiedByGuid, global::System.DateTime modifiedDateTime)
+        public static CombinedMediaList1 CreateCombinedMediaList1(global::System.Int32 mediaId, global::System.Guid mediaGuid, global::System.String sourceCode, global::System.String languageCode, global::System.String mediaTypeCode, global::System.String characterEncodingCode, global::System.String title, global::System.Int32 ratingMinimum, global::System.Int32 ratingMaximum, global::System.Byte[] rowVersion, global::System.String mediaStatusCode, global::System.String effectiveStatus, global::System.String attributionText, global::System.Guid createdByGuid, global::System.DateTime createdDateTime, global::System.Guid modifiedByGuid, global::System.DateTime modifiedDateTime)
         {
             CombinedMediaList1 combinedMediaList1 = new CombinedMediaList1();
             combinedMediaList1.MediaId = mediaId;
@@ -4086,6 +4087,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
             combinedMediaList1.RowVersion = rowVersion;
             combinedMediaList1.MediaStatusCode = mediaStatusCode;
             combinedMediaList1.EffectiveStatus = effectiveStatus;
+            combinedMediaList1.AttributionText = attributionText;
             combinedMediaList1.CreatedByGuid = createdByGuid;
             combinedMediaList1.CreatedDateTime = createdDateTime;
             combinedMediaList1.ModifiedByGuid = modifiedByGuid;
@@ -5048,7 +5050,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String AttributionText
         {
@@ -5060,7 +5062,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
             {
                 OnAttributionTextChanging(value);
                 ReportPropertyChanging("AttributionText");
-                _AttributionText = StructuralObject.SetValidValue(value, true);
+                _AttributionText = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("AttributionText");
                 OnAttributionTextChanged();
             }
@@ -6920,6 +6922,44 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ContentServices_IntegrationModel", "FK_media_Feeds_ref_media_Media", "Medias")]
+        public Medias Medium
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Medias>("ContentServices_IntegrationModel.FK_media_Feeds_ref_media_Media", "Medias").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Medias>("ContentServices_IntegrationModel.FK_media_Feeds_ref_media_Media", "Medias").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Medias> MediumReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Medias>("ContentServices_IntegrationModel.FK_media_Feeds_ref_media_Media", "Medias");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Medias>("ContentServices_IntegrationModel.FK_media_Feeds_ref_media_Media", "Medias", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("ContentServices_IntegrationModel", "FK_Media_Feeds_ref_Media_FeedFormatExport", "FeedFormat")]
         public FeedFormat FeedFormat
         {
@@ -6986,44 +7026,6 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<FeedFormat>("ContentServices_IntegrationModel.FK_Media_Feeds_ref_Media_FeedFormatImport", "FeedFormat", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("ContentServices_IntegrationModel", "FK_media_Feeds_ref_media_Media", "Medias")]
-        public Medias Medium
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Medias>("ContentServices_IntegrationModel.FK_media_Feeds_ref_media_Media", "Medias").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Medias>("ContentServices_IntegrationModel.FK_media_Feeds_ref_media_Media", "Medias").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Medias> MediumReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Medias>("ContentServices_IntegrationModel.FK_media_Feeds_ref_media_Media", "Medias");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Medias>("ContentServices_IntegrationModel.FK_media_Feeds_ref_media_Media", "Medias", value);
                 }
             }
         }
@@ -7520,6 +7522,54 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
         private global::System.DateTime _ModifiedDateTime;
         partial void OnModifiedDateTimeChanging(global::System.DateTime value);
         partial void OnModifiedDateTimeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> Offset
+        {
+            get
+            {
+                return _Offset;
+            }
+            set
+            {
+                OnOffsetChanging(value);
+                ReportPropertyChanging("Offset");
+                _Offset = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Offset");
+                OnOffsetChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _Offset;
+        partial void OnOffsetChanging(Nullable<global::System.Int32> value);
+        partial void OnOffsetChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> ItemCount
+        {
+            get
+            {
+                return _ItemCount;
+            }
+            set
+            {
+                OnItemCountChanging(value);
+                ReportPropertyChanging("ItemCount");
+                _ItemCount = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ItemCount");
+                OnItemCountChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _ItemCount;
+        partial void OnItemCountChanging(Nullable<global::System.Int32> value);
+        partial void OnItemCountChanged();
 
         #endregion
 
@@ -7691,6 +7741,54 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
         private global::System.String _TypeName;
         partial void OnTypeNameChanging(global::System.String value);
         partial void OnTypeNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String FeedTemplate
+        {
+            get
+            {
+                return _FeedTemplate;
+            }
+            set
+            {
+                OnFeedTemplateChanging(value);
+                ReportPropertyChanging("FeedTemplate");
+                _FeedTemplate = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("FeedTemplate");
+                OnFeedTemplateChanged();
+            }
+        }
+        private global::System.String _FeedTemplate;
+        partial void OnFeedTemplateChanging(global::System.String value);
+        partial void OnFeedTemplateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String FeedItemTemplate
+        {
+            get
+            {
+                return _FeedItemTemplate;
+            }
+            set
+            {
+                OnFeedItemTemplateChanging(value);
+                ReportPropertyChanging("FeedItemTemplate");
+                _FeedItemTemplate = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("FeedItemTemplate");
+                OnFeedItemTemplateChanged();
+            }
+        }
+        private global::System.String _FeedItemTemplate;
+        partial void OnFeedItemTemplateChanging(global::System.String value);
+        partial void OnFeedItemTemplateChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -23752,6 +23850,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
         /// <param name="mediaTypeCode">Initial value of the MediaTypeCode property.</param>
         /// <param name="languageCode">Initial value of the LanguageCode property.</param>
         /// <param name="sourceCode">Initial value of the SourceCode property.</param>
+        /// <param name="attributionText">Initial value of the AttributionText property.</param>
         /// <param name="mediaStatusCode">Initial value of the MediaStatusCode property.</param>
         /// <param name="modifiedDateTime">Initial value of the ModifiedDateTime property.</param>
         /// <param name="modifiedByGUID">Initial value of the ModifiedByGUID property.</param>
@@ -23761,7 +23860,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
         /// <param name="ratingMinimum">Initial value of the RatingMinimum property.</param>
         /// <param name="ratingMaximum">Initial value of the RatingMaximum property.</param>
         /// <param name="rowVersion">Initial value of the RowVersion property.</param>
-        public static SearchMediaXML_Result CreateSearchMediaXML_Result(global::System.Int32 mediaId, global::System.Guid mediaGuid, global::System.String title, global::System.String mediaTypeCode, global::System.String languageCode, global::System.String sourceCode, global::System.String mediaStatusCode, global::System.DateTime modifiedDateTime, global::System.Guid modifiedByGUID, global::System.DateTime createdDateTime, global::System.Guid createdByGUID, global::System.String characterEncodingCode, global::System.Int32 ratingMinimum, global::System.Int32 ratingMaximum, global::System.Byte[] rowVersion)
+        public static SearchMediaXML_Result CreateSearchMediaXML_Result(global::System.Int32 mediaId, global::System.Guid mediaGuid, global::System.String title, global::System.String mediaTypeCode, global::System.String languageCode, global::System.String sourceCode, global::System.String attributionText, global::System.String mediaStatusCode, global::System.DateTime modifiedDateTime, global::System.Guid modifiedByGUID, global::System.DateTime createdDateTime, global::System.Guid createdByGUID, global::System.String characterEncodingCode, global::System.Int32 ratingMinimum, global::System.Int32 ratingMaximum, global::System.Byte[] rowVersion)
         {
             SearchMediaXML_Result searchMediaXML_Result = new SearchMediaXML_Result();
             searchMediaXML_Result.MediaId = mediaId;
@@ -23770,6 +23869,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
             searchMediaXML_Result.MediaTypeCode = mediaTypeCode;
             searchMediaXML_Result.LanguageCode = languageCode;
             searchMediaXML_Result.SourceCode = sourceCode;
+            searchMediaXML_Result.AttributionText = attributionText;
             searchMediaXML_Result.MediaStatusCode = mediaStatusCode;
             searchMediaXML_Result.ModifiedDateTime = modifiedDateTime;
             searchMediaXML_Result.ModifiedByGUID = modifiedByGUID;
@@ -24077,7 +24177,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String AttributionText
         {
@@ -24089,7 +24189,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
             {
                 OnAttributionTextChanging(value);
                 ReportPropertyChanging("AttributionText");
-                _AttributionText = StructuralObject.SetValidValue(value, true);
+                _AttributionText = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("AttributionText");
                 OnAttributionTextChanged();
             }

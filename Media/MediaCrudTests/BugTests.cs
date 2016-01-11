@@ -52,7 +52,7 @@ namespace SearchUnitTests
             IApiServiceFactory adminService = new AdminApiServiceFactory();
             List<SerialMediaAdmin> mediaAdmins;
             ValidationMessages messages = TestApiUtility.ApiPostSerializedData<SerialMediaAdmin>(adminService,
-                adminService.CreateTestUrl("media", "", "", ""),
+                adminService.CreateTestUrl("media"),
                 @"{'mediatype':'eCard','mimetype':'.swf','encoding':'utf-8','title':'TestBug1','sourceUrl':'http://.....[devServer]...../eCard_resources/cabinet.swf',
                 'targetUrl':'http://www......[domain]...../flu','rowVersion':'AAAAAAAMoT4=','width':'800','height':'600',
                 'eCard':{'mobileCardName':'Clay&#39;s stupendous mobile ecard','html5Source':'http://.....[devServer]...../eCard_resources/STD01.html',
@@ -77,9 +77,9 @@ namespace SearchUnitTests
         [TestMethod]
         public void TestBug2()
         {
-            IApiServiceFactory adminService = new AdminApiServiceFactory();
+            var adminService = new AdminApiServiceFactory();
             List<SerialMediaAdmin> mediaAdmins;
-            var url = adminService.CreateTestUrl("media", "121812", "update", "");
+            var url = adminService.CreateTestUrl("media", 121812, "update");
             Console.WriteLine(url);
             ValidationMessages messages = TestApiUtility.ApiPostSerializedData<SerialMediaAdmin>(
                 adminService,

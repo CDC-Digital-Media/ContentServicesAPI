@@ -16,15 +16,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Gov.Hhs.Cdc.Api
+namespace Gov.Hhs.Cdc.CsBusinessObjects.Admin
 {
-    public class SerialFeedExport
+    public class MediaSet
     {
-        public int feedExportId { get; set; }
-        public string filePath { get; set; }
-        public string feedFormat { get; set; }
+        public string Name { get; set; }
 
-        public int? offset { get; set; }
-        public int? itemCount { get; set; }
+        public string Criteria { get; set; }
     }
 }

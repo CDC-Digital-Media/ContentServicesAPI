@@ -27,7 +27,7 @@ namespace Gov.Hhs.Cdc.CsBusinessObjects.Admin
         public string Email { get; set; }
         public Guid UserGuid { get; set; }
         public IEnumerable<string> Roles { get; set; }
-        //current role
+        public IEnumerable<MediaSet> MediaSets { get; set; }
     }
 
 }

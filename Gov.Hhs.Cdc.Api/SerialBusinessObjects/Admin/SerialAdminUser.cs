@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Gov.Hhs.Cdc.CsBusinessObjects.Admin;
 
 namespace Gov.Hhs.Cdc.Api
 {
@@ -28,6 +29,8 @@ namespace Gov.Hhs.Cdc.Api
         public Guid userGuid { get; set; }
         public IList<string> roles { get; set; }
         //current role
+
+        public IList<MediaSet> mediaSets { get; set; }
 
     }
 }

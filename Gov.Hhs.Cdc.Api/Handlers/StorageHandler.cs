@@ -16,6 +16,8 @@ using System.Linq;
 using Gov.Hhs.Cdc.Bo;
 using Gov.Hhs.Cdc.DataServices.Bo;
 using Gov.Hhs.Cdc.MediaProvider;
+using Gov.Hhs.Cdc.CsBusinessObjects.Admin;
+using Gov.Hhs.Cdc.Authorization;
 
 namespace Gov.Hhs.Cdc.Api
 {
@@ -116,14 +118,23 @@ namespace Gov.Hhs.Cdc.Api
             return new ActionResults(resultMediaList, msgs);
         }
 
-        public static ValidationMessages Delete(int storageId, string apiKey)
+        public static ValidationMessages Delete(int storageId, string apiKey, AdminUser adminUser)
         {
             ValidationMessages msgs = new ValidationMessages();
+
+            //TODO:  Determine mediaId for storageId
+            int mediaId = 0;
+
+            if (!adminUser.CanEditMedia(mediaId))
+            {
+                msgs.AddError("auth", "User is not authorized to administer media.");
+                return msgs;
+            }
 
             var resultMediaList = new List<StorageObject>();
             if (RegistrationHandler.RegistrationProvider.GetApiClientByAppKey(apiKey) != null)
             {
-                StorageObject theObject = new StorageAdminTransformation().CreateStorageObject(new SerialStorageAdmin() { storageId = storageId });
+                var theObject = new StorageAdminTransformation().CreateStorageObject(new SerialStorageAdmin() { storageId = storageId });
 
                 msgs.Add(MediaProvider.DeleteStorage(theObject));
             }

@@ -35,7 +35,7 @@ namespace Gov.Hhs.Cdc.Api
     {
         private IFeedBase FeedImplementation = null;
 
-        public FeedFactory(List<MediaObject> mediaList, ICallParser parser)            
+        public FeedFactory(List<MediaObject> mediaList, ICallParser parser)
         {
             SetFeedImplementation(mediaList, parser);
         }
@@ -55,12 +55,12 @@ namespace Gov.Hhs.Cdc.Api
             else
             {
                 FeedImplementation = new FeedManaged(mediaList, parser);
-            }            
+            }
         }
 
         public string Create()
         {
-            string str = FeedImplementation.Generate();            
+            string str = FeedImplementation.Generate();
             return str.Replace("xmlns=\"\"", "");
         }
 

@@ -21,8 +21,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Reflection.AssemblyVersion("3.0.18.1340")]
-[assembly: System.Reflection.AssemblyFileVersion("3.0.18.1340")]
-[assembly: System.Reflection.AssemblyInformationalVersion("3.0.18 - #1340")]
+[assembly: System.Reflection.AssemblyVersion("3.0.18.46")]
+[assembly: System.Reflection.AssemblyFileVersion("3.0.18.46")]
+[assembly: System.Reflection.AssemblyInformationalVersion("3.0.18 - #46")]
 
 

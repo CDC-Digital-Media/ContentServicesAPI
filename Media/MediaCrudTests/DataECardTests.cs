@@ -76,9 +76,9 @@ namespace SearchUnitTests
 
             media.sourceUrl = "";
 
-            var postUrl = adminService.CreateTestUrl("media", "", "", "");           
+            var postUrl = adminService.CreateTestUrl("media");           
 
-            ValidationMessages messages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, postUrl, media, out updatedAdmins, authorizedUser);
+            var messages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, postUrl, media, out updatedAdmins, authorizedUser);
 
             if (messages.Errors().Count() > 0)
             {
@@ -98,10 +98,10 @@ namespace SearchUnitTests
         }
 
 
-        private ValidationMessages Put(IApiServiceFactory serviceFactory, string newMedia, out List<SerialMediaAdmin> mediaAdmins)
+        private ValidationMessages Put(AdminApiServiceFactory serviceFactory, string newMedia, out List<SerialMediaAdmin> mediaAdmins)
         {
             return TestApiUtility.ApiPutSerializedData<SerialMediaAdmin>(serviceFactory,
-                serviceFactory.CreateTestUrl("media", "121070", "", ""), 
+                serviceFactory.CreateTestUrl("media", "121070"), 
                 newMedia, 
                 out mediaAdmins);
         }
@@ -109,16 +109,13 @@ namespace SearchUnitTests
         private ValidationMessages PostSerialMedia(IApiServiceFactory serviceFactory, SerialMediaAdmin newMedia, out List<SerialMediaAdmin> mediaAdmins)
         {
             return TestApiUtility.ApiPost<SerialMediaAdmin>(serviceFactory,
-                serviceFactory.CreateTestUrl("media", "", "", ""), newMedia, out mediaAdmins);
+                serviceFactory.CreateTestUrl("media"), newMedia, out mediaAdmins);
         }
 
 
         private static SerialMediaAdmin GetSerialMedia(IApiServiceFactory serviceFactory, string mediaId)
         {
-            List<SerialMediaAdmin> mediaAdmins;
-            TestApiUtility.ApiGet<SerialMediaAdmin>(serviceFactory,
-                serviceFactory.CreateTestUrl("media", mediaId, "", ""), out mediaAdmins);
-            return mediaAdmins[0];
+            return AdminApiCalls.SingleMedia(mediaId);
         }
 
         private static MediaObject CreateNewMediaObject(string title, List<int> topicValueIds)

@@ -30,7 +30,12 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
         {
             get
             {
-                return _valueSetIds ?? (_valueSetIds = GetValueSetIds());
+                if (_valueSetIds == null || _valueSetIds.Count == 0)
+                {
+                    _valueSetIds = GetValueSetIds();
+                }
+
+                return _valueSetIds;
             }
         }
 
@@ -67,11 +72,12 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
         {
             if (FilteredByValueSet)
             {
-
-                var ids = ValueSetIdCriterion.IsFiltered ?
-                    ValueSetIdCriterion.GetIntKeys() :
-                    ValueSetNameCriterion.GetStringKeys().SelectMany(k => GetValueSetIdForEachLanguage(k));
-                return ids.ToList();
+                if (ValueSetIdCriterion.IsFiltered)
+                {
+                    return ValueSetIdCriterion.GetIntKeys();
+                }
+                var keys = ValueSetNameCriterion.GetStringKeys();
+                return keys.SelectMany(k => GetValueSetIdForEachLanguage(k)).ToList();
             }
             else
             {
@@ -89,7 +95,9 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
             {
                 throw new ApplicationException("HierVocabularyKey(" + key + ") is not of the format 'Name|LanguageCode' and language code was not set");
             }
-            return LanguageCriterion.GetStringKeys().Select(l => GetValueSetId(key + "|" + l)).ToList();
+            var keys = LanguageCriterion.GetStringKeys();
+            var value = keys.Select(l => GetValueSetId(key + "|" + l)).ToList();
+            return value;
 
         }
 

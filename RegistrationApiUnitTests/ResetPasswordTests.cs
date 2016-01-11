@@ -76,7 +76,7 @@ namespace RegistrationApiUnitTests
 
             IApiServiceFactory publicService = new PublicApiServiceFactory();
             ValidationMessages messages = TestApiUtility.ApiPostWithoutOutput<SerialPasswordReset>(publicService,
-                publicService.CreateTestUrl("reset_user_passwords", "", "", ""),
+                publicService.CreateTestUrl("reset_user_passwords"),
                 data);
 
             Assert.AreEqual(0, messages.Errors().Count());
@@ -89,7 +89,7 @@ namespace RegistrationApiUnitTests
 
             IApiServiceFactory adminService = new PublicApiServiceFactory();
             ValidationMessages messages = TestApiUtility.ApiPostWithoutOutput<SerialPasswordReset>(adminService,
-                adminService.CreateTestUrl("reset_user_passwords", "", "", ""),
+                adminService.CreateTestUrl("reset_user_passwords"),
                 data);
 
             if (messages.Errors().Count() > 0)
@@ -107,7 +107,7 @@ namespace RegistrationApiUnitTests
 
             IApiServiceFactory adminService = new PublicApiServiceFactory();
             ValidationMessages messages = TestApiUtility.ApiPostWithoutOutput<SerialPasswordReset>(adminService,
-                adminService.CreateTestUrl("reset_user_passwords", "", "", ""),
+                adminService.CreateTestUrl("reset_user_passwords"),
                 reset);
 
             if (messages.Errors().Count() > 0)

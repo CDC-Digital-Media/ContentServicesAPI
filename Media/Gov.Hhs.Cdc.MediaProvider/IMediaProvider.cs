@@ -24,6 +24,7 @@ namespace Gov.Hhs.Cdc.MediaProvider
             bool onlyIsPublishedHidden, bool OnlyDisplayableMediaTypes);
 
         ValidationMessages SaveMedia(MediaObject theObject);
+        ValidationMessages MediaBulkSave(List<MediaObject> theObjects);
         ValidationMessages SaveMedia(MediaObject theObject, out MediaObject newObject);
         ValidationMessages DeleteMedia(int id);
         

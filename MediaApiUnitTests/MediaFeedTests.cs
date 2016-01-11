@@ -85,7 +85,7 @@ namespace MediaApiUnitTests
             MediaObject parent = mediaProvider.GetMedia(Convert.ToInt32(feedToTest.mediaId), out messages);
 
             //we know it has children, so let's create a new feed item
-            MediaObject newMediaFeedItem1 = new MediaObject() 
+            MediaObject newMediaFeedItem1 = new MediaObject()
             {
                 SourceCode = "Centers for Disease Control and Prevention",
                 LanguageCode = "English",
@@ -107,7 +107,7 @@ namespace MediaApiUnitTests
                 DateSyndicationCaptured = null,
                 DateSyndicationUpdated = null,
                 DateSyndicationVisible = null,
-                Parents=new List<MediaObject>() {parent},
+                Parents = new List<MediaObject>() { parent },
                 RelatedMediaId = Convert.ToInt32(feedToTest.mediaId),
                 RelationshipTypeName = "Is Child Of",
             };
@@ -120,7 +120,7 @@ namespace MediaApiUnitTests
             List<MediaRelationshipObject> rels = new List<MediaRelationshipObject>();
             rels.Add(mediaRelObj);
             newMediaFeedItem1.MediaRelationships = rels;
-            
+
 
             var saved1 = new MediaObject();
 
@@ -165,7 +165,7 @@ namespace MediaApiUnitTests
             {
                 savedMedias.Push(saved2);
             }
-            
+
         }
 
         [TestMethod]
@@ -213,9 +213,6 @@ namespace MediaApiUnitTests
             var mediaId = feed.mediaId;
 
             Assert.IsNotNull(feed.feed);
-            Assert.IsNotNull(feed.feed.copyright);
-            Assert.IsNotNull(feed.feed.editorialManager);
-            Assert.IsNotNull(feed.feed.webMasterEmail);
             Assert.IsNotNull(feed.feed.imageTitle, mediaId + " has no feed image");
             Assert.IsNotNull(feed.feed.imageDescription);
             Assert.IsNotNull(feed.feed.imageSource, "Feed images are being added without an image source url");
@@ -234,9 +231,6 @@ namespace MediaApiUnitTests
             var feed = feedFiltered.First();
 
             Assert.IsNotNull(feed.feed);
-            Assert.IsNotNull(feed.feed.copyright);
-            Assert.IsNotNull(feed.feed.editorialManager);
-            Assert.IsNotNull(feed.feed.webMasterEmail);
             Assert.IsNotNull(feed.feed.imageTitle, feed.mediaId + " does not have a feed image.");
             Assert.IsNotNull(feed.feed.imageDescription);
             Assert.IsNotNull(feed.feed.imageSource, "Feed images are being added without an image source url");
@@ -341,11 +335,11 @@ namespace MediaApiUnitTests
         [TestMethod]
         public void CanAddFeed()
         {
-            IApiServiceFactory adminService = new AdminApiServiceFactory();
+            var adminService = new AdminApiServiceFactory();
             List<SerialMediaAdmin> feeds;
 
             ValidationMessages messages = TestApiUtility.ApiPostSerializedData<SerialMediaAdmin>(adminService,
-                adminService.CreateTestUrl("media", "", "", ""),
+                adminService.CreateTestUrl("media"),
                 "{" +
                     "'sourcecode': 'Centers for Disease Control and Prevention'," +
                     "'mediatype': 'Feed'," +
@@ -387,13 +381,13 @@ namespace MediaApiUnitTests
             Assert.IsTrue(feeds[0].feed.imageWidth == "2");
             Assert.IsTrue(feeds[0].feed.imageDescription == "Under a high magnification");
 
-            messages = TestApiUtility.ApiDelete(adminService, adminService.CreateTestUrl("media", feeds[0].id, "", ""), "", authorizedUser);
+            messages = TestApiUtility.ApiDelete(adminService, adminService.CreateTestUrl("media", feeds[0].id), authorizedUser);
             if (messages.NumberOfErrors > 0)
             {
                 Assert.Fail(messages.Errors().FirstOrDefault().Message);
             }
 
-            messages = TestApiUtility.ApiGet<SerialMediaAdmin>(adminService, adminService.CreateTestUrl("media", feeds[0].id, "", ""), out feeds);
+            messages = TestApiUtility.ApiGet<SerialMediaAdmin>(adminService, adminService.CreateTestUrl("media", feeds[0].id), out feeds);
             Assert.AreEqual(0, messages.Errors().Count());
             Assert.AreEqual(0, feeds.Count());
         }
@@ -403,11 +397,11 @@ namespace MediaApiUnitTests
         {
             string uniqueName = "Marcie-" + DateTime.Now.Ticks.ToString();
 
-            IApiServiceFactory adminService = new AdminApiServiceFactory();
+            var adminService = new AdminApiServiceFactory();
             List<SerialMediaAdmin> feeds;
 
             ValidationMessages messages = TestApiUtility.ApiPostSerializedData<SerialMediaAdmin>(adminService,
-                adminService.CreateTestUrl("media", "", "", ""),
+                adminService.CreateTestUrl("media"),
                 "{" +
                     "'sourcecode': 'Centers for Disease Control and Prevention'," +
                     "'mediatype': 'Feed'," +
@@ -443,13 +437,13 @@ namespace MediaApiUnitTests
             Assert.AreEqual(uniqueName, feeds[0].title);
             Assert.IsTrue(feeds[0].title == uniqueName);
 
-            messages = TestApiUtility.ApiDelete(adminService, adminService.CreateTestUrl("media", feeds[0].id, "", ""), "", authorizedUser);
+            messages = TestApiUtility.ApiDelete(adminService, adminService.CreateTestUrl("media", feeds[0].id), authorizedUser);
             if (messages.Errors().Any())
             {
                 Assert.Fail(messages.Errors().First().Message);
             }
 
-            messages = TestApiUtility.ApiGet<SerialMediaAdmin>(adminService, adminService.CreateTestUrl("media", feeds[0].id, "", ""), out feeds);
+            messages = TestApiUtility.ApiGet<SerialMediaAdmin>(adminService, adminService.CreateTestUrl("media", feeds[0].id), out feeds);
             if (messages.Errors().Any())
             {
                 Assert.Fail(messages.Errors().First().Message);
@@ -460,12 +454,12 @@ namespace MediaApiUnitTests
         [TestMethod]
         public void CanAddNewFeed()
         {
-            IApiServiceFactory adminService = new AdminApiServiceFactory();
+            var adminService = new AdminApiServiceFactory();
             List<SerialMediaAdmin> feeds;
             string uniqueName = "Marcie-" + DateTime.Now.Ticks.ToString();
 
             ValidationMessages messages = TestApiUtility.ApiPostSerializedData<SerialMediaAdmin>(adminService,
-                adminService.CreateTestUrl("media", "", "", ""),
+                adminService.CreateTestUrl("media"),
                 "{" +
                     "'sourcecode': 'Centers for Disease Control and Prevention'," +
                     "'mediatype': 'Feed'," +
@@ -496,13 +490,13 @@ namespace MediaApiUnitTests
             Assert.AreEqual(uniqueName, feeds[0].title);
             Assert.IsTrue(feeds[0].title == uniqueName);
 
-            messages = TestApiUtility.ApiDelete(adminService, adminService.CreateTestUrl("media", feeds[0].id, "", ""), "", authorizedUser);
+            messages = TestApiUtility.ApiDelete(adminService, adminService.CreateTestUrl("media", feeds[0].id), authorizedUser);
             if (messages.Errors().Any())
             {
                 Assert.Fail(messages.Errors().First().Message);
             }
 
-            messages = TestApiUtility.ApiGet<SerialMediaAdmin>(adminService, adminService.CreateTestUrl("media", feeds[0].id, "", ""), out feeds);
+            messages = TestApiUtility.ApiGet<SerialMediaAdmin>(adminService, adminService.CreateTestUrl("media", feeds[0].id), out feeds);
             if (messages.Errors().Any())
             {
                 Assert.Fail(messages.Errors().First().Message);
@@ -580,7 +574,7 @@ namespace MediaApiUnitTests
         [TestMethod]
         public void CannotSaveFeedItemTitleWith101Characters()
         {
-            var title = "test".PadRight(1025,'0');
+            var title = "test".PadRight(1025, '0');
             Assert.AreEqual(1025, title.Length);
 
             var item = new SerialMediaAdmin

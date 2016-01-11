@@ -35,6 +35,9 @@ using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Security.Principal;
 
+using Gov.Hhs.Cdc.MediaProvider;
+using Newtonsoft.Json.Serialization;
+
 namespace Gov.Hhs.Cdc.Api
 {
 
@@ -74,8 +77,7 @@ namespace Gov.Hhs.Cdc.Api
                 }
             };
 
-            string output = "";
-            WriteWithFormat(response, isWritingFromCache: false, streamOutput: out output);
+            WriteWithFormat(response, isWritingFromCache: false);
         }
 
         private void PopulateSerialResponse(SerialResponse serialResponse, ValidationMessages messages)
@@ -98,8 +100,7 @@ namespace Gov.Hhs.Cdc.Api
         {
             SetBeforeWrite(theObject, messages);
 
-            string output = "";
-            WriteWithFormat(theObject, isWritingFromCache: false, streamOutput: out output);
+            WriteWithFormat(theObject, isWritingFromCache: false);
         }
 
         private void SetBeforeWrite(object theObject, ValidationMessages messages)
@@ -149,11 +150,15 @@ namespace Gov.Hhs.Cdc.Api
             return serialMsg.items;
         }
 
-        private void WriteWithFormat(object theObject, bool isWritingFromCache, out string streamOutput)
+        private void WriteWithFormat(object theObject, bool isWritingFromCache)
         {
-            // initialize the output string
-            streamOutput = "";
+            GenerateOutput(theObject, isWritingFromCache);
 
+            WriteToOutputStream(theObject, isWritingFromCache);
+        }
+
+        private void GenerateOutput(object theObject, bool isWritingFromCache)
+        {
             if (TheParser.Query.IsKindOfFeedFormatType == false)
             {
                 if (theObject is SerialResponse)
@@ -170,10 +175,7 @@ namespace Gov.Hhs.Cdc.Api
 
             if ((TheParser.Query.Format == FormatType.json || TheParser.Query.Format == FormatType.jsonp) && (theObject is SerialResponse))
             {
-                if (IsCustomSerialize())
-                    strReturn = JsonConvert.SerializeObject(theObject, new DictionaryJsonDotNetConverter(), new MediaV2CustomJsonSerializer());
-                else
-                    strReturn = JsonConvert.SerializeObject(theObject, new DictionaryJsonDotNetConverter());
+                strReturn = Serialize(theObject);
             }
 
             if (theObject is byte[] && !IsImageFormat)
@@ -195,22 +197,22 @@ namespace Gov.Hhs.Cdc.Api
 
                     theObject = AddMetricsRedirectForFeedItems((SerialResponse)theObject);
                     strReturn = new FeedFactory(((SerialResponse)theObject).mediaObjects.ToList(), TheParser).Create();
+
                     List<MediaProvider.MediaObject> mediaObjs = ((SerialResponse)theObject).mediaObjects.ToList();
                     AddFeedItemImageDetailsAtom(mediaObjs);
-
                     break;
                 case FormatType.rss:
                     HttpContext.Current.Response.ContentType = "application/xml; charset=UTF-8";
 
                     theObject = AddMetricsRedirectForFeedItems((SerialResponse)theObject);
                     strReturn = new FeedFactory(((SerialResponse)theObject).mediaObjects.ToList(), TheParser).Create();
+
                     mediaObjs = ((SerialResponse)theObject).mediaObjects.ToList();
                     AddFeedItemImageDetailsRss(mediaObjs);
                     break;
                 case FormatType.itunes:
                     HttpContext.Current.Response.ContentType = "application/xml; charset=UTF-8";
                     strReturn = old_FeedFormatter.GenerateFeed((Gov.Hhs.Cdc.Api.SerialResponse)theObject, TheParser.Query.Format.ToString());
-
                     break;
                 case FormatType.xml:
                     HttpContext.Current.Response.ContentType = "application/xml; charset=UTF-8";
@@ -259,17 +261,33 @@ namespace Gov.Hhs.Cdc.Api
             {
                 strReturn = (string)theObject;
             }
+        }
 
-            // set output string
-            streamOutput = strReturn;
+        private string Serialize(object theObject)
+        {
+            //Set all JSON key names to begin with a lower case
+            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+            if (IsCustomSerialize())
+            {
+                settings.Converters = new List<JsonConverter> { new DictionaryJsonDotNetConverter(), new MediaV2CustomJsonSerializer() };
+                return JsonConvert.SerializeObject(theObject, settings);
+            }
+            else
+            {
+                settings.Converters = new List<JsonConverter> { new DictionaryJsonDotNetConverter() };
+                return JsonConvert.SerializeObject(theObject, settings);
+            }
+        }
 
+        public void WriteToOutputStream(object theObject, bool isWritingFromCache)
+        {
             // allow jsonp response for all requests
             if (TheParser.ParamDictionary.ContainsKey(Param.CALLBACK) && !string.IsNullOrEmpty(TheParser.ParamDictionary[Param.CALLBACK]))
             {
                 HttpContext.Current.Response.ContentType = "application/javascript; charset=UTF-8";
                 strReturn = TheParser.ParamDictionary[Param.CALLBACK] + "(" + strReturn + ")";
             }
-            
+
             // write output to the response
             HttpContext.Current.Response.Write(strReturn);
 
@@ -498,7 +516,7 @@ namespace Gov.Hhs.Cdc.Api
                                             curNode.InnerText += feedImageString;
                                             curNode.InnerText += "</div>";
 
-                                            strReturn = WebUtility.HtmlDecode(xdoc.InnerXml);
+                                            strReturn = xdoc.InnerXml;
                                             break;
                                         }
                                     }
@@ -580,10 +598,8 @@ namespace Gov.Hhs.Cdc.Api
 
         public void WriteFromCache(object cacheObject)
         {
-            string output = "";
-            WriteWithFormat(cacheObject, isWritingFromCache: true, streamOutput: out output);
+            WriteWithFormat(cacheObject, isWritingFromCache: true);
         }
-
 
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern int LogonUser(
@@ -609,12 +625,36 @@ namespace Gov.Hhs.Cdc.Api
         const int LOGON32_LOGON_NEW_CREDENTIALS = 9;
         const int LOGON32_PROVIDER_DEFAULT = 0;
 
-        public void WriteToFile(object theObject, string atFilePath)
+        public void WriteToFile(object theObject, FeedExportObject feedExport)
         {
             SetBeforeWrite(theObject, messages: null);
 
-            string dataToWriteToFile = "";
-            WriteWithFormat(theObject, isWritingFromCache: false, streamOutput: out dataToWriteToFile);
+            switch (TheParser.Query.Format)
+            {
+                case FormatType.facebook:
+                    HttpContext.Current.Response.ContentType = "application/xml; charset=UTF-8";
+                    strReturn = new FacebookFeedExporter(((SerialResponse)theObject).mediaObjects.ToList(), feedExport).Generate();
+
+                    break;
+                case FormatType.twitter:
+                    HttpContext.Current.Response.ContentType = "application/xml; charset=UTF-8";
+                    strReturn = new TwitterFeedExporter(((SerialResponse)theObject).mediaObjects.ToList(), feedExport).Generate();
+
+                    break;
+                case FormatType.outbreaks:
+                    HttpContext.Current.Response.ContentType = "application/xml; charset=UTF-8";
+                    strReturn = new OutbreaksFeedExporter(((SerialResponse)theObject).mediaObjects.ToList(), feedExport).Generate();
+
+                    break;
+                case FormatType.generic:
+                    HttpContext.Current.Response.ContentType = "application/xml; charset=UTF-8";
+                    strReturn = new GenericExporter(((SerialResponse)theObject).mediaObjects.ToList(), feedExport).Generate();
+
+                    break;
+                default:
+                    GenerateOutput(theObject, isWritingFromCache: false);
+                    break;
+            }
 
             // impersonate the ContentServiceFeedExport user account
             IntPtr lnToken;
@@ -632,7 +672,7 @@ namespace Gov.Hhs.Cdc.Api
                 try
                 {
                     ImpersonateLoggedOnUser(lnToken);
-                    WriteFileUnc(atFilePath, dataToWriteToFile);
+                    WriteFileUnc(feedExport.FilePath, this.strReturn);
                 }
                 // Prevent exceptions from propagating
                 catch (Exception ex)

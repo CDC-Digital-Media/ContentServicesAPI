@@ -27,6 +27,7 @@ using Gov.Hhs.Cdc.Bo;
 using Gov.Hhs.Cdc.TransactionLogProvider;
 using Gov.Hhs.Cdc.Commons.Api.Key.Utils;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Gov.Hhs.Cdc.Api
 {
@@ -49,8 +50,8 @@ namespace Gov.Hhs.Cdc.Api
     /// </summary>
     public static class TestApiUtility
     {
-        public static string ConsumerKey = "XIdBaBpCDarLCEQAERgxF0szEakjd65KtvU362sitXo";
-        private static string consumerSecret = "Bpd3IJPt6JrU/aUK7/T0hU2nTnpZx1U5yRRt/xaMOgkk/BlFSpX5Hb9JzbPc3G4TfbbE7UhARI3JbT9MtmR/iA==";
+        public static string ConsumerKey = "";
+        private static string consumerSecret = "";
 
         /// <summary>
         /// Modify this property to step into the code directly in a unit test
@@ -67,6 +68,12 @@ namespace Gov.Hhs.Cdc.Api
             List<T> outputObjects;
             var serialized = Serialize(newSerialData);
             return ApiPostSerializedData<T>(serviceFactory, theUrl, serialized, out outputObjects, adminUser);
+        }
+
+        public static SerialResponse ApiPostWithoutOutput2<T>(IApiServiceFactory serviceFactory, TestUrl theUrl, T newSerialData, string adminUser = "")
+        {
+            var serialized = Serialize(newSerialData);
+            return ApiPostSerializedData<T>(serviceFactory, theUrl, serialized, adminUser);
         }
 
         /// <summary>
@@ -112,31 +119,46 @@ namespace Gov.Hhs.Cdc.Api
             }
             else
             {
-                SerialResponse response;
-                ValidationMessages messages = ExecuteApiPost(serviceFactory, theUrl, stream, out response);
+                SerialResponse response= ExecuteDirectPost(serviceFactory, theUrl, stream);
                 ConvertSerialResponse<T>(response, out outputObjects);
-                return messages;
+                return response.meta.GetUnserializedMessages();
             }
         }
 
-        private static ValidationMessages ExecuteApiPost(IApiServiceFactory serviceFactory, TestUrl theUrl, string stream, out SerialResponse response)
+        public static string PostJson(TestUrl url, JObject json, string adminUser)
         {
-            SetCurrentHttpContext(theUrl);
-            TestOutputWriter outputWriter = new TestOutputWriter();
-            RestServiceBase service = serviceFactory.CreateNewService(theUrl.Version);
-            service.Post(outputWriter, stream, ConsumerKey, theUrl.Resource, theUrl.Id, theUrl.Action);
-            response = (SerialResponse)outputWriter.TheObject;
-            return outputWriter.ValidationMessages;
+            return PostJson(url, json.ToString(), adminUser);
         }
 
-        private static ValidationMessages ExecuteApiPut(IApiServiceFactory serviceFactory, TestUrl theUrl, string stream, out SerialResponse response)
+        public static string PostJson(TestUrl url, string json, string adminUser)
         {
-            SetCurrentHttpContext(theUrl);
-            TestOutputWriter outputWriter = new TestOutputWriter();
-            RestServiceBase service = serviceFactory.CreateNewService(theUrl.Version);
-            service.Put(outputWriter, stream, ConsumerKey, theUrl.Resource, theUrl.Id, theUrl.Action);
-            response = (SerialResponse)outputWriter.TheObject;
-            return outputWriter.ValidationMessages;
+            return CallAPI(url.ToString(), json, "POST", adminUser);
+        }
+
+
+        public static SerialResponse ApiPostSerializedData<T>(IApiServiceFactory serviceFactory, TestUrl theUrl, string stream, string adminUser = "")
+        {
+            if (TestApiUtility.UseWebService)
+            {
+                var callResults = CallAPI(theUrl.ToString(), stream, "POST", adminUser);
+                return DeserializeResponse<T>(callResults);
+            }
+            else
+            {
+                SerialResponse response = ExecuteDirectPost(serviceFactory, theUrl, stream);
+                return response;
+            }
+        }
+
+        //Note:  ExecuteApiPost is only used when TestApiUtility.UseWebService is off -- it instantiates Public or Admin directly and invokes the methods
+        private static SerialResponse ExecuteDirectPost(IApiServiceFactory serviceFactory, TestUrl url, string stream)
+        {
+            SetCurrentHttpContext(url);
+            RestServiceBase service = serviceFactory.CreateNewService(url.Version);
+
+            var outputWriter = new TestOutputWriter();
+            service.Post(outputWriter, stream, ConsumerKey, url.Resource, url.Id, url.Action);
+            return outputWriter.TheObject as SerialResponse;
         }
 
         private static object ApiPut(IApiServiceFactory apiServiceFactory, TestUrl url, string stream)
@@ -148,14 +170,6 @@ namespace Gov.Hhs.Cdc.Api
             return outputWriter.TheObject;
         }
 
-        /// <summary>
-        /// The preferred method to execute a Get
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="serviceFactory"></param>
-        /// <param name="theUrl"></param>
-        /// <param name="outputObjects"></param>
-        /// <returns></returns>
         public static ValidationMessages ApiGet<T>(IApiServiceFactory serviceFactory, TestUrl theUrl, out List<T> outputObjects)
         {
             SerialResponse serialResponse;
@@ -169,13 +183,52 @@ namespace Gov.Hhs.Cdc.Api
             return ConvertSerialResponse<T>(serialResponse, out outputObjects);
         }
 
+        public static T GetSingleResource<T>(TestUrl url)
+        {
+            var serialResponse = DeserializeResponse<T>(CallAPI(url.ToString(), string.Empty, "GET"));
+            if (serialResponse.meta.status != 200)
+            {
+                throw new InvalidOperationException(serialResponse.meta.message.FirstOrDefault().userMessage);
+            }
+
+            T outputObject = default(T);
+            if (serialResponse == null)
+            {
+                return outputObject;
+            }
+
+            if (serialResponse.results.GetType() == typeof(T))
+            {
+                return (T)serialResponse.results;
+            }
+            else
+            {
+                throw new InvalidOperationException("Type " + typeof(T).ToString() + " expected, " + serialResponse.results.GetType().ToString() + " found.");
+            }
+        }
+
+        public static string GetJson(TestUrl url)
+        {
+            return GetJson(url.ToString());
+        }
+
+        public static string GetJson(string url)
+        {
+            return CallAPI(url, string.Empty, "GET");
+        }
+
+        public static List<T> GetResource<T>(TestUrl url)
+        {
+            return GetSingleResource<List<T>>(url); 
+        }
+
         private static SerialResponse DeserializeResponse<T>(string jsonStream)
         {
             if (jsonStream == string.Empty) throw new ApplicationException("no results from API");
 
             try
             {
-                Console.WriteLine(jsonStream);
+                //Console.WriteLine(jsonStream);
                 var obj = JsonConvert.DeserializeObject<SerialResponseWithType<List<T>>>(jsonStream);
                 return new SerialResponse(obj.meta, obj.results);
             }
@@ -215,7 +268,7 @@ namespace Gov.Hhs.Cdc.Api
         /// <param name="stream"></param>
         /// <param name="adminUser"></param>
         /// <returns></returns>
-        public static ValidationMessages ApiDelete(IApiServiceFactory serviceFactory, TestUrl theUrl, string stream, string adminUser)
+        public static ValidationMessages ApiDelete(IApiServiceFactory serviceFactory, TestUrl theUrl,string adminUser)
         {
             SerialResponse serialResponse;
             if (TestApiUtility.UseWebService)
@@ -230,7 +283,7 @@ namespace Gov.Hhs.Cdc.Api
                 SetCurrentHttpContext(theUrl);
                 TestOutputWriter outputWriter = new TestOutputWriter();
                 RestServiceBase service = serviceFactory.CreateNewService(theUrl.Version);
-                service.Delete(outputWriter, stream, TestApiUtility.ConsumerKey, theUrl.Resource, theUrl.Id, theUrl.Action);
+                service.Delete(outputWriter, "", TestApiUtility.ConsumerKey, theUrl.Resource, theUrl.Id, theUrl.Action);
                 return outputWriter.ValidationMessages;
             }
 
@@ -298,60 +351,47 @@ namespace Gov.Hhs.Cdc.Api
         {
             Console.WriteLine(apiUrl);
             if (method == WebRequestMethods.Http.Get)
+            {
                 return Get(apiUrl);
+            }
+
             if (data != null)
+            {
                 data = data.Replace("\\u0027", "'");
+            }
 
-            string response = string.Empty;
-
-            var webClient = new WebClient();
-            if (!string.IsNullOrEmpty(adminUser))
+            using (var webClient = new WebClient())
             {
-                if (adminUser.StartsWith("CDC\\"))
+                if (!string.IsNullOrEmpty(adminUser))
                 {
-                    adminUser = adminUser.Substring(4);
+                    if (adminUser.StartsWith("CDC\\"))
+                    {
+                        adminUser = adminUser.Substring(4);
+                    }
+                    webClient.Headers.Add("admin_user", adminUser);
                 }
-                webClient.Headers.Add("admin_user", adminUser);
-            }
-            webClient.Headers.Add("Authorization", GetAuthorizationHeader(ref webClient, apiUrl, method, data));
 
-            ////Used for SSL
-            ServicePointManager.ServerCertificateValidationCallback += new RemoteCertificateValidationCallback(ValidateServerCertificate);
+                var keyAgreement = new AuthorizationHeaderGenerator.KeyAgreement { publicKey = ConsumerKey, secret = consumerSecret };
+                var generator = new AuthorizationHeaderGenerator("syndication_api_key", keyAgreement);
 
-            try
-            {
-                response = webClient.UploadString(apiUrl, method, data);
+                var headers = new NameValueCollection();
+                headers.Add("X-Syndication-Date", DateTime.UtcNow.ToString());
+                headers.Add("Content-Type", "application/json");
+                webClient.Headers.Add(headers);
+
+                headers.Add("Content-Length", data.Length.ToString());
+                var apiKeyHeaderValue = generator.GetApiKeyHeaderValue(headers, apiUrl, method, data);
+
+                webClient.Headers.Add("Authorization", apiKeyHeaderValue);
+
+                ////Used for SSL
+                ServicePointManager.ServerCertificateValidationCallback += new RemoteCertificateValidationCallback(ValidateServerCertificate);
+
+                var response = webClient.UploadString(apiUrl, method, data);
                 Console.WriteLine(response);
+                return response;
+
             }
-            catch (WebException)
-            {
-                webClient.Dispose();
-                //timeout
-            }
-
-            webClient.Dispose();
-            return response;
-        }
-
-        private static string GetAuthorizationHeader(ref WebClient request, string url, string method, string requestBody)
-        {
-            AuthorizationHeaderGenerator.KeyAgreement keyAgreement = new AuthorizationHeaderGenerator.KeyAgreement();
-            keyAgreement.publicKey = ConsumerKey;
-            keyAgreement.secret = consumerSecret;
-
-            AuthorizationHeaderGenerator generator = new AuthorizationHeaderGenerator("syndication_api_key", keyAgreement);
-
-            var headers = new NameValueCollection();
-            headers.Add("X-Syndication-Date", DateTime.UtcNow.ToString());
-            headers.Add("Content-Type", "application/json");
-
-            // Add headers to request
-            request.Headers.Add(headers);
-
-            headers.Add("Content-Length", requestBody.Length.ToString());
-            string apiKeyHeaderValue = generator.GetApiKeyHeaderValue(headers, url, method, requestBody);
-
-            return apiKeyHeaderValue;
         }
 
         //Above method does not work for GET requests because it is not valid to send data
@@ -359,7 +399,7 @@ namespace Gov.Hhs.Cdc.Api
         {
             string nonCache = Guid.NewGuid().ToString();
             var parmChar = "&";
-            if (!apiUrl.Contains("?")) parmChar = "?";
+            if (!apiUrl.Contains("?")) { parmChar = "?"; }
             apiUrl += parmChar + nonCache + "=" + nonCache;
             var uri = new Uri(apiUrl);
             Console.WriteLine(apiUrl);
@@ -386,7 +426,7 @@ namespace Gov.Hhs.Cdc.Api
         {
             string nonCache = Guid.NewGuid().ToString();
             var parmChar = "&";
-            if (!apiUrl.Contains("?")) parmChar = "?";
+            if (!apiUrl.Contains("?")) { parmChar = "?"; }
             apiUrl += parmChar + nonCache + "=" + nonCache;
             var uri = new Uri(apiUrl);
             Console.WriteLine(apiUrl);
@@ -436,12 +476,12 @@ namespace Gov.Hhs.Cdc.Api
 
         public static ValidationMessages DeserializeResults(string data)
         {
-            if (data == string.Empty) throw new ApplicationException("no results from API");
+            if (data == string.Empty) { throw new ApplicationException("no results from API"); }
 
             SerialResponse mediaObj = new JavaScriptSerializer().Deserialize<SerialResponse>(data);
-            ValidationMessages messages = new ValidationMessages()
+            var messages = new ValidationMessages()
             {
-                Messages = mediaObj.meta.message.Select(m => new ValidationMessage(m.type, m.code, m.userMessage)).ToList()
+                Messages = mediaObj.meta.message.Select(m => new ValidationMessage(m.type, m.code, m.userMessage, m.developerMessage)).ToList()
             };
             return messages;
         }
@@ -462,11 +502,16 @@ namespace Gov.Hhs.Cdc.Api
         //test data
         public static SerialMediaAdmin SinglePublishedHtml()
         {
+            var results = PublishedHtml();
+            return results.First();
+        }
+
+        public static List<SerialMediaAdmin> PublishedHtml()
+        {
             var criteria = "?mediatype=HTML&status=published";
             var results = AdminApiMediaSearch(criteria);
-            Console.WriteLine(criteria);
             if (results.Count() < 1) throw new InvalidOperationException("No results from API call");
-            return results.First();
+            return results.ToList();
         }
 
         public static List<SerialMediaAdmin> GetAllPublishedFeeds()

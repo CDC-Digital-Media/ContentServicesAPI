@@ -356,6 +356,15 @@ namespace Gov.Hhs.Cdc.Api
                             CanUseXmlSearch = true;
                             Criteria2.ParentId = value;
                             break;
+                        case "name":
+                            CanUseXmlSearch = true;
+                            Criteria2.ExactTitle = value;
+                            break;
+                        case "namecontains":
+                            CanUseXmlSearch = true;
+                            Criteria2.Title = value;
+                            break;
+
                         default:
                             break;
                     }

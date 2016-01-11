@@ -41,6 +41,9 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
             PersistedDbObject.MediaID = NewBusinessObject.MediaId;
             PersistedDbObject.FilePath = NewBusinessObject.FilePath;
             PersistedDbObject.FeedFormatName = NewBusinessObject.FeedFormatName;
+            
+            PersistedDbObject.Offset = NewBusinessObject.Offset;
+            PersistedDbObject.ItemCount = NewBusinessObject.ItemCount;
 
             PersistedDbObject.ModifiedDateTime = modifiedDateTime;
             PersistedDbObject.ModifiedByGUID = modifiedGuid;
@@ -84,8 +87,15 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider.Dal
                                                      MediaId = item.MediaID,
                                                      FilePath = item.FilePath,
                                                      FeedFormatName = item.FeedFormatName,
+                                                     Offset = item.Offset,
+                                                     ItemCount = item.ItemCount,
 
                                                      MediaType = item.Medium.MediaTypeCode,
+                                                     FeedFormat = new FeedFormatObject()
+                                                     {
+                                                          FeedTemplate = item.FeedFormat.FeedTemplate,
+                                                          FeedItemTemplate = item.FeedFormat.FeedItemTemplate
+                                                     },
 
                                                      DbObject = forUpdate ? item : null,
                                                  };

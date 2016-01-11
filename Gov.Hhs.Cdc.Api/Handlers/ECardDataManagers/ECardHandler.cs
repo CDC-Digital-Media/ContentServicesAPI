@@ -72,12 +72,14 @@ namespace Gov.Hhs.Cdc.Api
             if (validationMessages.Errors().Any())
             {
                 writer.Write(validationMessages);
+                return;
             }
 
-            MediaObject mediaObject = MediaProvider.GetMedia(cardInstance.Instance.MediaId, out validationMessages);
+            var mediaObject = MediaProvider.GetMedia(cardInstance.Instance.MediaId, out validationMessages);
             if (validationMessages.Errors().Any())
             {
                 writer.Write(validationMessages);
+                return;
             }
 
             SerialCardView cardView = new SerialCardView()

@@ -40,7 +40,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
                 throw new InvalidOperationException("mediaObject not found");
             }
             MediaObject = mediaObject;
-            IEnumerable<MediaRelationshipObject> relationships = mediaObject.MediaRelationships ?? new List<MediaRelationshipObject>();
+            var relationships = mediaObject.MediaRelationships ?? new List<MediaRelationshipObject>();
             RelationshipUpdateMgr = new MediaRelationshipUpdateMgr(relationships.ToList());
 
             MediaTypeSpecificUpdateMgr = CreateMediaTypeSpecificUpdateMgr(mediaObject.MediaTypeCode);

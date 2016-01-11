@@ -4,20 +4,83 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ContentServices_SourceForgeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="ContentServices_SourceForgeModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ContentServices_SourceForgeModelStoreContainer">
+          <EntitySet Name="MediaSet" EntityType="ContentServices_SourceForgeModel.Store.MediaSet" store:Type="Tables" Schema="Admin" />
+          <EntitySet Name="MediaSetDynamic" EntityType="ContentServices_SourceForgeModel.Store.MediaSetDynamic" store:Type="Tables" Schema="Admin" />
+          <EntitySet Name="MediaSetRoles" EntityType="ContentServices_SourceForgeModel.Store.MediaSetRoles" store:Type="Tables" Schema="Admin" />
+          <EntitySet Name="MediaSetStatic" EntityType="ContentServices_SourceForgeModel.Store.MediaSetStatic" store:Type="Tables" Schema="Admin" />
+          <EntitySet Name="Roles" EntityType="ContentServices_SourceForgeModel.Store.Roles" store:Type="Tables" Schema="Admin" />
+          <EntitySet Name="UserRoles" EntityType="ContentServices_SourceForgeModel.Store.UserRoles" store:Type="Tables" Schema="Admin" />
+          <EntitySet Name="UserOrganizations" EntityType="ContentServices_SourceForgeModel.Store.UserOrganizations" store:Type="Tables" Schema="Registrations" />
+          <EntitySet Name="Users" EntityType="ContentServices_SourceForgeModel.Store.Users" store:Type="Tables" Schema="Registrations" />
+          <EntitySet Name="AdministrativeUsers" EntityType="ContentServices_SourceForgeModel.Store.AdministrativeUsers" store:Type="Views" store:Schema="Admin" store:Name="AdministrativeUsers">
+            <DefiningQuery>SELECT 
+      [AdministrativeUsers].[UserGuid] AS [UserGuid], 
+      [AdministrativeUsers].[NetworkID] AS [NetworkID], 
+      [AdministrativeUsers].[FirstName] AS [FirstName], 
+      [AdministrativeUsers].[LastName] AS [LastName], 
+      [AdministrativeUsers].[EmailAddress] AS [EmailAddress]
+      FROM [Admin].[AdministrativeUsers] AS [AdministrativeUsers]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MediaSet_Combined" EntityType="ContentServices_SourceForgeModel.Store.MediaSet_Combined" store:Type="Views" store:Schema="Admin" store:Name="MediaSet_Combined">
+            <DefiningQuery>SELECT 
+      [MediaSet_Combined].[UserGUID] AS [UserGUID], 
+      [MediaSet_Combined].[NetworkID] AS [NetworkID], 
+      [MediaSet_Combined].[FirstName] AS [FirstName], 
+      [MediaSet_Combined].[LastName] AS [LastName], 
+      [MediaSet_Combined].[Active] AS [Active], 
+      [MediaSet_Combined].[CSAdmin] AS [CSAdmin], 
+      [MediaSet_Combined].[RoleCode] AS [RoleCode], 
+      [MediaSet_Combined].[MediaSetName] AS [MediaSetName], 
+      [MediaSet_Combined].[DynamicSearchCriteria] AS [DynamicSearchCriteria], 
+      [MediaSet_Combined].[StaticJSON] AS [StaticJSON]
+      FROM [Admin].[MediaSet_Combined] AS [MediaSet_Combined]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_admin_MediaSetDynamic_ref_admin_MediaSet" Association="ContentServices_SourceForgeModel.Store.FK_admin_MediaSetDynamic_ref_admin_MediaSet">
+            <End Role="MediaSet" EntitySet="MediaSet" />
+            <End Role="MediaSetDynamic" EntitySet="MediaSetDynamic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_admin_MediaSetRoles_ref_admin_MediaSet" Association="ContentServices_SourceForgeModel.Store.FK_admin_MediaSetRoles_ref_admin_MediaSet">
+            <End Role="MediaSet" EntitySet="MediaSet" />
+            <End Role="MediaSetRoles" EntitySet="MediaSetRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_admin_MediaSetRoles_ref_admin_UserRoles" Association="ContentServices_SourceForgeModel.Store.FK_admin_MediaSetRoles_ref_admin_UserRoles">
+            <End Role="UserRoles" EntitySet="UserRoles" />
+            <End Role="MediaSetRoles" EntitySet="MediaSetRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_admin_MediaSetStatic_ref_admin_MediaSet" Association="ContentServices_SourceForgeModel.Store.FK_admin_MediaSetStatic_ref_admin_MediaSet">
+            <End Role="MediaSet" EntitySet="MediaSet" />
+            <End Role="MediaSetStatic" EntitySet="MediaSetStatic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_admin_UserRoles_ref_admin_Roles" Association="ContentServices_SourceForgeModel.Store.FK_admin_UserRoles_ref_admin_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_admin_UserRoles_ref_registrations_Users" Association="ContentServices_SourceForgeModel.Store.FK_admin_UserRoles_ref_registrations_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_registrations_UserOrganizations_ref_registrations_Users" Association="ContentServices_SourceForgeModel.Store.FK_registrations_UserOrganizations_ref_registrations_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserOrganizations" EntitySet="UserOrganizations" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="MediaSet">
           <Key>
             <PropertyRef Name="MediaSetName" />
           </Key>
-          <Property Name="MediaSetName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="MediaSetName" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="MediaSetDynamic">
           <Key>
             <PropertyRef Name="MediaSetName" />
           </Key>
-          <Property Name="MediaSetName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="MediaSetName" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="SearchCriteria" Type="xml" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="MediaSetRoles">
           <Key>
@@ -26,23 +89,25 @@
             <PropertyRef Name="MediaSetName" />
           </Key>
           <Property Name="UserGUID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="RoleCode" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="MediaSetName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="RoleCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="MediaSetName" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="MediaSetStatic">
           <Key>
             <PropertyRef Name="MediaSetName" />
             <PropertyRef Name="MediaID" />
           </Key>
-          <Property Name="MediaSetName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="MediaSetName" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="MediaID" Type="int" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
             <PropertyRef Name="RoleCode" />
           </Key>
-          <Property Name="RoleCode" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Active" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="RoleCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Active" Type="varchar" Nullable="false" MaxLength="3" />
           <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
           <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
           <Property Name="CreatedByGuid" Type="uniqueidentifier" />
@@ -54,8 +119,8 @@
             <PropertyRef Name="RoleCode" />
           </Key>
           <Property Name="UserGUID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="RoleCode" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Active" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="RoleCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Active" Type="varchar" Nullable="false" MaxLength="3" />
           <Property Name="IsDefault" Type="nvarchar" MaxLength="5" />
           <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
           <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
@@ -69,7 +134,7 @@
           </Key>
           <Property Name="OrganizationID" Type="int" Nullable="false" />
           <Property Name="UserGuid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="PrimaryOrg" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="PrimaryOrg" Type="varchar" Nullable="false" MaxLength="7" />
           <Property Name="CreatedDateTime" Type="datetime" />
           <Property Name="ModifiedDateTime" Type="datetime" />
           <Property Name="CreatedByGUID" Type="uniqueidentifier" />
@@ -81,15 +146,16 @@
           </Key>
           <Property Name="UserGuid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ApiClientGuid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="EmailAddress" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="EmailAddress" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="256" />
           <Property Name="MiddleName" Type="nvarchar" MaxLength="256" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="256" />
           <Property Name="Password" Type="varchar(max)" />
+          <Property Name="PasswordSalt" Type="varchar(max)" />
           <Property Name="TempPassword" Type="varchar(max)" />
           <Property Name="UserToken" Type="varchar(max)" />
           <Property Name="ExpirationUtcSeconds" Type="bigint" Nullable="false" />
-          <Property Name="Active" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="Active" Type="varchar" Nullable="false" MaxLength="3" />
           <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
           <Property Name="ModifiedDateTime" Type="datetime" Nullable="false" />
           <Property Name="CreatedByGuid" Type="uniqueidentifier" />
@@ -98,9 +164,12 @@
           <Property Name="RegistrationToken" Type="nvarchar" MaxLength="50" />
           <Property Name="NetworkID" Type="varchar" MaxLength="50" />
           <Property Name="CSAdmin" Type="varchar" MaxLength="3" />
+          <Property Name="IsMigrated" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="PasswordFormat" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ContentServices_SourceForge.Admin.AdministrativeUsers' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+      warning 6002: The table/view 'ContentServices_SourceForge.Admin.AdministrativeUsers' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
         <EntityType Name="AdministrativeUsers">
           <Key>
             <PropertyRef Name="UserGuid" />
@@ -110,13 +179,36 @@ warning 6002: The table/view 'ContentServices_SourceForge.Admin.AdministrativeUs
           </Key>
           <Property Name="UserGuid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="NetworkID" Type="varchar" MaxLength="50" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="EmailAddress" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="EmailAddress" Type="nvarchar" Nullable="false" MaxLength="256" />
         </EntityType>
-        <Association Name="FK_MediaSetDynamic_MediaSet">
-          <End Role="MediaSet" Type="Self.MediaSet" Multiplicity="1" />
-          <End Role="MediaSetDynamic" Type="Self.MediaSetDynamic" Multiplicity="0..1" />
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'ContentServices_SourceForge.Admin.MediaSet_Combined' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="MediaSet_Combined">
+          <Key>
+            <PropertyRef Name="UserGUID" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="Active" />
+            <PropertyRef Name="RoleCode" />
+            <PropertyRef Name="MediaSetName" />
+          </Key>
+          <Property Name="UserGUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="NetworkID" Type="varchar" MaxLength="50" />
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Active" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="CSAdmin" Type="varchar" MaxLength="3" />
+          <Property Name="RoleCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="MediaSetName" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="DynamicSearchCriteria" Type="xml" />
+          <Property Name="StaticJSON" Type="varchar(max)" />
+        </EntityType>
+        <Association Name="FK_admin_MediaSetDynamic_ref_admin_MediaSet">
+          <End Role="MediaSet" Type="ContentServices_SourceForgeModel.Store.MediaSet" Multiplicity="1" />
+          <End Role="MediaSetDynamic" Type="ContentServices_SourceForgeModel.Store.MediaSetDynamic" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="MediaSet">
               <PropertyRef Name="MediaSetName" />
@@ -126,9 +218,9 @@ warning 6002: The table/view 'ContentServices_SourceForge.Admin.AdministrativeUs
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MediaSetRoles_MediaSet">
-          <End Role="MediaSet" Type="Self.MediaSet" Multiplicity="1" />
-          <End Role="MediaSetRoles" Type="Self.MediaSetRoles" Multiplicity="*" />
+        <Association Name="FK_admin_MediaSetRoles_ref_admin_MediaSet">
+          <End Role="MediaSet" Type="ContentServices_SourceForgeModel.Store.MediaSet" Multiplicity="1" />
+          <End Role="MediaSetRoles" Type="ContentServices_SourceForgeModel.Store.MediaSetRoles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MediaSet">
               <PropertyRef Name="MediaSetName" />
@@ -138,9 +230,9 @@ warning 6002: The table/view 'ContentServices_SourceForge.Admin.AdministrativeUs
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MediaSetRoles_UserRoles">
-          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="1" />
-          <End Role="MediaSetRoles" Type="Self.MediaSetRoles" Multiplicity="*" />
+        <Association Name="FK_admin_MediaSetRoles_ref_admin_UserRoles">
+          <End Role="UserRoles" Type="ContentServices_SourceForgeModel.Store.UserRoles" Multiplicity="1" />
+          <End Role="MediaSetRoles" Type="ContentServices_SourceForgeModel.Store.MediaSetRoles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserRoles">
               <PropertyRef Name="UserGUID" />
@@ -152,9 +244,9 @@ warning 6002: The table/view 'ContentServices_SourceForge.Admin.AdministrativeUs
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MediaSetStatic_MediaSet">
-          <End Role="MediaSet" Type="Self.MediaSet" Multiplicity="1" />
-          <End Role="MediaSetStatic" Type="Self.MediaSetStatic" Multiplicity="*" />
+        <Association Name="FK_admin_MediaSetStatic_ref_admin_MediaSet">
+          <End Role="MediaSet" Type="ContentServices_SourceForgeModel.Store.MediaSet" Multiplicity="1" />
+          <End Role="MediaSetStatic" Type="ContentServices_SourceForgeModel.Store.MediaSetStatic" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MediaSet">
               <PropertyRef Name="MediaSetName" />
@@ -164,21 +256,9 @@ warning 6002: The table/view 'ContentServices_SourceForge.Admin.AdministrativeUs
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_UserOrganizations_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="UserOrganizations" Type="Self.UserOrganizations" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserGuid" />
-            </Principal>
-            <Dependent Role="UserOrganizations">
-              <PropertyRef Name="UserGuid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserRoles_Roles">
-          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
-          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="*" />
+        <Association Name="FK_admin_UserRoles_ref_admin_Roles">
+          <End Role="Roles" Type="ContentServices_SourceForgeModel.Store.Roles" Multiplicity="1" />
+          <End Role="UserRoles" Type="ContentServices_SourceForgeModel.Store.UserRoles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Roles">
               <PropertyRef Name="RoleCode" />
@@ -188,15 +268,27 @@ warning 6002: The table/view 'ContentServices_SourceForge.Admin.AdministrativeUs
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_UserRoles_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="*" />
+        <Association Name="FK_admin_UserRoles_ref_registrations_Users">
+          <End Role="Users" Type="ContentServices_SourceForgeModel.Store.Users" Multiplicity="1" />
+          <End Role="UserRoles" Type="ContentServices_SourceForgeModel.Store.UserRoles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="UserGuid" />
             </Principal>
             <Dependent Role="UserRoles">
               <PropertyRef Name="UserGUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_registrations_UserOrganizations_ref_registrations_Users">
+          <End Role="Users" Type="ContentServices_SourceForgeModel.Store.Users" Multiplicity="1" />
+          <End Role="UserOrganizations" Type="ContentServices_SourceForgeModel.Store.UserOrganizations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserGuid" />
+            </Principal>
+            <Dependent Role="UserOrganizations">
+              <PropertyRef Name="UserGuid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -216,53 +308,6 @@ warning 6002: The table/view 'ContentServices_SourceForge.Admin.AdministrativeUs
           <Parameter Name="Password" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="UserGuid" Type="uniqueidentifier" Mode="In" />
         </Function>
-        <EntityContainer Name="ContentServices_SourceForgeModelStoreContainer">
-          <EntitySet Name="MediaSet" EntityType="Self.MediaSet" Schema="Admin" store:Type="Tables" />
-          <EntitySet Name="MediaSetDynamic" EntityType="Self.MediaSetDynamic" Schema="Admin" store:Type="Tables" />
-          <EntitySet Name="MediaSetRoles" EntityType="Self.MediaSetRoles" Schema="Admin" store:Type="Tables" />
-          <EntitySet Name="MediaSetStatic" EntityType="Self.MediaSetStatic" Schema="Admin" store:Type="Tables" />
-          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="Admin" store:Type="Tables" />
-          <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="Admin" store:Type="Tables" />
-          <EntitySet Name="UserOrganizations" EntityType="Self.UserOrganizations" Schema="Registrations" store:Type="Tables" />
-          <EntitySet Name="Users" EntityType="Self.Users" Schema="Registrations" store:Type="Tables" />
-          <EntitySet Name="AdministrativeUsers" EntityType="Self.AdministrativeUsers" store:Type="Views" store:Schema="Admin">
-            <DefiningQuery>SELECT 
-[AdministrativeUsers].[UserGuid] AS [UserGuid], 
-[AdministrativeUsers].[NetworkID] AS [NetworkID], 
-[AdministrativeUsers].[FirstName] AS [FirstName], 
-[AdministrativeUsers].[LastName] AS [LastName], 
-[AdministrativeUsers].[EmailAddress] AS [EmailAddress]
-FROM [Admin].[AdministrativeUsers] AS [AdministrativeUsers]</DefiningQuery>
-          </EntitySet>
-          <AssociationSet Name="FK_MediaSetDynamic_MediaSet" Association="Self.FK_MediaSetDynamic_MediaSet">
-            <End Role="MediaSet" EntitySet="MediaSet" />
-            <End Role="MediaSetDynamic" EntitySet="MediaSetDynamic" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MediaSetRoles_MediaSet" Association="Self.FK_MediaSetRoles_MediaSet">
-            <End Role="MediaSet" EntitySet="MediaSet" />
-            <End Role="MediaSetRoles" EntitySet="MediaSetRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MediaSetRoles_UserRoles" Association="Self.FK_MediaSetRoles_UserRoles">
-            <End Role="UserRoles" EntitySet="UserRoles" />
-            <End Role="MediaSetRoles" EntitySet="MediaSetRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MediaSetStatic_MediaSet" Association="Self.FK_MediaSetStatic_MediaSet">
-            <End Role="MediaSet" EntitySet="MediaSet" />
-            <End Role="MediaSetStatic" EntitySet="MediaSetStatic" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserOrganizations_Users" Association="Self.FK_UserOrganizations_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="UserOrganizations" EntitySet="UserOrganizations" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserRoles_Roles" Association="Self.FK_UserRoles_Roles">
-            <End Role="Roles" EntitySet="Roles" />
-            <End Role="UserRoles" EntitySet="UserRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserRoles_Users" Association="Self.FK_UserRoles_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="UserRoles" EntitySet="UserRoles" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -311,14 +356,15 @@ FROM [Admin].[AdministrativeUsers] AS [AdministrativeUsers]</DefiningQuery>
             <End Role="MediaSetDynamic" EntitySet="MediaSetDynamics" />
           </AssociationSet>
           <FunctionImport Name="EvaluateUserMediaSets">
-            <Parameter Name="UserGUID" Mode="In" Type="Guid" />
+          <Parameter Name="UserGUID" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="SearchMediaSet">
-            <Parameter Name="MediaSetName" Mode="In" Type="String" />
+          <Parameter Name="MediaSetName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="EvaluateUserMediaSets1" ReturnType="Collection(Int32)">
-            <Parameter Name="UserGUID" Mode="In" Type="Guid" />
+          <Parameter Name="UserGUID" Mode="In" Type="Guid" />
           </FunctionImport>
+          <EntitySet Name="MediaSet_Combined" EntityType="ContentServices_SourceForgeModel.MediaSet_Combined" />
         </EntityContainer>
         <EntityType Name="Role">
           <Key>
@@ -399,6 +445,9 @@ FROM [Admin].[AdministrativeUsers] AS [AdministrativeUsers]</DefiningQuery>
           <Property Type="String" Name="CSAdmin" MaxLength="3" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="UserRoles" Relationship="ContentServices_SourceForgeModel.FK_UserRoles_Users" FromRole="User" ToRole="UserRole" />
           <NavigationProperty Name="UserOrganizations" Relationship="ContentServices_SourceForgeModel.FK_UserOrganizations_Users" FromRole="User" ToRole="UserOrganization" />
+          <Property Type="String" Name="PasswordSalt" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="IsMigrated" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="PasswordFormat" />
         </EntityType>
         <Association Name="FK_UserRoles_Users">
           <End Type="ContentServices_SourceForgeModel.User" Role="User" Multiplicity="1" />
@@ -447,6 +496,7 @@ FROM [Admin].[AdministrativeUsers] AS [AdministrativeUsers]</DefiningQuery>
           <NavigationProperty Name="MediaSetStatics" Relationship="ContentServices_SourceForgeModel.FK_MediaSetStatic_MediaSet" FromRole="MediaSet" ToRole="MediaSetStatic" />
           <NavigationProperty Name="UserRoles" Relationship="ContentServices_SourceForgeModel.MediaSetRoles" FromRole="MediaSet" ToRole="UserRole" />
           <NavigationProperty Name="MediaSetDynamic" Relationship="ContentServices_SourceForgeModel.FK_MediaSetDynamic_MediaSet" FromRole="MediaSet" ToRole="MediaSetDynamic" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Precision="3" />
         </EntityType>
         <EntityType Name="MediaSetDynamic">
           <Key>
@@ -455,6 +505,7 @@ FROM [Admin].[AdministrativeUsers] AS [AdministrativeUsers]</DefiningQuery>
           <Property Name="MediaSetName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="SearchCriteria" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MediaSet" Relationship="ContentServices_SourceForgeModel.FK_MediaSetDynamic_MediaSet" FromRole="MediaSetDynamic" ToRole="MediaSet" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Precision="3" />
         </EntityType>
         <EntityType Name="MediaSetStatic">
           <Key>
@@ -464,6 +515,7 @@ FROM [Admin].[AdministrativeUsers] AS [AdministrativeUsers]</DefiningQuery>
           <Property Name="MediaSetName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="MediaID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="MediaSet" Relationship="ContentServices_SourceForgeModel.FK_MediaSetStatic_MediaSet" FromRole="MediaSetStatic" ToRole="MediaSet" />
+          <Property Type="DateTime" Name="ModifiedDateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_MediaSetStatic_MediaSet">
           <End Type="ContentServices_SourceForgeModel.MediaSet" Role="MediaSet" Multiplicity="1" />
@@ -493,6 +545,26 @@ FROM [Admin].[AdministrativeUsers] AS [AdministrativeUsers]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="MediaSet_Combined">
+          <Key>
+            <PropertyRef Name="UserGUID" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="Active" />
+            <PropertyRef Name="RoleCode" />
+            <PropertyRef Name="MediaSetName" />
+          </Key>
+          <Property Type="Guid" Name="UserGUID" Nullable="false" />
+          <Property Type="String" Name="NetworkID" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Active" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CSAdmin" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RoleCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="MediaSetName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DynamicSearchCriteria" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="StaticJSON" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -539,6 +611,9 @@ FROM [Admin].[AdministrativeUsers] AS [AdministrativeUsers]</DefiningQuery>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ContentServices_SourceForgeModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="PasswordFormat" ColumnName="PasswordFormat" />
+                <ScalarProperty Name="IsMigrated" ColumnName="IsMigrated" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
                 <ScalarProperty Name="CSAdmin" ColumnName="CSAdmin" />
                 <ScalarProperty Name="NetworkID" ColumnName="NetworkID" />
                 <ScalarProperty Name="RegistrationToken" ColumnName="RegistrationToken" />
@@ -578,6 +653,7 @@ FROM [Admin].[AdministrativeUsers] AS [AdministrativeUsers]</DefiningQuery>
           <EntitySetMapping Name="MediaSets">
             <EntityTypeMapping TypeName="ContentServices_SourceForgeModel.MediaSet">
               <MappingFragment StoreEntitySet="MediaSet">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="MediaSetName" ColumnName="MediaSetName" />
               </MappingFragment>
@@ -586,6 +662,7 @@ FROM [Admin].[AdministrativeUsers] AS [AdministrativeUsers]</DefiningQuery>
           <EntitySetMapping Name="MediaSetDynamics">
             <EntityTypeMapping TypeName="ContentServices_SourceForgeModel.MediaSetDynamic">
               <MappingFragment StoreEntitySet="MediaSetDynamic">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
                 <ScalarProperty Name="SearchCriteria" ColumnName="SearchCriteria" />
                 <ScalarProperty Name="MediaSetName" ColumnName="MediaSetName" />
               </MappingFragment>
@@ -594,6 +671,7 @@ FROM [Admin].[AdministrativeUsers] AS [AdministrativeUsers]</DefiningQuery>
           <EntitySetMapping Name="MediaSetStatics">
             <EntityTypeMapping TypeName="ContentServices_SourceForgeModel.MediaSetStatic">
               <MappingFragment StoreEntitySet="MediaSetStatic">
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
                 <ScalarProperty Name="MediaID" ColumnName="MediaID" />
                 <ScalarProperty Name="MediaSetName" ColumnName="MediaSetName" />
               </MappingFragment>
@@ -611,6 +689,22 @@ FROM [Admin].[AdministrativeUsers] AS [AdministrativeUsers]</DefiningQuery>
           <FunctionImportMapping FunctionImportName="EvaluateUserMediaSets" FunctionName="ContentServices_SourceForgeModel.Store.EvaluateUserMediaSets" />
           <FunctionImportMapping FunctionImportName="SearchMediaSet" FunctionName="ContentServices_SourceForgeModel.Store.SearchMediaSet" />
           <FunctionImportMapping FunctionImportName="EvaluateUserMediaSets1" FunctionName="ContentServices_SourceForgeModel.Store.EvaluateUserMediaSets" />
+          <EntitySetMapping Name="MediaSet_Combined">
+            <EntityTypeMapping TypeName="ContentServices_SourceForgeModel.MediaSet_Combined">
+              <MappingFragment StoreEntitySet="MediaSet_Combined">
+                <ScalarProperty Name="StaticJSON" ColumnName="StaticJSON" />
+                <ScalarProperty Name="DynamicSearchCriteria" ColumnName="DynamicSearchCriteria" />
+                <ScalarProperty Name="MediaSetName" ColumnName="MediaSetName" />
+                <ScalarProperty Name="RoleCode" ColumnName="RoleCode" />
+                <ScalarProperty Name="CSAdmin" ColumnName="CSAdmin" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="NetworkID" ColumnName="NetworkID" />
+                <ScalarProperty Name="UserGUID" ColumnName="UserGUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -653,6 +747,7 @@ FROM [Admin].[AdministrativeUsers] AS [AdministrativeUsers]</DefiningQuery>
         <AssociationConnector Association="ContentServices_SourceForgeModel.FK_MediaSetStatic_MediaSet" />
         <AssociationConnector Association="ContentServices_SourceForgeModel.MediaSetRoles" />
         <AssociationConnector Association="ContentServices_SourceForgeModel.FK_MediaSetDynamic_MediaSet" />
+        <EntityTypeShape EntityType="ContentServices_SourceForgeModel.MediaSet_Combined" Width="1.5" PointX="0.25749059592256818" PointY="4.4318106642141055" />
       </Diagram>
     </Diagrams>
   </Designer>

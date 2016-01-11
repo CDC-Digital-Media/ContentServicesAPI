@@ -104,7 +104,7 @@ namespace MediaCrudTests
             };
 
             IApiServiceFactory adminService = new AdminApiServiceFactory();
-            TestUrl mediaUrl2 = adminService.CreateTestUrl("media", "", "", "");
+            TestUrl mediaUrl2 = adminService.CreateTestUrl("media");
             List<SerialMediaAdmin> mediaAfterUpdate;
             ValidationMessages messages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, mediaUrl2, media, out mediaAfterUpdate, authorizedUser);
             if (messages.Errors().Count() > 0)
@@ -169,7 +169,7 @@ namespace MediaCrudTests
             };
 
             IApiServiceFactory adminService = new AdminApiServiceFactory();
-            TestUrl mediaUrl2 = adminService.CreateTestUrl("media", "", "", "");
+            TestUrl mediaUrl2 = adminService.CreateTestUrl("media");
             List<SerialMediaAdmin> mediaAfterUpdate;
             ValidationMessages messages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, mediaUrl2, media, out mediaAfterUpdate, authorizedUser);
             if (messages.Errors().Count() > 0)
@@ -234,7 +234,7 @@ namespace MediaCrudTests
             };
 
             IApiServiceFactory adminService = new AdminApiServiceFactory();
-            TestUrl mediaUrl = adminService.CreateTestUrl("media", "", "", "");
+            TestUrl mediaUrl = adminService.CreateTestUrl("media");
             List<SerialMediaAdmin> mediaAfterUpdate;
             ValidationMessages messages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, mediaUrl, media, out mediaAfterUpdate, authorizedUser);
             if (messages.Errors().Count() > 0)
@@ -320,7 +320,7 @@ namespace MediaCrudTests
             };
 
             IApiServiceFactory adminService = new AdminApiServiceFactory();
-            TestUrl mediaUrl2 = adminService.CreateTestUrl("media", "", "", "");
+            TestUrl mediaUrl2 = adminService.CreateTestUrl("media");
             List<SerialMediaAdmin> mediaAfterUpdate;
             ValidationMessages messages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, mediaUrl2, media, out mediaAfterUpdate, authorizedUser);
             if (messages.Errors().Count() > 0)
@@ -371,7 +371,7 @@ namespace MediaCrudTests
             };
 
             IApiServiceFactory adminService = new AdminApiServiceFactory();
-            TestUrl mediaUrl2 = adminService.CreateTestUrl("media", "", "", "");
+            TestUrl mediaUrl2 = adminService.CreateTestUrl("media");
             List<SerialMediaAdmin> mediaAfterUpdate;
             ValidationMessages messages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, mediaUrl2, media, out mediaAfterUpdate, authorizedUser);
             if (messages.Errors().Count() > 0)
@@ -421,7 +421,7 @@ namespace MediaCrudTests
             };
 
             IApiServiceFactory adminService = new AdminApiServiceFactory();
-            TestUrl mediaUrl2 = adminService.CreateTestUrl("media", "", "", "");
+            TestUrl mediaUrl2 = adminService.CreateTestUrl("media");
             List<SerialMediaAdmin> mediaAfterUpdate;
             ValidationMessages messages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, mediaUrl2, media, out mediaAfterUpdate, authorizedUser);
             if (messages.Errors().Count() > 0)
@@ -473,7 +473,7 @@ namespace MediaCrudTests
                 } 
             };
             IApiServiceFactory adminService = new AdminApiServiceFactory();
-            TestUrl mediaUrl2 = adminService.CreateTestUrl("media", "", "", "");
+            TestUrl mediaUrl2 = adminService.CreateTestUrl("media");
             List<SerialMediaAdmin> mediaAfterUpdate;
             ValidationMessages messages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, mediaUrl2, media, out mediaAfterUpdate, authorizedUser);
             if (messages.Errors().Count() > 0)
@@ -543,7 +543,7 @@ namespace MediaCrudTests
                 } 
             };
             IApiServiceFactory adminService = new AdminApiServiceFactory();
-            TestUrl mediaUrl2 = adminService.CreateTestUrl("media", "", "", "");
+            TestUrl mediaUrl2 = adminService.CreateTestUrl("media");
             List<SerialMediaAdmin> mediaAfterUpdate;
             ValidationMessages messages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, mediaUrl2, media, out mediaAfterUpdate, authorizedUser);
             if (messages.Errors().Count() > 0)
@@ -608,7 +608,7 @@ namespace MediaCrudTests
                 
             };
             IApiServiceFactory adminService = new AdminApiServiceFactory();
-            TestUrl mediaUrl2 = adminService.CreateTestUrl("media", "", "", "");
+            TestUrl mediaUrl2 = adminService.CreateTestUrl("media");
             List<SerialMediaAdmin> mediaAfterUpdate;
             ValidationMessages messages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, mediaUrl2, media, out mediaAfterUpdate, authorizedUser);
             if (messages.Errors().Count() > 0)
@@ -676,7 +676,7 @@ namespace MediaCrudTests
             };
 
             IApiServiceFactory adminService = new AdminApiServiceFactory();
-            TestUrl mediaUrl2 = adminService.CreateTestUrl("media", "", "", "");
+            TestUrl mediaUrl2 = adminService.CreateTestUrl("media");
             List<SerialMediaAdmin> mediaAfterUpdate;
             ValidationMessages messages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, mediaUrl2, media, out mediaAfterUpdate, authorizedUser);
             if (messages.Errors().Count() > 0)
@@ -714,7 +714,7 @@ namespace MediaCrudTests
             };
 
             IApiServiceFactory adminService = new AdminApiServiceFactory();
-            TestUrl mediaUrl2 = adminService.CreateTestUrl("media", "", "", "");
+            TestUrl mediaUrl2 = adminService.CreateTestUrl("media");
             List<SerialMediaAdmin> mediaAfterUpdate;
             ValidationMessages messages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, mediaUrl2, media, out mediaAfterUpdate, authorizedUser);
             if (messages.Errors().Count() > 0)

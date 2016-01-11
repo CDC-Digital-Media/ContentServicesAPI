@@ -192,14 +192,12 @@
     <Compile Include="ISearchDataManager.cs" />
     <Compile Include="IValidator.cs" />
     <Compile Include="SearchPlan.cs" />
-    <Compile Include="SearchProviderReference.cs" />
     <Compile Include="SearchDataManager.cs" />
     <Compile Include="HierarchicalItem.cs" />
     <Compile Include="DataServicesLinqExtensions.cs" />
     <Compile Include="Plan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Criteria\FilterCriteria.cs" />
-    <Compile Include="StringKeyValuePair.cs" />
     <Compile Include="IUpdateMgr.cs" />
   </ItemGroup>
   <ItemGroup>

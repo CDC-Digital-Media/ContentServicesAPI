@@ -16,11 +16,11 @@ namespace Gov.Hhs.Cdc.Api.Public
 {
     public class PublicApiServiceFactory : IApiServiceFactory
     {
-        private const int defaultApiVersion = 1;
+        private const int defaultApiVersion = 2;
 
         public TestUrl CreateTestUrl(string resource)
         {
-            return CreateTestUrl(resource, string.Empty, string.Empty, string.Empty, defaultApiVersion);
+            return CreateTestUrl(resource, 0);
         }
 
         public RestServiceBase CreateNewService(int version)
@@ -28,16 +28,24 @@ namespace Gov.Hhs.Cdc.Api.Public
             return new Public(version);
         }
 
-        public TestUrl CreateTestUrl(string resource, string id, string action, string queryParms, int version = 1)
+        public TestUrl CreateTestUrl(string resource, int id)
+        {
+            return CreateTestUrl(resource, id.ToString(), string.Empty, string.Empty, defaultApiVersion);
+        }
+
+        public TestUrl CreateTestUrl(string resource, string id, string action, string queryParms, int version)
         {
             return new TestUrl(ServiceType.PublicApi, resource, id, action, queryParms, version);
         }
 
         public TestUrl CreateTestUrl(string resource, int id, string action, string queryParms)
         {
-            return CreateTestUrl(resource, id.ToString(), action, queryParms, defaultApiVersion);
+            return CreateTestUrl(resource, id.ToString(), action, queryParms);
         }
-
+        public TestUrl CreateTestUrl(string resource, string id, string action, string queryParms)
+        {
+            return CreateTestUrl(resource, id, action, queryParms, defaultApiVersion);
+        }
     }
 
 }

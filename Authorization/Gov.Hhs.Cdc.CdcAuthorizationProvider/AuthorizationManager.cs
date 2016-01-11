@@ -27,6 +27,8 @@ namespace Gov.Hhs.Cdc.Authorization
         public const string VocabAdminRole = "Vocabulary Admin";
         public const string SystemAdminRole = "System Admin";
         public const string FeedsSchedulerRole = "Feeds Scheduler Admin";
+        public const string FeedsAdminRole = "Feeds Admin";
+        public const string StorefrontManagerRole = "Storefront Manager";
 
         public static AdminUser GetUser(string user)
         {
@@ -50,7 +52,8 @@ namespace Gov.Hhs.Cdc.Authorization
         {
             using (var objectContext = AuthorizationObjectContextFactory.Create() as AuthorizationObjectContext)
             {
-                return AdminUserCtl.GetUsers(objectContext).ToList();
+                var users = AdminUserCtl.GetUsers(objectContext);
+                return users.ToList();
             }
         }
 
@@ -65,7 +68,8 @@ namespace Gov.Hhs.Cdc.Authorization
             }
         }
 
-        private static IList<SerialAdminRole> RemoveNullRoleMembers(IList<SerialAdminRole> roles){
+        private static IList<SerialAdminRole> RemoveNullRoleMembers(IList<SerialAdminRole> roles)
+        {
             foreach (var role in roles)
             {
                 if (role.members.Count() == 1)
@@ -110,6 +114,34 @@ namespace Gov.Hhs.Cdc.Authorization
             using (var context = AuthorizationObjectContextFactory.Create() as AuthorizationObjectContext)
             {
                 AdminUserCtl.RemoveUser(context, user);
+            }
+        }
+
+        public static IList<CsBusinessObjects.Admin.MediaSet> MediaSets()
+        {
+            using (var context = AuthorizationObjectContextFactory.Create() as AuthorizationObjectContext)
+            {
+                var sets = AdminUserCtl.MediaSets(context);
+                var query = sets as ObjectQuery;
+                Console.WriteLine(query.ToTraceString());
+                return sets.ToList();
+            }
+        }
+
+        public static void AddMediaSet(CsBusinessObjects.Admin.MediaSet set, AdminUser addedBy)
+        {
+            using (var context = AuthorizationObjectContextFactory.Create() as AuthorizationObjectContext)
+            {
+                AdminUserCtl.AddMediaSet(context, set, addedBy);
+            }
+        }
+
+
+        public static void DeleteMediaSet(string id)
+        {
+            using (var context = AuthorizationObjectContextFactory.Create() as AuthorizationObjectContext)
+            {
+                AdminUserCtl.DeleteMediaSet(context, id);
             }
         }
     }

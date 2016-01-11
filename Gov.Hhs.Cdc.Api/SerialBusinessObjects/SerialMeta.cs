@@ -50,7 +50,8 @@ namespace Gov.Hhs.Cdc.Api
         {
             return new ValidationMessages()
             {
-                Messages = message.Select(m => new ValidationMessage(m.type, m.code, m.userMessage)).ToList()
+                Messages = message.Select(m => new ValidationMessage(m.type, m.code, m.userMessage, m.developerMessage)).ToList()
+                
             };
         }
 

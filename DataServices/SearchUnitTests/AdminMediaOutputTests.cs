@@ -234,7 +234,7 @@ namespace SearchUnitTests
         public void ParentCountsMatch()
         {
             //TODO:  Write test that looks for media with this value
-            Assert.AreEqual(media.parentCount, searchResult.Parents == null ? 0 : searchResult.Parents.Count());
+            Assert.AreEqual(media.parentCount, searchResult.Parents == null ? 0 : searchResult.Parents.Count(), "Media Id: " + media.id);
         }
 
         [TestMethod]

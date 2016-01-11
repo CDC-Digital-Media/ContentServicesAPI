@@ -23,6 +23,7 @@ namespace Gov.Hhs.Cdc.MediaProvider
     public class FeedFormatObject : DataSourceBusinessObject, IValidationObject
     {
         public string Name { get; set; }
-
+        public string FeedTemplate { get; set; }
+        public string FeedItemTemplate { get; set; }
     }
 }

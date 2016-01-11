@@ -16,6 +16,8 @@ using System.Linq;
 using Gov.Hhs.Cdc.Bo;
 using System;
 
+using Gov.Hhs.Cdc.MediaProvider;
+
 namespace Gov.Hhs.Cdc.Api
 {
     public class TestOutputWriter : IOutputWriter
@@ -69,9 +71,14 @@ namespace Gov.Hhs.Cdc.Api
             throw new System.NotImplementedException();
         }
 
-        public void WriteToFile(object response, string atFilePath)
+        public void WriteToFile(object response, FeedExportObject feedExport)
         {
         }
+
+        public void WriteToOutputStream(object theObject, bool isWritingFromCache)
+        {
+        }
+
     }
 
 }

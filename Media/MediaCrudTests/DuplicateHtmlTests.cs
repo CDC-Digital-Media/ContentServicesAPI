@@ -40,12 +40,12 @@ namespace MediaCrudTests
         [TestMethod]
         public void CannotAddContentThatAlreadyExists()
         {
-            IApiServiceFactory adminService = new AdminApiServiceFactory();
+            var adminService = new AdminApiServiceFactory();
 
             string data = @"{""mediatype"":""HTML"",""mimetype"":"".html"",""encoding"":""utf-8"",""title"":""CDC - Seasonal Influenza (Flu)"",""description"":""xpath test"",""sourceUrl"":""http://www......[domain]...../flu/index.htm"",""targetUrl"":""http://www......[domain]...../flu/index.htm"",""rowVersion"":"""",""preferences"":[{""type"":""WebPage"",""isDefault"":true,""htmlPreferences"":{""includedElements"":{""xPath"":""//html:body/descendant::html:img[@alt='Influenza-Like Illness Activity Level Indicator, United States.']"",""elementIds"":null,""classNames"":null},""excludedElements"":null,""stripAnchor"":null,""stripComment"":null,""stripImage"":null,""stripScript"":true,""stripStyle"":null,""newWindow"":null,""imageAlign"":""right"",""outputEncoding"":null,""outputFormat"":null,""contentNamespace"":null},""ecardPreferences"":null},{""type"":""Mobile"",""isDefault"":true,""htmlPreferences"":{""includedElements"":{""xPath"":""//html:body/descendant::html:img[@alt='Influenza-Like Illness Activity Level Indicator, United States.']"",""elementIds"":null,""classNames"":null},""excludedElements"":null,""stripAnchor"":null,""stripComment"":null,""stripImage"":null,""stripScript"":true,""stripStyle"":null,""newWindow"":null,""imageAlign"":""right"",""outputEncoding"":null,""outputFormat"":null,""contentNamespace"":null},""ecardPreferences"":null}],""sourceCode"":""Centers for Disease Control and Prevention"",""language"":""English"",""status"":""archived"",""datepublished"":""2014-05-22T19:38:00.000Z"",""owningOrgId"":"""",""maintainingOrgId"":""""}";
             var obj = new JavaScriptSerializer().Deserialize<SerialMediaAdmin>(data);
 
-            TestUrl mediaUrl2 = adminService.CreateTestUrl("media", "", "", "");
+            TestUrl mediaUrl2 = adminService.CreateTestUrl("media");
             List<SerialMediaAdmin> mediaAfterUpdate;
             ValidationMessages messages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, mediaUrl2, obj, out mediaAfterUpdate, authorizedUser);
             Assert.AreEqual(1, messages.Errors().Count());
@@ -74,7 +74,7 @@ namespace MediaCrudTests
             };
 
             IApiServiceFactory adminService = new AdminApiServiceFactory();
-            TestUrl mediaUrl2 = adminService.CreateTestUrl("media", "", "", "");
+            TestUrl mediaUrl2 = adminService.CreateTestUrl("media");
             List<SerialMediaAdmin> mediaAfterUpdate;
             ValidationMessages updateMessages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, mediaUrl2, media, out mediaAfterUpdate, authorizedUser);
             Assert.AreEqual(1, updateMessages.Errors().Count());
@@ -103,7 +103,7 @@ namespace MediaCrudTests
             };
 
             IApiServiceFactory adminService = new AdminApiServiceFactory();
-            TestUrl mediaUrl2 = adminService.CreateTestUrl("media", "", "", "");
+            TestUrl mediaUrl2 = adminService.CreateTestUrl("media");
             List<SerialMediaAdmin> mediaAfterUpdate;
             ValidationMessages updateMessages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, mediaUrl2, media, out mediaAfterUpdate, authorizedUser);
             Assert.AreEqual(1, updateMessages.Errors().Count());
@@ -132,7 +132,7 @@ namespace MediaCrudTests
             };
 
             IApiServiceFactory adminService = new AdminApiServiceFactory();
-            TestUrl mediaUrl2 = adminService.CreateTestUrl("media", "", "", "");
+            TestUrl mediaUrl2 = adminService.CreateTestUrl("media");
             List<SerialMediaAdmin> mediaAfterUpdate;
             ValidationMessages updateMessages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, mediaUrl2, media, out mediaAfterUpdate, authorizedUser);
             Assert.AreEqual(1, updateMessages.Errors().Count());
@@ -144,7 +144,7 @@ namespace MediaCrudTests
         {
             var url = "http://www......[domain]...../az/a.html"; //has existing URL with default admin extraction criteria
 
-                        List<int> topicIds = new List<int>() { 25272, 25329 };
+            List<int> topicIds = new List<int>() { 25272, 25329 };
 
             var media = new SerialMediaAdmin()
             {
@@ -157,13 +157,13 @@ namespace MediaCrudTests
                 description = "test",
                 sourceUrl = url,
                 targetUrl = url,
-                status = MediaStatusCodeValue.Published.ToString(),
+                status = MediaStatusCodeValue.Staged.ToString(),
                 datePublished = DateTime.UtcNow.ToShortTimeString(),
                 topics = topicIds
             };
 
             var adminService = new AdminApiServiceFactory();
-            var mediaUrl2 = adminService.CreateTestUrl("media", "", "", "");
+            var mediaUrl2 = adminService.CreateTestUrl("media");
             List<SerialMediaAdmin> mediaAfterUpdate;
             var updateMessages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService, mediaUrl2, media, out mediaAfterUpdate, authorizedUser);
             Assert.AreEqual(1, updateMessages.Errors().Count());

@@ -74,10 +74,10 @@ namespace SearchUnitTests
         [TestMethod]
         public void TestAToZ()
         {
-            IApiServiceFactory publicService = new PublicApiServiceFactory();
+            var publicService = new PublicApiServiceFactory();
             List<SerialAToZ> aToZs;
             ValidationMessages messages = TestApiUtility.ApiGet<SerialAToZ>(publicService,
-                publicService.CreateTestUrl("atoz", "", "", "language=english&max=0&valueset=topics"), out aToZs);
+                publicService.CreateTestUrl("atoz", 0, "", "language=english&max=0&valueset=topics"), out aToZs);
             var sorted = aToZs.OrderBy(t => t.letter).ToList();
             sorted.Add(sorted[0]);  //Move the # to the end
             sorted.RemoveAt(0);
@@ -87,12 +87,12 @@ namespace SearchUnitTests
             Assert.IsTrue(aToZs.SequenceEqual(sorted));
 
             messages = TestApiUtility.ApiGet<SerialAToZ>(publicService,
-                publicService.CreateTestUrl("atoz", "", "", "sort=-letter&language=english&max=0&valueset=topics"), out aToZs);
+                publicService.CreateTestUrl("atoz", 0, "", "sort=-letter&language=english&max=0&valueset=topics"), out aToZs);
             sorted = aToZs.OrderByDescending(t => t.letter).ToList();
             Assert.IsTrue(aToZs.SequenceEqual(sorted));
 
             messages = TestApiUtility.ApiGet<SerialAToZ>(publicService,
-                publicService.CreateTestUrl("atoz", "", "", "valueset=topics&language=english&max=0"), out aToZs);
+                publicService.CreateTestUrl("atoz", 0, "", "valueset=topics&language=english&max=0"), out aToZs);
             Assert.AreEqual(27, aToZs.Count);
         }
 

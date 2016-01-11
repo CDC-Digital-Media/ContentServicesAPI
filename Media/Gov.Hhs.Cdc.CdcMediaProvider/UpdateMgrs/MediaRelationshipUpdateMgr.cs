@@ -27,7 +27,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
     public class MediaRelationshipUpdateMgr : IUpdateMgr
     {
         protected MediaRelationshipValidator Validator { get; set; }
-        public IList<MediaRelationshipObject> Items;
+        private IList<MediaRelationshipObject> Items;
         protected List<MediaRelationshipValidationObject> RelationshipSets;
 
         public List<MediaRelationshipObject> AllRelationships
@@ -55,7 +55,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
         }
         public MediaRelationshipValidationObject GetMediaRelationshipValidationObject(IDataServicesObjectContext media, MediaRelationshipObject r, IEnumerable<MediaRelationshipObject> persistedInverseRelationships, ValidationMessages messages)
         {
-            MediaRelationshipObject whatAnInverseRelationshipWouldLookLike = MediaRelationshipValidator.GetInverseRelationship(media, r, messages);
+            var whatAnInverseRelationshipWouldLookLike = MediaRelationshipValidator.GetInverseRelationship(media, r, messages);
 
             return new MediaRelationshipValidationObject()
             {
@@ -117,9 +117,10 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
                               && validationObject.Inverse.RelationshipTypeName == oldMr.RelationshipTypeName).FirstOrDefault();
                 }
             };
+            //It wants to delete both parent relationships, which is not right
             var relationshipsToDelete = persistedRelationships.Where(oldMr => !MatchesAnyNewRelationships(oldMr));
 
-            IEnumerable<MediaRelationshipValidationObject> deletedValidationObjects = relationshipsToDelete.Select(r => GetMediaRelationshipValidationObject(media, r, persistedInverseRelationships, messages)).ToList();
+            var deletedValidationObjects = relationshipsToDelete.Select(r => GetMediaRelationshipValidationObject(media, r, persistedInverseRelationships, messages)).ToList();
             RelationshipSets.AddRange(deletedValidationObjects);
 
             List<MediaRelationshipCtl> insertedRelationships = new List<MediaRelationshipCtl>();
@@ -275,7 +276,9 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
         private void CommitRelationship(IDataServicesObjectContext media, MediaRelationshipObject relationship, ValidationMessages validationMessages, string description)
         {
             if (relationship == null)
+            {
                 return;
+            }
             MediaRelationshipObject persistedRelationship = GetForUpdate(media, relationship);
             if (persistedRelationship == null)
             {

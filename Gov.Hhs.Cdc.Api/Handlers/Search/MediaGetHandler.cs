@@ -65,7 +65,6 @@ namespace Gov.Hhs.Cdc.Api
             else if (selectingById)  // && !parser.IsPublicFacing)    //Is Admin
             {
                 var mediaId = ServiceUtility.ParsePositiveInt(id);
-                Logger.LogInfo("Selecting by id: " + id + ", new search: " + parser.CanUseXmlSearch.ToString());
                 parser.CanUseXmlSearch = true;
                 if (parser.Version == 1)
                 {

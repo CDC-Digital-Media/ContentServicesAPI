@@ -32,7 +32,7 @@ namespace MediaTests
     public class MediaValidationTests
     {
         private string authorizedUser = "";
-        IApiServiceFactory adminService = new AdminApiServiceFactory();
+        AdminApiServiceFactory adminService = new AdminApiServiceFactory();
         private static CsTransactionLogProvider _transactionLogProvider = null;
         public CsTransactionLogProvider TransactionLogProvider
         {
@@ -223,11 +223,10 @@ namespace MediaTests
             };
 
             var url = adminService.CreateTestUrl("validations", "", "", "");
-            ValidationMessages messages = TestApiUtility.ApiPostWithoutOutput<List<SerialResource>>(adminService,
-                url,
-                resources, authorizedUser);
+            var response = TestApiUtility.ApiPostWithoutOutput<List<SerialResource>>(adminService,
+                url,                resources, authorizedUser);
 
-            var errors = messages.Errors().ToList();
+            var errors = response.Errors().ToList();
             Console.WriteLine(errors);
             Assert.AreEqual(2, errors.Count());
             Assert.AreEqual("Resource[2]", errors[0].Key);
@@ -317,7 +316,7 @@ namespace MediaTests
 
             List<SerialMediaAdmin> savedMedia;
             ValidationMessages messages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService,
-                adminService.CreateTestUrl("media", "", "", ""), mediaObject,
+                adminService.CreateTestUrl("media"), mediaObject,
                 out savedMedia, authorizedUser);
 
             if (messages.NumberOfErrors > 0){
@@ -337,7 +336,7 @@ namespace MediaTests
                 adminService.CreateTestUrl("validations", "", "", string.Join(@"&", extractionParms)),
                 out results);
 
-            TestApiUtility.ApiDelete(adminService, adminService.CreateTestUrl("media", savedMedia[0].id, "", ""), "", authorizedUser);
+            TestApiUtility.ApiDelete(adminService, adminService.CreateTestUrl("media", savedMedia[0].id), authorizedUser);
         }
 
         private static List<SerialPreferenceSet> CreatePreferences(string className, bool stripScript)

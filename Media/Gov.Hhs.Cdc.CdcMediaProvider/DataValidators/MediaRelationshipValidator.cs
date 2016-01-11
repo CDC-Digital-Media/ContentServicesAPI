@@ -22,7 +22,7 @@ using Gov.Hhs.Cdc.MediaProvider;
 
 namespace Gov.Hhs.Cdc.CdcMediaProvider
 {
-    public class MediaRelationshipValidator : IValidator<MediaRelationshipObject, MediaRelationshipValidationObject>  
+    public class MediaRelationshipValidator : IValidator<MediaRelationshipObject, MediaRelationshipValidationObject>
     {
         public void PreSaveValidate(ref ValidationMessages validationMessages, IList<MediaRelationshipObject> items)
         {
@@ -37,7 +37,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
         {
         }
 
-        public void ValidateSave(IDataServicesObjectContext objectContext, ValidationMessages validationMessages, 
+        public void ValidateSave(IDataServicesObjectContext objectContext, ValidationMessages validationMessages,
             IList<MediaRelationshipValidationObject> items)
         {
             MediaObjectContext media = (MediaObjectContext)objectContext;
@@ -49,22 +49,24 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
                 { validationMessages.AddError(set.Relationship.ValidationKey, "Media cannot have a reference to itself"); }
 
             }
-            ValidateMediaItemsExist(objectContext, validationMessages, items, true);
+            ValidateMediaItemsExist(objectContext, validationMessages, items, false);
         }
 
 
-        public void ValidateDelete(IDataServicesObjectContext objectContext, ValidationMessages validationMessages, 
+        public void ValidateDelete(IDataServicesObjectContext objectContext, ValidationMessages validationMessages,
             IList<MediaRelationshipValidationObject> items)
         {
             foreach (MediaRelationshipValidationObject set in items)
             {
                 if (set.Relationship.MediaId == 0 || set.Relationship.RelatedMediaId == 0)
-                { validationMessages.AddError(set.Relationship.ValidationKey, 
-                    "MediaRelationshipObject Id is 0.  To Delete the Id must be valid"); }
+                {
+                    validationMessages.AddError(set.Relationship.ValidationKey,
+                      "MediaRelationshipObject Id is 0.  To Delete the Id must be valid");
+                }
             }
         }
 
-        public void PostSaveValidate(IDataServicesObjectContext objectContext, ValidationMessages validationMessages, 
+        public void PostSaveValidate(IDataServicesObjectContext objectContext, ValidationMessages validationMessages,
             IList<MediaRelationshipValidationObject> items)
         {
             MediaObjectContext media = (MediaObjectContext)objectContext;
@@ -72,13 +74,17 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
             {
                 //Note: some relationships might be deleted, so they will be null
                 if (set.Relationship != null)
-                { ValidateRecursiveAndReverseRelationships(media, validationMessages, set.Relationship); }
+                {
+                    ValidateRecursiveAndReverseRelationships(media, validationMessages, set.Relationship);
+                }
                 if (set.Inverse != null)
-                { ValidateRecursiveAndReverseRelationships(media, validationMessages, set.Inverse); }
+                {
+                    ValidateRecursiveAndReverseRelationships(media, validationMessages, set.Inverse);
+                }
             }
         }
 
-        public MediaRelationshipValidationObject GetValidationObject(IDataServicesObjectContext objectContext, 
+        public MediaRelationshipValidationObject GetValidationObject(IDataServicesObjectContext objectContext,
             ValidationMessages validationMessages, MediaRelationshipObject theObject)
         {
             var allRelationships = MediaRelationshipCtl.Get((MediaObjectContext)objectContext, forUpdate: true)
@@ -88,7 +94,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
 
             var parentRelationships = allRelationships.Where(r => r.RelationshipTypeName == relationshipType.RelationshipTypeName).ToList();
             var childRelationships = allRelationships.Where(r => r.RelationshipTypeName == relationshipType.InverseRelationshipTypeName).ToList();
-                        
+
             return new MediaRelationshipValidationObject()
            {
                Relationship = theObject,
@@ -101,7 +107,7 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
 
         }
 
-        public static MediaRelationshipObject GetInverseRelationship(IDataServicesObjectContext objectContext, 
+        public static MediaRelationshipObject GetInverseRelationship(IDataServicesObjectContext objectContext,
             MediaRelationshipObject theObject, ValidationMessages validationMessages)
         {
             var db = objectContext as MediaObjectContext;
@@ -112,29 +118,35 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
                 theObject.RelationshipTypeName = relationshipType.RelationshipTypeName;
                 RelationshipTypeItem inverseType = MediaCacheController.GetRelationshipType(db, relationshipType.InverseRelationshipTypeName);
                 if (inverseType != null && inverseType.IsActive)
-                { inverseObject = new MediaRelationshipObject(theObject, inverseType); }
+                {
+                    inverseObject = new MediaRelationshipObject(theObject, inverseType);
+                }
             }
             else
-            { validationMessages.AddError(theObject.ValidationKey, "Invalid relationship type"); }
+            {
+                validationMessages.AddError(theObject.ValidationKey, "Invalid relationship type");
+            }
             return inverseObject;
         }
 
 
-        private static void ValidateRecursiveAndReverseRelationships(MediaObjectContext media, ValidationMessages validationMessages, 
+        private static void ValidateRecursiveAndReverseRelationships(MediaObjectContext media, ValidationMessages validationMessages,
             MediaRelationshipObject relationship)
         {
             string inverseRelationshipTypeName =
                 MediaCacheController.GetRelationshipType(media, relationship.RelationshipTypeName).InverseRelationshipTypeName;
             if (string.IsNullOrEmpty(inverseRelationshipTypeName))
-            { return; }
-            bool exists = media.MediaDbEntities.HasInheritedMediaRelationship(relationship.MediaId, inverseRelationshipTypeName, 
+            {
+                return;
+            }
+            bool exists = media.MediaDbEntities.HasInheritedMediaRelationship(relationship.MediaId, inverseRelationshipTypeName,
                 relationship.RelatedMediaId).First() == "Yes";
             if (exists)
             {
                 validationMessages.AddError(relationship.ValidationKey,
                       string.Format("Relationship already has an inherited {0} relationship", inverseRelationshipTypeName));
             }
-            bool recursiveLoopExists = media.MediaDbEntities.HasRecursiveLoopMediaRelationship(relationship.MediaId, 
+            bool recursiveLoopExists = media.MediaDbEntities.HasRecursiveLoopMediaRelationship(relationship.MediaId,
                 inverseRelationshipTypeName).First() == "Yes";
             if (recursiveLoopExists)
             {
@@ -145,10 +157,9 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
 
         }
 
-        private static void ValidateMediaItemsExist(IDataServicesObjectContext objectContext, ValidationMessages validationMessages, 
+        private static void ValidateMediaItemsExist(IDataServicesObjectContext objectContext, ValidationMessages validationMessages,
             IList<MediaRelationshipValidationObject> items, bool forUpdate = false)
         {
-
             var allRelationshipsForExistingMedias = items
                 //We only need the relationship, because the inverse uses the same media items
                 //.SelectMany(s => new List<MediaRelationshipObject>() { s.Relationship, s.Inverse })
@@ -159,10 +170,12 @@ namespace Gov.Hhs.Cdc.CdcMediaProvider
                 })
                 .Where(t => t.Item2 != 0).ToList();
             List<int> allRelatedMedias = allRelationshipsForExistingMedias.Select(r => r.Item2).Distinct().ToList();
-            var medias = MediaCtl.Get((MediaObjectContext)objectContext, forUpdate);
+            var medias = MediaCtl.GetSimpleOptimized((MediaObjectContext)objectContext);
             List<MediaObject> referencedMedias = medias.Where(m => allRelatedMedias.Contains(m.Id)).ToList();
+
             var referencesWithoutAMediaId = allRelationshipsForExistingMedias
                 .Where(r => !referencedMedias.Select(m => m.Id).Contains(r.Item2)).Distinct().ToList();
+
             foreach (var missingReference in referencesWithoutAMediaId)
             {
                 validationMessages.AddError(missingReference.Item1, "Media item not found");

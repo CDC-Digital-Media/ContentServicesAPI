@@ -29,7 +29,7 @@ namespace MediaCrudTests
 
     public class HtmlCrudTests
     {
-        IApiServiceFactory adminService = new AdminApiServiceFactory();
+        AdminApiServiceFactory adminService = new AdminApiServiceFactory();
         string authorizedUser = "";
         int mediaId;
 
@@ -78,7 +78,7 @@ namespace MediaCrudTests
             };
 
             ValidationMessages postMessages = TestApiUtility.ApiPost<SerialMediaAdmin>(adminService,
-                adminService.CreateTestUrl("media", "", "", ""), newMedia, out mediaRightAfterInsert, authorizedUser);
+                adminService.CreateTestUrl("media"), newMedia, out mediaRightAfterInsert, authorizedUser);
 
             if (postMessages.Errors().Count() > 0)
             {
@@ -94,7 +94,7 @@ namespace MediaCrudTests
             Assert.AreEqual(1, mediaRightAfterInsert.Count());
             Assert.AreEqual(1, mediaRightAfterInsert[0].effectivePreferences.Count());
             Assert.AreEqual(null, mediaRightAfterInsert[0].preferences);
-            TestUrl mediaUrl = adminService.CreateTestUrl("media", mediaRightAfterInsert[0].id, "", "");
+            TestUrl mediaUrl = adminService.CreateTestUrl("media", mediaRightAfterInsert[0].id);
 
             string originalRowVersion = mediaRightAfterInsert[0].rowVersion;
 

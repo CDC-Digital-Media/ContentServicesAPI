@@ -44,17 +44,40 @@ namespace Gov.Hhs.Cdc.Api
                     // setup parser
                     parser.Version = 2;
 
-                    switch (feedExportObject.FeedFormatName.ToLower())
+                    if (feedExportObject.FeedFormatName.ToLower().StartsWith("generic"))
                     {
-                        case "json feed export format":
-                            parser.Query.Format = FormatType.json;
-                            break;
-                        case "rss export format":
-                            parser.Query.Format = FormatType.rss;
-                            break;
-                        case "atom export format":
-                            parser.Query.Format = FormatType.atom;
-                            break;
+                        parser.Query.Format = FormatType.generic;
+                    }
+                    else
+                    {
+                        switch (feedExportObject.FeedFormatName.ToLower())
+                        {
+                            case "json feed export format":
+                                parser.Query.ItemOffset = feedExportObject.Offset;
+                                parser.Query.ItemCount = feedExportObject.ItemCount;                                
+                                parser.Query.Format = FormatType.json;
+                                break;
+                            case "rss export format":
+                                parser.Query.ItemOffset = feedExportObject.Offset;
+                                parser.Query.ItemCount = feedExportObject.ItemCount;                                
+                                parser.Query.Format = FormatType.rss;
+                                break;
+                            case "atom export format":
+                                parser.Query.ItemOffset = feedExportObject.Offset;
+                                parser.Query.ItemCount = feedExportObject.ItemCount;                                
+                                parser.Query.Format = FormatType.atom;
+                                break;
+                            case "facebook export format":
+                                parser.Query.Format = FormatType.facebook;
+                                break;
+                            case "twitter export format":
+                                parser.Query.Format = FormatType.twitter;
+                                break;
+                            case "outbreaks export format":
+                            case "outbreaks export format 2":
+                                parser.Query.Format = FormatType.outbreaks;
+                                break;
+                        }
                     }
 
                     SerialResponse response = null;
@@ -68,18 +91,18 @@ namespace Gov.Hhs.Cdc.Api
                         response = GetMediaWithChildren(parser, feedExportObject.MediaId);
                     }
 
-                    WriteResponseToOutputAndFile(writer, messages, feedExportObject.FilePath, response);
+                    WriteResponseToOutputAndFile(writer, messages, feedExportObject, response);
                 }
             }
         }
 
-        private static void WriteResponseToOutputAndFile(IOutputWriter writer, ValidationMessages messages, string filePath, SerialResponse response)
+        private static void WriteResponseToOutputAndFile(IOutputWriter writer, ValidationMessages messages, FeedExportObject feedExport, SerialResponse response)
         {
             // write to file
-            writer.WriteToFile(response, filePath);
+            writer.WriteToFile(response, feedExport);
 
             // write to response output
-            writer.Write(response, messages);
+            writer.WriteToOutputStream(response, false);
         }
 
         private static SerialResponse GetMedia(ICallParser parser, int id)

@@ -31,10 +31,35 @@ namespace Gov.Hhs.Cdc.Api.Admin
 
         public TestUrl CreateTestUrl(string resource, int id, string action, string queryParms)
         {
-            return CreateTestUrl(resource, id.ToString(), action, queryParms, defaultApiVersion);
+            return CreateTestUrl(resource, id.ToString(), action, queryParms);
         }
 
-        public TestUrl CreateTestUrl(string resource, string id, string action, string queryParms, int version = 1)
+        public TestUrl CreateTestUrl(string resource, string id, string action, string queryParms)
+        {
+            return CreateTestUrl(resource, id, action, queryParms, defaultApiVersion);
+        }
+
+        public TestUrl CreateTestUrl(string resource, string id)
+        {
+            return CreateTestUrl(resource, id, string.Empty, string.Empty, defaultApiVersion);
+        }
+
+        public TestUrl CreateTestUrl(string resource, int id)
+        {
+            return CreateTestUrl(resource, id.ToString());
+        }
+
+        public TestUrl CreateTestUrl(string resource, int id, string action)
+        {
+            return CreateTestUrl(resource, id, action, string.Empty);
+        }
+
+        public TestUrl CreateTestUrl(string resource, string id, string action)
+        {
+            return CreateTestUrl(resource, id, action, string.Empty);
+        }
+
+        public TestUrl CreateTestUrl(string resource, string id, string action, string queryParms, int version)
         {
             return new TestUrl(ServiceType.AdminApi, resource, id, action, queryParms, version);
         }
